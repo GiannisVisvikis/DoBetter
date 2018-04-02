@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_quiz"
+            android:title="@string/quiz"
+            android:icon="@drawable/quiz"/>
+
+        <item
+            android:id="@+id/navigation_drivers"
+            android:title="@string/drivers"
+            android:icon="@drawable/drivers"/>
+
+        <item
+            android:id="@+id/navigation_constructors"
+            android:title="@string/constructors"
+            android:icon="@drawable/constructors"/>
+
+        <item
+            android:id="@+id/navigation_circuits"
+            android:title="@string/circuits"
+            android:icon="@drawable/circuits"/>
+
+        <item
+            android:id="@+id/navigation_race_results"
+            android:title="@string/race_results"
+            android:icon="@drawable/race_results"/>
+
+        <item
+            android:id="@+id/navigation_calendar"
+            android:title="@string/calendar"
+            android:icon="@drawable/calendar"/>
+
+
+        <item
+            android:id="@+id/navigation_season_grid"
+            android:title="@string/season_grid"
+            android:icon="@drawable/season_grid"/>
+
+        <item
+            android:id="@+id/navigation_latest_news"
+            android:title="@string/latest_news"
+            android:icon="@drawable/latest_news"/>
+
+    </group>
+
+</menu>
