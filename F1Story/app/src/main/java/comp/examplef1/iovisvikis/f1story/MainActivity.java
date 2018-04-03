@@ -8,12 +8,16 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +28,17 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements Communication
 {
 
+    private final String RESULT_FRAGMENT_TAG = "RESULT_FRAGMENT_TAG";
+    private final String DOWNLOAD_FRAGMENT_TAG = "DOWNLOAD_FRAGMENT_TAG";
+    private final String SOUND_FRAGMENT_TAG = "SOUND_FRAGMENT_TAG";
 
+    private ResultFragment resultFragment;
 
     private View root;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private FrameLayout resultFragmentDrawer;
-
 
 
 
@@ -43,19 +50,31 @@ public class MainActivity extends AppCompatActivity implements Communication
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
 
-        Toast.makeText(getApplicationContext(), "There is a result drawer : " + isResultDrawer() , Toast.LENGTH_SHORT).show();
 
-        //TODO check for prior state
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        //check for prior state
+        if(savedInstanceState == null)
+        {
+            resultFragment = new ResultFragment();
+            add the rest of the fragments. Add the no internet and not responding activities
+
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            fragmentTransaction.add(R.id.result_fragment_place, resultFragment, RESULT_FRAGMENT_TAG);
+
+            fragmentTransaction.commit();
+            fragmentManager.executePendingTransactions();
+        }
+        else
+        {
+            resultFragment = (ResultFragment) fragmentManager.findFragmentByTag(RESULT_FRAGMENT_TAG);
+        }
 
 
+        Log.e("RESULT", "Result fragment is added : " + (resultFragment.isAdded()));
 
         resultFragmentDrawer = findViewById(R.id.result_fragment_place);
-
-
-        //TODO get the fragments in place
-
-
-
 
         //get reference to the toolbar
         Toolbar toolbar = findViewById(R.id.the_toolbar);
@@ -67,47 +86,11 @@ public class MainActivity extends AppCompatActivity implements Communication
 
         //get reference to the navigation view and handle click events
         mNavigationView = findViewById(R.id.nav_view);
-        //if not called all navigation drawer icons will appear gray (that's a no no)
-        mNavigationView.setItemIconTintList(null);
-
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                item.setChecked(true);
-
-                Toast.makeText(getApplicationContext(), item.getTitle() + " got clicked", Toast.LENGTH_SHORT).show();
-
-                mDrawerLayout.closeDrawers();
-
-                return true;
-            }
-        });
-
-
+        setTheNavigationView();
 
         //get reference to the drawer layout and set listener
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_closed)
-        {
-            public void onDrawerClosed(View view)
-            {
-                Toast.makeText(getApplicationContext(), "Drawer is closed", Toast.LENGTH_SHORT).show();
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerOpened(View drawerView)
-            {
-
-                mDrawerLayout.closeDrawer(resultFragmentDrawer);
-
-                Toast.makeText(getApplicationContext(), "Drawer is open", Toast.LENGTH_SHORT).show();
-                invalidateOptionsMenu();
-            }
-
-        };
+        setTheDrawer(toolbar);
 
 
         // Load an ad into the AdMob banner view.
@@ -116,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements Communication
                 .setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
 
-    }
+
+    }//onCreate
 
 
 
@@ -166,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements Communication
     @Override
     public void onBackPressed()
     {
-
         if(isResultDrawer() && mDrawerLayout.isDrawerOpen(resultFragmentDrawer))
             mDrawerLayout.closeDrawer(resultFragmentDrawer);
         else if(!mDrawerLayout.isDrawerOpen(mNavigationView))
@@ -178,10 +161,77 @@ public class MainActivity extends AppCompatActivity implements Communication
         }
     }
 
+
+
+
+    private void setTheNavigationView()
+    {
+        //if not called all navigation drawer icons will appear gray (because fuck Google guidelines, if you wanted to be told what to use by an iPhone)
+        mNavigationView.setItemIconTintList(null);
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                item.setChecked(true);
+
+                Toast.makeText(getApplicationContext(), item.getTitle() + " got clicked", Toast.LENGTH_SHORT).show();
+
+                mDrawerLayout.closeDrawers();
+
+                return true;
+            }
+        });
+
+    }
+
+
+
+    private void setTheDrawer(Toolbar toolbar)
+    {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_closed)
+        {
+            public void onDrawerClosed(View view)
+            {
+                Toast.makeText(getApplicationContext(), "Drawer is closed", Toast.LENGTH_SHORT).show();
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView)
+            {
+
+                mDrawerLayout.closeDrawer(resultFragmentDrawer);
+
+                Toast.makeText(getApplicationContext(), "Drawer is open", Toast.LENGTH_SHORT).show();
+                invalidateOptionsMenu();
+            }
+
+        };
+    }
+
+
+
+
     @Override
     public boolean isResultDrawer()
     {
         return root.getTag() != null;
+    }
+
+
+    @Override
+    public void setResultFragment(RecyclerView.Adapter adapterToSet)
+    {
+        mDrawerLayout.closeDrawer(mNavigationView);
+        resultFragment.setTheAdapter(adapterToSet);
+
+        //let the drawer with the results coome out if present in the hierarchy
+        if(isResultDrawer())
+        {
+            mDrawerLayout.openDrawer(resultFragmentDrawer);
+        }
+
     }
 
 }
