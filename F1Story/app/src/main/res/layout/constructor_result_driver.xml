@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="12"
+    android:gravity="center">
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:src="@drawable/abate"
+        android:scaleType="centerInside"
+        android:layout_height="wrap_content"
+        android:id="@+id/driverPhoto"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Driver Name"
+            android:textSize="@dimen/letter_size"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/driverNameTxt"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/driverFlagFrame"/>
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Points 99"
+            android:textSize="@dimen/letter_size"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/pointsTxt"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Laps 99"
+            android:textSize="@dimen/letter_size"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/lapsTxt"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Grid 99"
+            android:textSize="@dimen/letter_size"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/gridTxt"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Position 99"
+            android:textSize="@dimen/letter_size"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/positionTxt"/>
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#20000000"
+        android:weightSum="10">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/info_results"
+            android:id="@+id/infoButton"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:hint="Season"
+            android:textSize="@dimen/letter_size"
+            android:gravity="center"
+            android:id="@+id/seasonTxt"/>
+f
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:textSize="@dimen/letter_size"
+            android:hint="Rounds"
+            android:gravity="center"
+            android:id="@+id/roundsTxt"/>
+
+    </LinearLayout>
+
+    <!-- driver or constructor rows with season results will be added in this dynamically -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/add_season_rows"/>
+
+</LinearLayout>

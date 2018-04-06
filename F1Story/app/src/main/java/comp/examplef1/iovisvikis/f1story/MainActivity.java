@@ -3,6 +3,8 @@ package comp.examplef1.iovisvikis.f1story;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -24,6 +26,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity implements Communication
 {
@@ -31,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     private final String RESULT_FRAGMENT_TAG = "RESULT_FRAGMENT_TAG";
     private final String DOWNLOAD_FRAGMENT_TAG = "DOWNLOAD_FRAGMENT_TAG";
     private final String SOUND_FRAGMENT_TAG = "SOUND_FRAGMENT_TAG";
+    private final String DATABASE_NAME = "F1_STORY.db";
 
     private ResultFragment resultFragment;
 
@@ -40,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     private NavigationView mNavigationView;
     private FrameLayout resultFragmentDrawer;
 
-
+    private SQLiteDatabase f1Database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,14 +60,17 @@ public class MainActivity extends AppCompatActivity implements Communication
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
 
+        //check if the database is copied or not and return it
+        f1Database = getTheAppDatabase();
 
+        //get the fragments in place
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         //check for prior state
         if(savedInstanceState == null)
         {
             resultFragment = new ResultFragment();
-            add the rest of the fragments. Add the no internet and not responding activities
+            //add the rest of the fragments. Add the no internet and not responding activities
 
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -71,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements Communication
             resultFragment = (ResultFragment) fragmentManager.findFragmentByTag(RESULT_FRAGMENT_TAG);
         }
 
-
-        Log.e("RESULT", "Result fragment is added : " + (resultFragment.isAdded()));
 
         resultFragmentDrawer = findViewById(R.id.result_fragment_place);
 
@@ -118,9 +129,10 @@ public class MainActivity extends AppCompatActivity implements Communication
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.activity_options_menu, menu);
         return true;
     }
+
 
 
 
@@ -137,8 +149,7 @@ public class MainActivity extends AppCompatActivity implements Communication
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
 
-            case R.id.action_settings:
-                return true;
+            //TODO handle rest of the clicks here (navigation and fragments options)
 
         }
 
@@ -233,5 +244,74 @@ public class MainActivity extends AppCompatActivity implements Communication
         }
 
     }
+
+
+    /**
+     * Checks whether the application database is copied from the assets folder or not. Either copies it or finds it and returns it
+     * @return the app database
+     */
+    private SQLiteDatabase getTheAppDatabase()
+    {
+        String databaseFilePath = "/data/data/" + getPackageName() + "/databases/" + DATABASE_NAME;
+
+        File databaseFile = new File(databaseFilePath);
+
+        if(!databaseFile.exists())
+        {
+            Log.e("MainAct/CheckDtbs", "Copying database from assets");
+
+            BufferedInputStream input = null;
+            BufferedOutputStream output = null;
+
+            try
+            {
+                input = new BufferedInputStream(getAssets().open("databases/" + DATABASE_NAME));
+                output = new BufferedOutputStream(new FileOutputStream(databaseFile));
+
+                int b;
+
+                while ( (b = input.read()) != -1 )
+                {
+                    output.write(b);
+                }
+
+            }
+            catch (FileNotFoundException fnf)
+            {
+                Log.e("MainAct/CheckDtbs", fnf.getMessage());
+            }
+            catch (IOException io1)
+            {
+                Log.e("MainAct/CheckDtbs", io1.getMessage());
+            }
+            finally
+            {
+                try
+                {
+                    input.close();
+                    output.close();
+                }
+                catch (IOException io2)
+                {
+                    Log.e("MainAct/CheckDtbs", io2.getMessage());
+                }
+            }
+
+        }
+        else
+        {
+            Log.e("MainAct/CheckDtbs", "Database already copied from assets");
+        }
+
+        SQLiteDatabase result = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+
+        long tables = DatabaseUtils.longForQuery(result,"SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata' AND name != 'sqlite_sequence'", null);
+
+        Log.e("NUM_OF_TABLES :" , tables + "");
+
+        return result;
+    }
+
+
 
 }

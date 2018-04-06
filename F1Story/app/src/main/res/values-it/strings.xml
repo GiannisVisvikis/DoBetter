@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name">F1Storia</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
+
+    <string name="select_driver">Selezionare pilota</string>
+    <string name="select_season">Selezionare stagione</string>
+    <string name="select_circuit">Selezionare circuito</string>
+    <string name="select_constructor">Selezionare costruttore</string>
+    <string name="select_race">Selezionare corsa</string>
+
+    <string name="help">Aiuto</string>
+    <string name="season">Anno</string>
+    <string name="seasons">Anni</string>
+    <string name="rounds">Giri</string>
+    <string name="wins">Vittorie</string>
+
+    <string name="next_event_notification">PROSSIMA GARA</string>
+    <string name="no_interner_connection">Verificare connessione Internet a premere ricomincia</string>
+    <string name="no_internet_connection_active">Nessun connessione internet attivo</string>
+
+    <string name="all_drivers">Tutti i piloti</string>
+    <string name="fifties_drivers">1950s piloti</string>
+    <string name="sixties_drivers">1960s piloti</string>
+    <string name="seventies_drivers">1970s piloti</string>
+    <string name="eighties_drivers">1980s piloti</string>
+    <string name="nineties_drivers">1990s piloti</string>
+    <string name="thousands_drivers">2000s piloti</string>
+    <string name="tens_drivers">2010s piloti</string>
+
+    <string name="all_constructors">Tutti i costruttori</string>
+    <string name="fifties_constructors">1950s costruttori</string>
+    <string name="sixties_constructors">1960s costruttori</string>
+    <string name="seventies_constructors">1970s costruttori</string>
+    <string name="eighties_constructors">1980s costruttori</string>
+    <string name="nineties_constructors">1990s costruttori</string>
+    <string name="thousands_constructors">2000s costruttori</string>
+    <string name="tens_constructors">2010s costruttori</string>
+
+    <string name="all_circuits">Tutti i circuiti</string>
+    <string name="fifties_circuits">1950s circuiti</string>
+    <string name="sixties_circuits">1960s circuiti</string>
+    <string name="seventies_circuits">1970s circuiti</string>
+    <string name="eighties_circuits">1980s circuiti</string>
+    <string name="nineties_circuits">1990s circuiti</string>
+    <string name="thousands_circuits">2000s circuiti</string>
+    <string name="tens_circuits">2010s circuiti</string>
+
+    <string name="sounds">Suoni</string>
+    <string name="sounds_on">On</string>
+    <string name="sounds_off">Off</string>
+
+    <string name="videoclips">Videoclip di musica</string>
+
+    <string name="notifications">Notifiche</string>
+    <string name="notifications_on">On</string>
+    <string name="notifications_off">Off</string>
+
+    <string name="not_valid">non è una scelta valida</string>
+    <string name="choose_a">Selezionare un</string>
+
+    <string name="constructor_name">nome del costruttore</string>
+    <string name="driver_name">Nome pilota</string>
+    <string name="circuit_name">Nome del circuito</string>
+    <string name="race_name">Nome della corsa</string>
+    <string name="locality">Località</string>
+
+    <string name="drivers">Piloti</string>
+    <string name="constructors">Construttori</string>
+    <string name="circuits">Circuiti</string>
+    <string name="champions">Campioni</string>
+    <string name="info">Info</string>
+    <string name="podiums">Podi</string>
+
+    <string name="season_grid">Griglia</string>
+    <string name="getting_season_grid">Ottenere griglia</string>
+    <string name="calendar">Calendario</string>
+
+    <string name="latest_news">Notizie Recenti</string>
+
+    <string name="grid">Griglia</string>
+    <string name="points">Punti</string>
+    <string name="position">Posizione</string>
+    <string name="status">Stato</string>
+
+    <string name="laps">Giri</string>
+    <string name="fastest">giro più veloce</string>
+    <string name="time">Tempo</string>
+    <string name="speed">velocità media</string>
+
+    <string name="date">data</string>
+    <string name="race_time">tempo</string>
+
+    <string name="season_results">Risultati\nAnnuali</string>
+    <string name="race_results">Risultati\ncorsa</string>
+
+    <string name="pixabay">www.pixabay.com</string>
+
+    <string name="qualifying">Qualificativo</string>
+    <string name="race">Corsa</string>
+
+    <string name="five_minutes">5 minuti</string>
+    <string name="ten_minutes">10 minuti</string>
+    <string name="fifteen_minutes">15 minuti</string>
+    <string name="thirty_minutes">30 minuti</string>
+    <string name="one_hour">1 ora</string>
+    <string name="two_hours">2 ore</string>
+
+    <string name="championships"> campionati</string>
+
+    <string name="getting_podiums">Ottenere podi</string>
+    <string name="getting_races">Ottenere corse</string>
+    <string name="podium_place">Scegline almeno uno posto del podio</string>
+
+    <string name="getting_data">Ottenere dati</string>
+    <string name="updating_database">Il aggiornamento Banca dati</string>
+    <string name="downloading">Scaricamento</string>
+
+    <string name="creating_database">Banca dati costruzione</string>
+    <string name="database_ready">Banca dati preparato</string>
+
+    <string name="season_over">Stagione finito, non piu gara</string>
+    <string name="race_about_start">Corsa sta per iniziare</string>
+    <string name="qual_about_start">Qualificativo sta per iniziare</string>
+
+    <string name="williams">Robbie Williams - Supreme</string>
+    <string name="harrison">George Harrison - Faster</string>
+
+    <string name="replay_intro">Replay Introduzione</string>
+    <string name="engine_sounds">Suoni del motore</string>
+    <string name="blown_exhausts">Scarico Soffiato</string>
+    <string name="downshifting">Il cambio di velocità</string>
+    <string name="multiple_pass">Passaggio multiplo</string>
+    <string name="form_grid_race_start">Griglia di forma - Partenza della corsa</string>
+    <string name="v8_sound">V8 suono</string>
+    <string name="v10_sound">V10 suono</string>
+    <string name="v12_sound">V12 suono</string>
+    <string name="ford_matra_1969">1969 Matra Ford</string>
+
+    <string name="read_at">Clic grande immagine e leggi su \t</string>
+    <string name="getting_news">Ottenere notizie recenti</string>
+
+    <string name="getting_qualifying_results">Ottenere risultati di qualificazione</string>
+    <string name="qualifying_results_nont_ready_yet">Risultati di qualificazione non pronto</string>
+    <string name="race_is_on_right_now">La corsa è in questo momento</string>
+    <string name="getting_race_results">Ottenere risultati della corsa</string>
+    <string name="race_results_under_construction">Risultati della corsa non pronto</string>
+    <string name="no_results_for_this_selection">Nessun risultato per questa selezione</string>
+    <string name="all">TUTTI</string>
+    <string name="qualifying_in_progress">Qualifica in corso</string>
+
+    <string name="motorsport_rss_address">https://it.motorsport.com/rss/f1/news/</string>
+
+    <string name="driver_help">
+            \t-Fare clic sulla selezione del pilota e scorrere verso il basso per trovare quel e desiderato o digitare nel suo nome per limitare le opzioni di corrispondenza.\n\n
+
+            \t-Fare clic sul menu per limitare la selezione del pilota ad una decade specifica e preferita.\n\n
+
+            \t-Il pulsante “Costruttori” presentera le costruttori  per i quali il conducente ha corso durante una stagione selezionata, o cio che ogni costruttore ha mai girato.\n\n
+
+            \t-Il pulsante “Circuiti”  presentera tutti i circuiti che il pilota ha competuto durante una stagione selezionata, o tutti i circuiti in cui ha mai girato.\n\n
+
+            \t-Il pulsante Info vi porterà alla pagina wikipedia per ulteriori informazioni sulla selezione.\n\n
+
+            \t-Il pulsante “Campioni” presentera ogni piloti campionatti , se siano.  Lasciare la selezione vuota per ottenere la lista dei tutti i piloti vincitorei del campionati dal 1950.\n\n
+
+            \t-Il pulsante dei risultati della gara vi porterà ai risultati di quel driver per una stagione selezionata in cui ha girato.\n\n
+
+            \t-I risultati della stagione mostreranno le classifiche dei piloti finali alla fine di un campionato della stagione selezionata dal 1950 o le classifiche dei piloti della stagione actualle se non è ancora finita.\n\n
+
+            \t-Il pulsante “Podiums”  mostrerà tutte le gare che il pilota ha preso il primo, secondo o terzo posto a seconda della tua selezione. Nota il posto del podium della tua scelta per visualizzare.
+    </string>
+
+    <string name="constructor_help">
+            \t-Fare clic sulla selezione del costruttore e scorrere verso il basso per trovare il costruttore desiderato o digitare il suo nome per limitare le opzioni di corrispondenza.\n\n
+
+            \t-Fai clic sul menu per limitare la selezione del costruttore a una decade specifica della tua preferenza.\n\n
+
+            \t-Il pulsante “Piloti” mostra i piloti che hanno corso durante una stagione selezionata per il costruttore selezionato, o ogni pilota che ha mai corso per quella.\n\n
+
+            \t-Il pulsante “Circuiti” mostrerà tutti i circuiti che il costruttore ha competuto durante una stagione selezionata o tutti i circuiti in cui si è mai competuto.\n\n
+
+            \t-Il pulsante “Info” vi porterà alla pagina wikipedia per ulteriori informazioni sulla  vostra selezione.\n\n
+
+            \t-Il pulsante “Champions” mostrerà ogni construttore campionati, se siano. Lasciare la selezione vuota per ottenere tutti i vincitori del campionato dal 1958.\n\n
+
+            \t-Il pulsante dei risultati della gara vi porterà ai risultati di quel costruttore della stagione selezionata.\n\n
+
+            \t-I risultati stagionali mostreranno la classifica finale dei costruttori alla fine di un campionato selezionato dal 1958 o la classifica dei costruttori attuali se la stagione non è ancora finita.\n\n
+
+            \t-Il pulsante “Podiums” presentera tutte le gare che i piloti dei costruttori hanno preso primo, secondo o terzo posto a seconda della selezione. Nota il posto del podium di tua scelta per visualizzare.
+    </string>
+
+    <string name="circuit_help">
+        	\t-Fare clic sulla selezione del circuito e scorri verso il basso per trovare il circuito desiderato o digitare nel suo nome per limitare le opzioni di corrispondenza.\n\n
+
+            \t-Fare clic sul menu per limitare la selezione del circuito ad una decade specifica preferita.\n\n
+
+            \t-Il pulsante “Costruttori” mostra i costruttori che hanno corso in questo circuito durante una stagione selezionata, o tutti i costruttori che hanno mai participato a quelo.\n\n
+
+            \t-Il pulsante “ Piloti”  presenta tutti i piloti che hanno partecipato a questo circuito durante una stagione selezionata, o tutti i piloti che si sono mai corso.\n\n
+
+            \t-Il pulsante “Info”  vi porterà alla pagina wikipedia per ulteriori informazioni sulla selezione.\n\n
+
+            \t-Il pulsante dei risultati della gara vi porterà ai risultati del circuito della stagione selezionata che è stato incluso nel calendario.
+    </string>
+
+    <string name="motorsport_logo">logos/motorsport.png</string>
+    <string name="espn_logo">logos/espn.png</string>
+    <string name="autosport_logo">logos/autosport.png</string>
+
+    <string name="driver_tag">driver</string>
+    <string name="circuit_tag">circuit</string>
+    <string name="constructor_tag">constructor</string>
+
+    <string name="ferrari312B">Ferrari312B-3.0 V12</string>
+    <string name="drawer_open">DRAWER_OPEN</string>
+    <string name="drawer_closed">DRAWER_CLOSED</string>
+
+    <string name="api_not_responding">API non risponde</string>
+    <string name="later">Riprovare più tardi</string>
+    <string name="checking_updates">Controlla gli aggiornamenti</string>
+    <string name="wait_for_season">Caricamento della stagione</string>
+    <string name="more_info">Ulteriori informazioni</string>
+    <string name="next_question">Prossima domanda</string>
+    <string name="restart_quiz">Nuovo</string>
+    <string name="quit_quiz">Stop</string>
+    <string name="correct">corretta</string>
+    <string name="quiz">Quiz</string>
+    <string name="share_quiz">Inviare</string>
+
+</resources>

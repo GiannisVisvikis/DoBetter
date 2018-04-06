@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name">Ιστορία της F1</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
+
+    <string name="select_driver">Επιλογή οδηγού</string>
+    <string name="select_season">Επιλογή χρονιάς</string>
+    <string name="select_circuit">Επιλογή πίστας</string>
+    <string name="select_constructor">Επιλογή κατασκευαστή</string>
+    <string name="select_race">Επιλογή αγώνος</string>
+
+    <string name="help">Βοήθεια</string>
+    <string name="season">Χρονιά</string>
+    <string name="seasons">Χρονιές</string>
+    <string name="rounds">Γύροι</string>
+    <string name="wins">Νίκες</string>
+
+    <string name="next_event_notification">ΕΠΟΜΕΝΟΣ ΑΓΩΝΑΣ</string>
+    <string name="no_interner_connection">Ελέγξτε σύνδεση με το ίντερνετ και πιέστε επανεκκίνηση</string>
+    <string name="no_internet_connection_active">Δεν υπάρχει ενεργή σύνδεσν με το διαδίκτυο</string>
+
+    <string name="all_drivers">Όλοι οδηγοί</string>
+    <string name="fifties_drivers">Οδηγοί 1950s</string>
+    <string name="sixties_drivers">Οδηγοί 1960s</string>
+    <string name="seventies_drivers">Οδηγοί 1970s</string>
+    <string name="eighties_drivers">Οδηγοί 1980s</string>
+    <string name="nineties_drivers">Οδηγοί 1990s</string>
+    <string name="thousands_drivers">Οδηγοί 2000s</string>
+    <string name="tens_drivers">Οδηγοί 2010s</string>
+
+    <string name="all_constructors">Όλοι Κατασκευαστές</string>
+    <string name="fifties_constructors">Κατασκευαστές 1950s</string>
+    <string name="sixties_constructors">Κατασκευαστές 1960s</string>
+    <string name="seventies_constructors">Κατασκευαστές 1970s</string>
+    <string name="eighties_constructors">Κατασκευαστές 1980s</string>
+    <string name="nineties_constructors">Κατασκευαστές 1990s</string>
+    <string name="thousands_constructors">Κατασκευαστές 2000s</string>
+    <string name="tens_constructors">Κατασκευαστές 2010s</string>
+
+    <string name="all_circuits">Όλες Πίστες</string>
+    <string name="fifties_circuits">Πίστες 1950s</string>
+    <string name="sixties_circuits">Πίστες 1960s</string>
+    <string name="seventies_circuits">Πίστες 1970s</string>
+    <string name="eighties_circuits">Πίστες 1980s</string>
+    <string name="nineties_circuits">Πίστες 1990s</string>
+    <string name="thousands_circuits">Πίστες 2000s</string>
+    <string name="tens_circuits">Πίστες 2010s</string>
+
+    <string name="sounds">Ήχοι</string>
+    <string name="sounds_on">On</string>
+    <string name="sounds_off">Off</string>
+
+    <string name="videoclips">Videoclips</string>
+
+    <string name="notifications">Ειδοποιήσεις</string>
+    <string name="notifications_on">On</string>
+    <string name="notifications_off">Off</string>
+
+    <string name="not_valid">δεν είναι κατάλληλη επιλογή</string>
+    <string name="choose_a">Επιλέξτε </string>
+
+
+    <string name="constructor_name">Constructor Name</string>
+    <string name="driver_name">Ονομα οδηγου</string>
+    <string name="circuit_name">Ονομα πιστας</string>
+    <string name="race_name">Ονομα αγωνα</string>
+    <string name="locality">Περιοχη</string>
+
+    <string name="drivers">Οδηγοί</string>
+    <string name="constructors">Κατασκευαστές</string>
+    <string name="circuits">Πίστες</string>
+    <string name="champions">Πρωταθλητές</string>
+    <string name="info">Info</string>
+    <string name="podiums">Βάθρο</string>
+
+    <string name="season_grid">Οδηγοί τρέχουσας χρονιάς</string>
+    <string name="getting_season_grid">Αναζήτηση οδηγών τρέχουσας χρονιάς</string>
+    <string name="calendar">Ημερομηνίες αγώνων</string>
+
+    <string name="latest_news">Τελευταία νέα</string>
+
+    <string name="grid">Έναρξη</string>
+    <string name="points">Βαθμοί</string>
+    <string name="position">Τερματισμός</string>
+    <string name="status">Κατάσταση</string>
+
+    <string name="laps">Γύροι</string>
+    <string name="fastest">Ταχύτερος γύρος</string>
+    <string name="time">Χρόνος</string>
+    <string name="speed">Μέση τχτα</string>
+
+    <string name="date">Ημ/νια</string>
+    <string name="race_time">Χρόνος</string>
+    <string name="season_results">Αποτελεσματα\nχρονιάς</string>
+    <string name="race_results">Αποτελέσματα\nΑγώνα</string>
+
+    <string name="pixabay">www.pixabay.com</string>
+
+    <string name="qualifying">Προκριματικά</string>
+    <string name="race">Αγώνας</string>
+
+    <string name="five_minutes">5 λεπτά</string>
+    <string name="ten_minutes">10 λεπτά</string>
+    <string name="fifteen_minutes">15 λεπτά</string>
+    <string name="thirty_minutes">30 λεπτά</string>
+    <string name="one_hour">1 ώρα</string>
+    <string name="two_hours">2 ώρες</string>
+
+    <string name="championships"> Πρωταθλήματα</string>
+
+    <string name="getting_podiums">Αναζήτηση βάθρων</string>
+    <string name="getting_races">Αναζήτηση αγώνων</string>
+    <string name="podium_place">Επιλεξτε θέση βάθρου</string>
+
+    <string name="getting_data">Ανάκτηση δεδομένων</string>
+
+    <string name="updating_database">Ενημέρωση βάσης δεδομένων</string>
+    <string name="downloading">Λήψη</string>
+
+    <string name="creating_database">Δημιουργία Βάσης Δεδομένων</string>
+    <string name="database_ready">Βάση δεδομένων έτοιμη</string>
+
+    <string name="season_over">Τέλος χρονιάς, δεν υπάρχουν αγώνες</string>
+    <string name="race_about_start">Ο αγώνας αρχίζει σε λίγο</string>
+    <string name="qual_about_start">Τα προκριματικά αρχίζουν σε λίγο</string>
+
+    <string name="williams">Robbie Williams - Supreme</string>
+    <string name="harrison">George Harrison - Faster</string>
+
+    <string name="replay_intro">Επανέναρξη εισαγωγής</string>
+    <string name="engine_sounds">Ήχοι κινητήρων</string>
+    <string name="blown_exhausts">Blown Exhausts</string>
+    <string name="downshifting">Κατέβασμα</string>
+    <string name="multiple_pass">Πολλαπλό πέρασμα</string>
+    <string name="form_grid_race_start">Σχηματισμός grid - Έναρξη αγώνα</string>
+    <string name="v8_sound">Ηχος V8</string>
+    <string name="v10_sound">Ηχος V10</string>
+    <string name="v12_sound">Ηχος V12</string>
+    <string name="ford_matra_1969">1969 Matra Ford</string>
+
+    <string name="read_at">Πατήστε στην εικόνα και διαβάστε στο \t</string>
+    <string name="getting_news">Τελευταία νέα</string>
+    <string name="no_results_for_this_selection">Κανένα αποτέλεσμα γι αυτή την επιλογή</string>
+    <string name="all">Όλα</string>
+    <string name="qualifying_in_progress">Τα προκριματικά είναι σε εξέλιξη</string>
+
+    <string name="getting_qualifying_results">Αποτελεσματα προκριματικων</string>
+    <string name="qualifying_results_nont_ready_yet">Προκριματικα ανετοιμα</string>
+    <string name="race_is_on_right_now">Ο αγωνας σε εξελιξη</string>
+    <string name="getting_race_results">Αποτελεσματα αγωνων</string>
+    <string name="race_results_under_construction">Αποτελεσματα ετοιμαζονται</string>
+
+    <string name="motorsport_rss_address">https://www.motorsport.com/rss/f1/news/</string>
+
+    <string name="driver_help">
+            \t-Πιέστε επιλογή οδηγού για να δείτε τις διαθέσιμες επιλογές ή πληκτρολογήστε το όνομα για να τις περιορίσετε σε όσες ομοιάζουν.\n\n
+
+            \t-Πιέστε μενου για να περιορίσετε τις επιλογές οδηγού σε μια συγκεκριμένη εποχή - δεκαετία προτίμησής σας.\n\n
+
+            \t-Το πλήκτρο κατασκευαστής δείχνει κατασκευαστές για τους οποίους ο επιλεγμένος οδηγός αγωνίστηκε κατα την επιλεγμένη χρονιά, ή όλες τις χρονιές στις οποίες αγωνίστηκε.\n\n
+
+            \t-Πιέζοντας πίστες θα δείτε κάθε πίστα που ο επιλεγμένος οδηγός έτρεξε για μια συγκεκριμένη χρονιά ή όλες τις πίστες στις οποίες διαγωνίστηκε στη διάρκεια της καριέρας του.\n\n
+
+            \t-Το πλήκτρο Info οδηγεί στη σελίδα της wikipedia με περισσότερες πληροφορίες που αφορούν την επιλογή σας.\n\n
+
+            \t-Το πλήκτρο πρωταθλητές θα δείξει τα κερδισμένα πρωταθλήματα οδηγών της επιλογής, αν υπάρχουν. Αφήστε κενή επιλογή για όλους τους πρωταθλητές οδηγούς απο το 1950 και έπειτα.\n\n
+
+            \t-Τα αποτελέσματα αγώνων θα εμφανίσουν όλα τα αποτελέσματα του επιλεγμένου οδηγού για μια συγκεκριμένη χρονιά.\n\n
+
+            \t-Τα αποτελέσματα περιόδου θα εμφανίσουν την τελική κατάταξη των οδηγών στο τέλος συγκεκριμένης χρονιάς του πρωταθλήματος οδηγών από το 1950 ή την παρούσα κατάταξη της τρέχουσας χρονιάς αν δεν έχει λήξει.\n\n
+
+            \t-Το πλήκτρο βάθρο θα εμφανίσει όλους τους αγώνες συγκεκριμένης χρονιάς στους οποίους ο επιλεγμένος οδηγός τερμάτισε, πρώτος, δεύτερος ή τρίτος ανάλογα την επιλογή σας.\n
+    </string>
+
+    <string name="constructor_help">
+            \t-Πιέστε επιλογή κατασκευαστή για να δείτε τις διαθέσιμες επιλογές ή πληκτρολογήστε το όνομα για να τις περιορίσετε σε όσες ομοιάζουν.\n\n
+
+            \t-Πιέστε μενου για να περιορίσετε τις επιλογές κατασκευαστή σε μια συγκεκριμένη εποχή - δεκαετία προτίμησής σας.\n\n
+
+            \t-Το πλήκτρο οδηγός δείχνει τους οδηγούς που έτρεξαν για συγκεκριμένη χρονιά για τον επιλεγμένο κατασκευαστή ,ή καθε οδηγό που έτρεξε γι\'αυτόν.\n\n
+
+            \t-Πιέζοντας πίστες θα δείτε κάθε πίστα που ο επιλεγμένος κατασκευαστής έτρεξε για μια συγκεκριμένη χρονιά ή όλες τις πίστες στις οποίες διαγωνίστηκε διαχρονικά.\n\n
+
+            \t-Το πλήκτρο Info οδηγεί στη σελίδα της wikipedia με περισσότερες πληροφορίες που αφορούν την επιλογή σας.\n\n
+
+            \t-Το πλήκτρο πρωταθλητές θα δείξει τα κερδισμένα πρωταθλήματα κατασκευαστών της επιλογής σας, αν υπάρχουν. Αφήστε κενή επιλογή για όλους τους πρωταθλητές κατασκευαστών απο το 1958 και έπειτα.\n\n
+
+            \t-Τα αποτελέσματα αγώνων θα εμφανίσουν όλα τα αποτελέσματα του επιλεγμένου κατασκευαστή για μια συγκεκριμένη χρονιά.\n\n
+
+            \t-Τα αποτελέσματα περιόδου θα εμφανίσουν την τελική κατάταξη των κατασκευαστών στο τέλος συγκεκριμένης χρονιάς του πρωταθλήματος κατασκευαστών από το 1958 ή την παρούσα κατάταξη της τρέχουσας χρονιάς αν δεν έχει λήξει.\n\n
+
+            \t-Το πλήκτρο βάθρο θα εμφανίσει όλους τους αγώνες συγκεκριμένης χρονιάς στους οποίους κάποιος οδηγός του επιλεγμένου κατασκευαστή τερμάτισε, πρώτος, δεύτερος ή τρίτος ανάλογα την επιλογή σας.\n
+    </string>
+
+    <string name="circuit_help">
+        	\t-Πιέστε επιλογή πίστας για να δείτε τις διαθέσιμες επιλογές ή πληκτρολογήστε το όνομα για να τις περιορίσετε σε όσες ομοιάζουν.\n\n
+
+            \t-Πιέστε μενου για να περιορίσετε τις επιλογές πιίστας σε μια συγκεκριμένη εποχή - δεκαετία προτίμησής σας.\n\n
+
+            \t-Πιέστε κατασκευαστές για να δείτε ποιοι κατασκευαστές έχουν τρέξει στην επιλεγμένη πίστα συγκεκριμένη χρονιά, ή όλους τους κατασκευαστές που έτρεξαν σε αυτή διαχρονικά.\n\n
+
+            \t-Πιέστε οδηγοί για να δείτε ποιοι οδηγοί έχουν τρέξει στην επιλεγμένη πίστα συγκεκριμένη χρονιά, ή όλους τους οδηγούς που έτρεξαν σε αυτή διαχρονικά.\n\n
+
+            \t-Το πλήκτρο Info οδηγεί στη σελίδα της wikipedia με περισσότερες πληροφορίες που αφορούν την επιλογή σας.\n\n
+
+            \t-Πιέστε αποτελέσματα αγώνων για να δείτε τα αποτελέσματα σε αυτή την πίστα για συγκεκριμένη χρονιά στην οποία συμπεριλαμβανόταν στο ημερολόγιο αγώνων.\n\n
+    </string>
+
+    <string name="motorsport_logo">logos/motorsport.png</string>
+    <string name="espn_logo">logos/espn.png</string>
+    <string name="autosport_logo">logos/autosport.png</string>
+
+    <string name="driver_tag">driver</string>
+    <string name="circuit_tag">circuit</string>
+    <string name="constructor_tag">constructor</string>
+
+    <string name="ferrari312B">Ferrari312B-3.0 V12</string>
+    <string name="drawer_open">DRAWER_OPEN</string>
+    <string name="drawer_closed">DRAWER_CLOSED</string>
+
+    <string name="api_not_responding">Ο server δεν αποκρινεται</string>
+    <string name="later">Προσπαθηστε αργοτερα</string>
+    <string name="checking_updates">Ελεγχος ενημερωσεων</string>
+    <string name="wait_for_season">Έλεγχος ετών συμμετοχής</string>
+    <string name="more_info">Περισσότερα</string>
+    <string name="next_question">Επόμενη</string>
+    <string name="restart_quiz">Νέο</string>
+    <string name="quit_quiz">Τέλος</string>
+    <string name="correct">σωστά</string>
+    <string name="quiz">Quiz</string>
+    <string name="share_quiz">Share</string>
+
+</resources>

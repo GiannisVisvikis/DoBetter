@@ -1,0 +1,20 @@
+Lewis,Hamilton,hamilton,British,https://en.wikipedia.org/wiki/Lewis_Hamilton,Mercedes,mercedes,German,https://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One
+Valtteri,Bottas,bottas,Finnish,https://en.wikipedia.org/wiki/Valtteri_Bottas,Mercedes,mercedes,German,https://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One
+Daniel,Ricciardo,ricciardo,Australian,https://en.wikipedia.org/wiki/Daniel_Ricciardo,Red Bull,red_bull,Austrian,https://en.wikipedia.org/wiki/Red_Bull_Racing
+Max,Verstappen,max_verstappen,Dutch,https://en.wikipedia.org/wiki/Max_Verstappen,Red Bull,red_bull,Austrian,https://en.wikipedia.org/wiki/Red_Bull_Racing
+Sebastian,Vettel,vettel,German,https://en.wikipedia.org/wiki/Sebastian_Vettel,Ferrari,ferrari,Italian,https://en.wikipedia.org/wiki/Scuderia_Ferrari
+Kimi,Raikkonen,raikkonen,Finnish,https://en.wikipedia.org/wiki/Kimi_R%C3%A4ikk%C3%B6nen,Ferrari,ferrari,Italian,https://en.wikipedia.org/wiki/Scuderia_Ferrari
+Sergio,Pérez,perez,Mexican,https://en.wikipedia.org/wiki/Sergio_P%C3%A9rez,Force India,force_india,Indian,https://en.wikipedia.org/wiki/Force_India
+Esteban,Ocon,ocon,French,https://en.wikipedia.org/wiki/Esteban_Ocon,Force India,force_india,Indian,https://en.wikipedia.org/wiki/Force_India
+Lance,Stroll,stroll,Canadian,https://en.wikipedia.org/wiki/Lance_Stroll,Williams,williams,British,https://en.wikipedia.org/wiki/Williams_Grand_Prix_Engineering
+Sergey,Sirotkin,sirotkin,Russian,https://en.wikipedia.org/wiki/Sergey_Sirotkin_(racing_driver),Williams,williams,British,https://en.wikipedia.org/wiki/Williams_Grand_Prix_Engineering
+Fernando,Alonso,alonso,Spanish,https://en.wikipedia.org/wiki/Fernando_Alonso,McLaren,mclaren,British,https://en.wikipedia.org/wiki/McLaren
+Stoffel,Vandoorne,vandoorne,Belgian,https://en.wikipedia.org/wiki/Stoffel_Vandoorne,McLaren,mclaren,British,https://en.wikipedia.org/wiki/McLaren
+Nico,Hulkenberg,hulkenberg,German,https://en.wikipedia.org/wiki/Nico_H%C3%BClkenberg,Renault,renault,French,https://en.wikipedia.org/wiki/Renault_in_Formula_One
+Carlos,Sainz,sainz,Spanish,https://en.wikipedia.org/wiki/Carlos_Sainz_Jr.,Renault,renault,French,https://en.wikipedia.org/wiki/Renault_in_Formula_One
+Pierre,Gasly,gasly,French,https://en.wikipedia.org/wiki/Pierre_Gasly,Torro Rosso,toro_rosso,Italian,https://en.wikipedia.org/wiki/Scuderia_Toro_Rosso
+Brendon,Hartley,brendon_hartley,New Zealander,https://en.wikipedia.org/wiki/Brendon_Hartley,Torro Rosso,toro_rosso,Italian,https://en.wikipedia.org/wiki/Scuderia_Toro_Rosso
+Kevin,Magnussen,kevin_magnussen,Danish,https://en.wikipedia.org/wiki/Kevin_Magnussen,Haas F1 Team,haas,American,https://en.wikipedia.org/wiki/Haas_F1_Team
+Romain,Grosjean,grosjean,French,https://en.wikipedia.org/wiki/Romain_Grosjean,Haas F1 Team,haas,American,https://en.wikipedia.org/wiki/Haas_F1_Team
+Marcus,Ericsson,ericsson,Swedish,https://en.wikipedia.org/wiki/Marcus_Ericsson,Sauber,sauber,Swiss,https://en.wikipedia.org/wiki/Sauber
+Charles,Leclerc,leclerc,Monegasque,https://en.wikipedia.org/wiki/Charles_Leclerc_(racing_driver),Sauber,sauber,Swiss,https://en.wikipedia.org/wiki/Sauber

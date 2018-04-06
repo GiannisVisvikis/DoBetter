@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="news_sites">
+        <item>@string/autosport_logo</item>
+        <item>@string/espn_logo</item>
+        <item>@string/motorsport_logo</item>
+    </string-array>
+
+</resources>

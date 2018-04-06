@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="@string/sounds"
+        android:id="@+id/soundsMenu"
+        app:showAsAction="never">
+
+        <menu>
+
+            <item android:title="@string/sounds_on"
+                android:id="@+id/soundsOn"
+                app:showAsAction="never"
+                android:icon="@mipmap/ic_volume_up_black_24dp"/>
+
+            <item android:title="@string/sounds_off"
+                android:id="@+id/soundsOff"
+                app:showAsAction="never"
+                android:icon="@mipmap/ic_volume_off_black_24dp"/>
+
+        </menu>
+
+    </item>
+
+
+    <item android:title="@string/notifications"
+        android:icon="@mipmap/ic_notifications_black_24dp"
+        app:showAsAction="never"
+        android:id="@+id/notificationsMenu">
+
+        <menu>
+
+
+            <item android:title="@string/notifications_on"
+                android:icon="@mipmap/ic_notifications_black_24dp"
+                app:showAsAction="never"
+                android:id="@+id/notificationsOn"/>
+
+            <item android:title="@string/notifications_off"
+                android:icon="@mipmap/ic_notifications_off_black_24dp"
+                app:showAsAction="never"
+                android:id="@+id/notificationsOff"/>
+
+        </menu>
+
+    </item>
+
+
+    <item android:title="@string/replay_intro"
+        app:showAsAction="never"
+        android:id="@+id/replayIntro"/>
+
+    <item android:title="@string/engine_sounds"
+        app:showAsAction="never">
+
+
+        <menu>
+
+            <item android:title="@string/blown_exhausts"
+                app:showAsAction="never"
+                android:id="@+id/blown_exhausts"/>
+
+            <item android:title="@string/downshifting"
+                app:showAsAction="never"
+                android:id="@+id/downshifting"/>
+
+            <item android:title="@string/multiple_pass"
+                app:showAsAction="never"
+                android:id="@+id/multiple_pass"/>
+
+
+            <item android:title="@string/v8_sound"
+                app:showAsAction="never"
+                android:id="@+id/v8_sound"/>
+
+            <item android:title="@string/v12_sound"
+                app:showAsAction="never"
+                android:id="@+id/v12_sound"/>
+
+            <item android:title="@string/ford_matra_1969"
+                app:showAsAction="never"
+                android:id="@+id/matraFord1969"/>
+
+        </menu>
+
+    </item>
+
+
+
+</menu>
