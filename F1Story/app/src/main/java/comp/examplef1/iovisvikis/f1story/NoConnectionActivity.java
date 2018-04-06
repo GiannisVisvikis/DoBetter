@@ -47,7 +47,7 @@ public class NoConnectionActivity extends AppCompatActivity {
             playEngine = false;
         }
 
-        AppCompatButton button = (AppCompatButton) findViewById(R.id.checkAgainButton);
+        AppCompatButton button = findViewById(R.id.checkAgainButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

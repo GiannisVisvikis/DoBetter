@@ -3,8 +3,18 @@ package comp.examplef1.iovisvikis.f1story;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import android.database.DatabaseUtils;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -12,6 +22,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -26,23 +38,41 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.ApiAnswers;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckConnection;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CopyMainDatabaseLoader;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.DownloadFragment;
+import comp.examplef1.iovisvikis.f1story.MyDialogs.MultipleSelectionDialog;
+import comp.examplef1.iovisvikis.f1story.MyDialogs.NotificationsDialog;
+import comp.examplef1.iovisvikis.f1story.MyDialogs.SingleSelectionDialog;
 
 
 public class MainActivity extends AppCompatActivity implements Communication
 {
 
+    public static final String BASIC_URI = "https://ergast.com/api/f1/";
+
     private final String RESULT_FRAGMENT_TAG = "RESULT_FRAGMENT_TAG";
     private final String DOWNLOAD_FRAGMENT_TAG = "DOWNLOAD_FRAGMENT_TAG";
     private final String SOUND_FRAGMENT_TAG = "SOUND_FRAGMENT_TAG";
-    private final String DATABASE_NAME = "F1_STORY.db";
+    public static final String DATABASE_NAME = "F1_STORY.db";
+
+    private final int COPY_MAIN_DATABASE_CODE = 1;
+
+    private final String SOUND_PREFERENCE_KEY = "SOUND_PREFERENCE";
+    public final String NOTIFICATIONS_PREFERENCE_KEY = "NOTIFICATIONS_PREFERENCE";
+    public static final String SHARED_PREFERENCES_TAG = "com_example_visvikis_f1storypreferences";
 
     private ResultFragment resultFragment;
+    private SoundFragment soundFragment;
+    private DownloadFragment downloadFragment;
+
+    private Menu activityMenu;
+
+    private boolean soundsOn, notificationsOn;
 
     private View root;
     private DrawerLayout mDrawerLayout;
@@ -52,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements Communication
 
     private SQLiteDatabase f1Database;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -60,8 +93,11 @@ public class MainActivity extends AppCompatActivity implements Communication
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
 
+        this.soundsOn = getFromPreferences(SOUND_PREFERENCE_KEY, true);
+        this.notificationsOn = getFromPreferences(NOTIFICATIONS_PREFERENCE_KEY, false);
+
         //check if the database is copied or not and return it
-        f1Database = getTheAppDatabase();
+        setTheAppDatabase();
 
         //get the fragments in place
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -69,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements Communication
         //check for prior state
         if(savedInstanceState == null)
         {
+
             resultFragment = new ResultFragment();
             //add the rest of the fragments. Add the no internet and not responding activities
 
@@ -128,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements Communication
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+
+        activityMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_options_menu, menu);
         return true;
@@ -142,19 +181,69 @@ public class MainActivity extends AppCompatActivity implements Communication
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        switch (id){
+        switch (item.getItemId()){
+
             case R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
 
-            //TODO handle rest of the clicks here (navigation and fragments options)
+            case R.id.soundsOn:
+                setSoundsOn(true);
+                return true;
 
+            case R.id.soundsOff:
+                getSoundFragment().stopSound();
+                setSoundsOn(false);
+                return  true;
+
+            case R.id.notificationsOn:
+                //create the notifications table if it not yet exists
+                try{
+                    String notifTableCreate = "create table if not exists notifications_table (notif_id integer not null, event text not null, time_to_event text not null);";
+                    f1Database.execSQL(notifTableCreate);
+                }
+                catch (SQLiteException sql){
+                    Log.e("NotifDialog/212", sql.getLocalizedMessage());
+                }
+
+                NotificationsDialog notifydialog = new NotificationsDialog();
+                notifydialog.show(getSupportFragmentManager(), "NOTIFICATION_DIALOG");
+                return true;
+
+            case R.id.notificationsOff:
+                cancelAllNotifications();
+                return true;
+
+
+            case R.id.blown_exhausts:
+                getSoundFragment().playSound("sounds/blown_exhausts.mp3");
+                return true;
+
+            case R.id.downshifting:
+                getSoundFragment().playSound("sounds/downshifting.mp3");
+                return true;
+
+            case R.id.multiple_pass:
+                getSoundFragment().playSound("sounds/multiple_pass.mp3");
+                return true;
+
+            case R.id.v8_sound:
+                getSoundFragment().playSound("sounds/bmw_v8.mp3");
+                return true;
+
+            case R.id.v12_sound:
+                getSoundFragment().playSound("sounds/ferrari_v12.mp3");
+                return true;
+
+            case R.id.matraFord1969:
+                getSoundFragment().playSound("sounds/ford_matra_1969.mp3");
+                return true;
+
+            default:
+                return false;
         }
 
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -167,7 +256,16 @@ public class MainActivity extends AppCompatActivity implements Communication
             mDrawerLayout.openDrawer(mNavigationView);
         else
         {
-            //TODO make exit sound and exit the app
+
+            if(isSoundsOn()){
+
+                getSoundFragment().playSound("sounds/app_closed.mp3");
+
+                while (getSoundFragment().isExitSoundPlaying()){
+                    //wait for the exit sound to stop before exiting the app
+                }
+            }
+
             super.onBackPressed();
         }
     }
@@ -230,6 +328,71 @@ public class MainActivity extends AppCompatActivity implements Communication
         return root.getTag() != null;
     }
 
+    @Override
+    public boolean hasInternetConnection()
+    {
+        CheckConnection checkConnectionTask = new CheckConnection();
+        Activity[] checkParams = new Activity[]{this};
+        boolean result = false;
+
+        try
+        {
+           Object[] got =checkConnectionTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, checkParams).get();
+           result = (boolean) got[1];
+        }
+        catch (InterruptedException ie)
+        {
+            Log.e("hasInternetConn", ie.getMessage());
+        }
+        catch (ExecutionException ee)
+        {
+            Log.e("hasInternetConn", ee.getMessage());
+        }
+
+        return result;
+
+    }
+
+
+    @Override
+    public boolean apiResponds()
+    {
+
+        boolean result = false;
+
+        try
+        {
+            ApiAnswers apiAnswers = new ApiAnswers();
+            apiAnswers.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            result = apiAnswers.get();
+        }
+        catch (InterruptedException ie)
+        {
+            Log.e("hasInternetConn", ie.getMessage());
+        }
+        catch (ExecutionException ee)
+        {
+            Log.e("hasInternetConn", ee.getMessage());
+        }
+
+        return result;
+    }
+
+
+
+    @Override
+    public DownloadFragment getDownloadFragment()
+    {
+        return downloadFragment;
+    }
+
+    @Override
+    public SQLiteDatabase getAppDatabase()
+    {
+        return f1Database;
+    }
+
 
     @Override
     public void setResultFragment(RecyclerView.Adapter adapterToSet)
@@ -250,66 +413,250 @@ public class MainActivity extends AppCompatActivity implements Communication
      * Checks whether the application database is copied from the assets folder or not. Either copies it or finds it and returns it
      * @return the app database
      */
-    private SQLiteDatabase getTheAppDatabase()
+    private void setTheAppDatabase()
     {
         String databaseFilePath = "/data/data/" + getPackageName() + "/databases/" + DATABASE_NAME;
 
-        File databaseFile = new File(databaseFilePath);
+        final File databaseFile = new File(databaseFilePath);
 
         if(!databaseFile.exists())
         {
-            Log.e("MainAct/CheckDtbs", "Copying database from assets");
-
-            BufferedInputStream input = null;
-            BufferedOutputStream output = null;
-
-            try
+            getSupportLoaderManager().initLoader(COPY_MAIN_DATABASE_CODE, null, new LoaderManager.LoaderCallbacks<SQLiteDatabase>()
             {
-                input = new BufferedInputStream(getAssets().open("databases/" + DATABASE_NAME));
-                output = new BufferedOutputStream(new FileOutputStream(databaseFile));
-
-                int b;
-
-                while ( (b = input.read()) != -1 )
+                @NonNull
+                @Override
+                public Loader<SQLiteDatabase> onCreateLoader(int id, @Nullable Bundle args)
                 {
-                    output.write(b);
+                    return new CopyMainDatabaseLoader(MainActivity.this, databaseFile);
                 }
 
-            }
-            catch (FileNotFoundException fnf)
-            {
-                Log.e("MainAct/CheckDtbs", fnf.getMessage());
-            }
-            catch (IOException io1)
-            {
-                Log.e("MainAct/CheckDtbs", io1.getMessage());
-            }
-            finally
-            {
-                try
+                @Override
+                public void onLoadFinished(@NonNull Loader<SQLiteDatabase> loader, SQLiteDatabase data)
                 {
-                    input.close();
-                    output.close();
+                    f1Database = data;
                 }
-                catch (IOException io2)
-                {
-                    Log.e("MainAct/CheckDtbs", io2.getMessage());
-                }
-            }
 
+                @Override
+                public void onLoaderReset(@NonNull Loader<SQLiteDatabase> loader)
+                {
+
+                }
+            });
         }
         else
         {
-            Log.e("MainAct/CheckDtbs", "Database already copied from assets");
+            Log.e("DATABASE_SET", "Database already copied");
         }
 
-        SQLiteDatabase result = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
 
-        long tables = DatabaseUtils.longForQuery(result,"SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata' AND name != 'sqlite_sequence'", null);
+        //TODO intiate an asynchronous check for updates here
 
-        Log.e("NUM_OF_TABLES :" , tables + "");
+    }
 
-        return result;
+
+    /**
+     * I have to create another pending intent with the same request code and cancel it in order to cancel an existing alarm
+     */
+    @Override
+    public void cancelAllNotifications(){
+
+        try {
+
+            String query = "select notif_id, event, time_to_event from notifications_table;";
+
+            Cursor notificationsIds = f1Database.rawQuery(query, null);
+
+            if(notificationsIds.moveToFirst()){
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                do {
+
+                    //create a new alarm with the same exact pending intent and cancel it
+                    int requestCode = notificationsIds.getInt(0);
+
+                    Intent notiFyIntent = new Intent(MainActivity.this, NotificationBroadcast.class);
+
+                    PendingIntent mAlarmPendingIntent = PendingIntent.getBroadcast(this, requestCode, notiFyIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    alarmManager.cancel(mAlarmPendingIntent);
+
+                    //clear the notifications_table in the database
+                    try{
+
+                        f1Database.execSQL("delete from notifications_table where notif_id = " + requestCode + ";");
+
+                    }catch (SQLiteException sql){
+                        Log.e("MainAct/clearNotifs", sql.getMessage());
+                    }
+
+                }
+                while (notificationsIds.moveToNext());
+
+                //update the preferences file
+                setNotificationsOn(false);
+            }
+
+        }
+        catch (SQLiteException sqlite){ //Notifications off selected before any notifications were set, no table yet exists
+            Log.e("CANCEL_NOTIFS", sqlite.getMessage());
+        }
+
+    }
+
+
+    public SoundFragment getSoundFragment()
+    {
+        return soundFragment;
+    }
+
+
+    public void setSoundsOn(boolean on){
+        this.soundsOn = on;
+
+        writeToPreferences(SOUND_PREFERENCE_KEY, on);
+
+        if(on)
+            activityMenu.findItem(R.id.soundsMenu).setIcon(R.mipmap.ic_volume_up_black_24dp);
+        else
+            activityMenu.findItem(R.id.soundsMenu).setIcon(R.mipmap.ic_volume_off_black_24dp);
+
+        onPrepareOptionsMenu(activityMenu); //refresh the menu, icons have changed
+    }
+
+
+
+    @Override
+    public  void setNotificationsOn(boolean on){
+        this.notificationsOn = on;
+
+        writeToPreferences(NOTIFICATIONS_PREFERENCE_KEY, on);
+
+        if(on)
+            activityMenu.findItem(R.id.notificationsMenu).setIcon(R.mipmap.ic_notifications_black_24dp);
+        else
+            activityMenu.findItem(R.id.notificationsMenu).setIcon(R.mipmap.ic_notifications_off_black_24dp);
+
+        onPrepareOptionsMenu(activityMenu); //refresh the menu, icons have changed
+    }
+
+
+
+
+    @Override
+    public boolean isSoundsOn() {
+        return this.soundsOn;
+    }
+
+
+
+    @Override
+    public void onDialogPositiveClick(String userInput, String key){
+
+        String finalQuery = BASIC_URI + userInput;
+
+        Object[] params;
+
+        if(key.contains("/1")) {
+            String newKey = deSlash(key);
+            params = new Object[]{finalQuery, newKey, getDownloadFragment(), getResources().getString(R.string.getting_data), new Bundle()};
+        }
+        else
+            params = new Object[]{finalQuery, key, getDownloadFragment(), getResources().getString(R.string.getting_data)};
+
+        downloadFragment.startListAdapterTask(params);
+
+    }
+
+
+    /**
+     * If input contains any slashes, get rid of it along with what follows it
+     * @param input
+     * @return the key without the slash if any contained ( example drivers/1 --> drivers )
+     */
+    private String deSlash(String input){
+
+        if(input.length() == 0 || input.charAt(0) == '/')
+            return "";
+        else
+            return input.charAt(0) + deSlash(input.substring(1));
+
+    }
+
+
+    @Override
+    public void launchSingleSelectionDialog(Bundle args){
+
+        SingleSelectionDialog dialog = (SingleSelectionDialog) getSupportFragmentManager().findFragmentByTag("SINGLE_DIALOG");
+
+        if (dialog == null)
+            dialog = new SingleSelectionDialog();
+
+        dialog.setArguments(args);
+
+        dialog.show(getSupportFragmentManager(), "SINGLE_DIALOG");
+
+    }
+
+
+
+    @Override
+    public void launchMultipleSelectionDialog(Bundle args){
+
+        MultipleSelectionDialog dialog = (MultipleSelectionDialog) getSupportFragmentManager().findFragmentByTag("MULTIPLE_DIALOG");
+
+        if(dialog == null)
+            dialog = new MultipleSelectionDialog();
+
+        dialog.setArguments(args);
+
+        dialog.show(getSupportFragmentManager(), "MULTIPLE_DIALOG");
+
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
+
+    @Override
+    public boolean getFromPreferences(String key, boolean defaultValue){
+        SharedPreferences preferences = getSharedPreferences(MainActivity.SHARED_PREFERENCES_TAG, Context.MODE_PRIVATE);
+
+        return preferences.getBoolean(key, defaultValue);
+    }
+
+    @Override
+    public void writeToPreferences(String key, boolean value){
+
+        SharedPreferences preferences = getSharedPreferences(MainActivity.SHARED_PREFERENCES_TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean(key, value);
+        editor.apply();
+
+    }
+
+
+
+    @Override
+    public void blockOrientationChanges(){
+
+        //find out what the orientation is and keep it until releasing it again
+        int config = getResources().getConfiguration().orientation;
+
+        //set this as permanent until informed otherwise
+
+        if(config == Configuration.ORIENTATION_LANDSCAPE)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+
+
+    @Override
+    public void allowOrientationChanges(){
+        //enable orientation changes
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
 

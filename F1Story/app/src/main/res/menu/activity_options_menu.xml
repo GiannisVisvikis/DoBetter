@@ -45,11 +45,7 @@
         </menu>
 
     </item>
-
-
-    <item android:title="@string/replay_intro"
-        app:showAsAction="never"
-        android:id="@+id/replayIntro"/>
+    
 
     <item android:title="@string/engine_sounds"
         app:showAsAction="never">
