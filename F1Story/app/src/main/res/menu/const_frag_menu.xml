@@ -8,36 +8,4 @@
         android:icon="@drawable/help_icon"
         android:id="@+id/constructors_help"/>
 
-    <item  android:title="@string/all_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_all"/>
-
-    <item  android:title="@string/fifties_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_50s"/>
-
-    <item  android:title="@string/sixties_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_60s"/>
-
-    <item  android:title="@string/seventies_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_70s"/>
-
-    <item  android:title="@string/eighties_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_80s"/>
-
-    <item  android:title="@string/nineties_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_90s"/>
-
-    <item  android:title="@string/thousands_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_00s"/>
-
-    <item  android:title="@string/tens_constructors"
-        app:showAsAction="never"
-        android:id="@+id/constructors_10s"/>
-
 </menu>

@@ -36,18 +36,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.Toast; 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.ApiAnswers;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CalendarAsyncTaskLoader;
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckConnection;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckUpdatesLoader;
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.CopyMainDatabaseLoader;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CurrentGridTaskLoader;
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.DownloadFragment;
+import comp.examplef1.iovisvikis.f1story.MyAdapters.CalendarRace;
+import comp.examplef1.iovisvikis.f1story.MyAdapters.CalendarRaceAdapter;
+import comp.examplef1.iovisvikis.f1story.MyAdapters.CurrentGridAdapter;
+import comp.examplef1.iovisvikis.f1story.MyAdapters.CurrentGridRows;
+import comp.examplef1.iovisvikis.f1story.MyAdapters.NewsSitesAdapter;
 import comp.examplef1.iovisvikis.f1story.MyDialogs.MultipleSelectionDialog;
 import comp.examplef1.iovisvikis.f1story.MyDialogs.NotificationsDialog;
 import comp.examplef1.iovisvikis.f1story.MyDialogs.SingleSelectionDialog;
+import comp.examplef1.iovisvikis.f1story.quiz.QuizActivity;
 
 
 public class MainActivity extends AppCompatActivity implements Communication
@@ -58,13 +68,21 @@ public class MainActivity extends AppCompatActivity implements Communication
     private final String RESULT_FRAGMENT_TAG = "RESULT_FRAGMENT_TAG";
     private final String DOWNLOAD_FRAGMENT_TAG = "DOWNLOAD_FRAGMENT_TAG";
     private final String SOUND_FRAGMENT_TAG = "SOUND_FRAGMENT_TAG";
-    public static final String DATABASE_NAME = "F1_STORY.db";
-
-    private final int COPY_MAIN_DATABASE_CODE = 1;
 
     private final String SOUND_PREFERENCE_KEY = "SOUND_PREFERENCE";
     public final String NOTIFICATIONS_PREFERENCE_KEY = "NOTIFICATIONS_PREFERENCE";
     public static final String SHARED_PREFERENCES_TAG = "com_example_visvikis_f1storypreferences";
+
+    private final String SEARCHED_FOR_UPDATES_TAG = "SEARCHED_FOR_UPDATES";
+
+    public static final String NEWS_TABLES_DATABASE = "NEWS_SITES.db";
+    public static final String DATABASE_NAME = "F1_STORY.db";
+
+    //Codes for the async task loaders to use
+    private final int COPY_MAIN_DATABASE_CODE = 1;
+    private final int CALENDAR_LOADER_CODE = 2;
+    private final int CURRENT_GRID_LOADER_CODE = 3;
+    private final int CHEC_UPDATES_LOADER_CODE = 4;
 
     private ResultFragment resultFragment;
     private SoundFragment soundFragment;
@@ -73,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     private Menu activityMenu;
 
     private boolean soundsOn, notificationsOn;
+    private boolean searchedForUpdates = false;
 
     private View root;
     private DrawerLayout mDrawerLayout;
@@ -90,14 +109,22 @@ public class MainActivity extends AppCompatActivity implements Communication
     {
         super.onCreate(savedInstanceState);
 
+        if(!hasInternetConnection())
+        {
+            Intent noConnectionIntent = new Intent(this, NoConnectionActivity.class);
+            startActivity(noConnectionIntent);
+            this.finish();
+        }
+
+        //check if the database is copied or not and return it
+        setTheAppDatabase();
+
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
 
         this.soundsOn = getFromPreferences(SOUND_PREFERENCE_KEY, true);
         this.notificationsOn = getFromPreferences(NOTIFICATIONS_PREFERENCE_KEY, false);
 
-        //check if the database is copied or not and return it
-        setTheAppDatabase();
 
         //get the fragments in place
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -106,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements Communication
         if(savedInstanceState == null)
         {
 
+            downloadFragment = new DownloadFragment();
+            soundFragment = new SoundFragment();
             resultFragment = new ResultFragment();
             //add the rest of the fragments. Add the no internet and not responding activities
 
@@ -118,7 +147,11 @@ public class MainActivity extends AppCompatActivity implements Communication
         }
         else
         {
+            downloadFragment = (DownloadFragment) fragmentManager.findFragmentByTag(DOWNLOAD_FRAGMENT_TAG);
+            soundFragment = (SoundFragment) fragmentManager.findFragmentByTag(SOUND_FRAGMENT_TAG);
             resultFragment = (ResultFragment) fragmentManager.findFragmentByTag(RESULT_FRAGMENT_TAG);
+
+            searchedForUpdates = savedInstanceState.getBoolean(SEARCHED_FOR_UPDATES_TAG);
         }
 
 
@@ -163,12 +196,39 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
     @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(SEARCHED_FOR_UPDATES_TAG, searchedForUpdates);
+    }
+
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
 
         activityMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_options_menu, menu);
+
+        //restore past selections recovered from shared preferences in onCreate method to menu icons
+        MenuItem soundItem = activityMenu.findItem(R.id.soundsMenu);
+        MenuItem notificationsItem = activityMenu.findItem(R.id.notificationsMenu);
+
+        if(soundsOn)
+            soundItem.setIcon(R.mipmap.ic_volume_up_black_24dp);
+        else
+            soundItem.setIcon(R.mipmap.ic_volume_off_black_24dp);
+
+        if(notificationsOn)
+            notificationsItem.setIcon(R.mipmap.ic_notifications_black_24dp);
+        else
+            notificationsItem.setIcon(R.mipmap.ic_notifications_off_black_24dp);
+
+        onPrepareOptionsMenu(activityMenu);
+
         return true;
     }
 
@@ -248,6 +308,15 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        getSoundFragment().playSound("sounds/app_start.mp3");
+    }
+
+
+    @Override
     public void onBackPressed()
     {
         if(isResultDrawer() && mDrawerLayout.isDrawerOpen(resultFragmentDrawer))
@@ -285,11 +354,121 @@ public class MainActivity extends AppCompatActivity implements Communication
             {
                 item.setChecked(true);
 
-                Toast.makeText(getApplicationContext(), item.getTitle() + " got clicked", Toast.LENGTH_SHORT).show();
+                switch (item.getItemId())
+                {
+                    case R.id.navigation_quiz:
+                        Intent quizIntent = new Intent(getApplicationContext(), QuizActivity.class);
+                        startActivity(quizIntent);
+                        mDrawerLayout.closeDrawers();
+                        return true;
 
-                mDrawerLayout.closeDrawers();
+                    case R.id.navigation_drivers:
+                        DriversFragment driversFrag = new DriversFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frament_place, driversFrag, "DRIVERS_FRAGMENT").commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                        getSoundFragment().playRandomSound();
+                        mDrawerLayout.closeDrawers();
+                        return true;
 
-                return true;
+                    case R.id.navigation_constructors:
+                        ConstructorsFragment constructorsFrag = new ConstructorsFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frament_place, constructorsFrag, "CONSTRUCTORS_FRAGMENT").commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                        getSoundFragment().playRandomSound();
+                        mDrawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.navigation_circuits:
+                        CircuitFragment circuitFrag = new CircuitFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frament_place, circuitFrag, "CIRCUIT_FRAGMENT").commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                        getSoundFragment().playRandomSound();
+                        mDrawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.navigation_race_results:
+                        Bundle args = new Bundle();
+                        args.putString("NAME", "");
+                        args.putString("FRAGMENT_KIND", "ui");
+                        args.putString("PURPOSE", "Results");
+                        args.putBoolean("ALL_OPTIONS", false);
+                        launchMultipleSelectionDialog(args);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.navigation_calendar:
+                        getSupportLoaderManager().initLoader(CALENDAR_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<ArrayList<CalendarRace>>()
+                        {
+                            @NonNull
+                            @Override
+                            public Loader<ArrayList<CalendarRace>> onCreateLoader(int id, @Nullable Bundle args)
+                            {
+                                return new CalendarAsyncTaskLoader(getApplicationContext());
+                            }
+
+                            @Override
+                            public void onLoadFinished(@NonNull Loader<ArrayList<CalendarRace>> loader, ArrayList<CalendarRace> data)
+                            {
+                                if (data.size() != 0)
+                                {
+                                    CalendarRaceAdapter adapter = new CalendarRaceAdapter(getDownloadFragment(), data);
+                                    setResultFragment(adapter);
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(), "Could not get Calendar", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onLoaderReset(@NonNull Loader<ArrayList<CalendarRace>> loader)
+                            {
+
+                            }
+                        });
+                        mDrawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.navigation_season_grid:
+                        getSupportLoaderManager().initLoader(CURRENT_GRID_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<ArrayList<CurrentGridRows>>()
+                        {
+                            @NonNull
+                            @Override
+                            public Loader<ArrayList<CurrentGridRows>> onCreateLoader(int id, @Nullable Bundle args)
+                            {
+                                return new CurrentGridTaskLoader(getApplicationContext());
+                            }
+
+                            @Override
+                            public void onLoadFinished(@NonNull Loader<ArrayList<CurrentGridRows>> loader, ArrayList<CurrentGridRows> data)
+                            {
+                                if(data.size() > 0){
+
+                                    DownloadFragment host = getDownloadFragment();
+                                    CurrentGridAdapter gridAdapter = new CurrentGridAdapter(host, data);
+                                    setResultFragment(gridAdapter);
+                                }
+                            }
+
+                            @Override
+                            public void onLoaderReset(@NonNull Loader<ArrayList<CurrentGridRows>> loader)
+                            {
+
+                            }
+                        });
+                        mDrawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.navigation_latest_news:
+                        NewsSitesAdapter newsSitesAdapter = new NewsSitesAdapter(getDownloadFragment());
+                        setResultFragment(newsSitesAdapter);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+
+                    default:
+                        return false;
+                }
+
             }
         });
 
@@ -303,19 +482,17 @@ public class MainActivity extends AppCompatActivity implements Communication
         {
             public void onDrawerClosed(View view)
             {
-                Toast.makeText(getApplicationContext(), "Drawer is closed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Drawer is closed", Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView)
             {
-
                 mDrawerLayout.closeDrawer(resultFragmentDrawer);
 
-                Toast.makeText(getApplicationContext(), "Drawer is open", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Drawer is open", Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
             }
-
         };
     }
 
@@ -327,6 +504,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     {
         return root.getTag() != null;
     }
+
 
     @Override
     public boolean hasInternetConnection()
@@ -357,7 +535,6 @@ public class MainActivity extends AppCompatActivity implements Communication
     @Override
     public boolean apiResponds()
     {
-
         boolean result = false;
 
         try
@@ -387,6 +564,7 @@ public class MainActivity extends AppCompatActivity implements Communication
         return downloadFragment;
     }
 
+
     @Override
     public SQLiteDatabase getAppDatabase()
     {
@@ -410,8 +588,9 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
     /**
-     * Checks whether the application database is copied from the assets folder or not. Either copies it or finds it and returns it
-     * @return the app database
+     * Checks whether the application database is copied from the assets folder or not. Either initiates a loader that copies it or finds it and
+     * assigns it to activity's reference
+     *
      */
     private void setTheAppDatabase()
     {
@@ -434,6 +613,12 @@ public class MainActivity extends AppCompatActivity implements Communication
                 public void onLoadFinished(@NonNull Loader<SQLiteDatabase> loader, SQLiteDatabase data)
                 {
                     f1Database = data;
+
+                    if(!searchedForUpdates)
+                    {
+                        //TODO start a check for updates here
+                    }
+
                 }
 
                 @Override
@@ -446,10 +631,13 @@ public class MainActivity extends AppCompatActivity implements Communication
         else
         {
             Log.e("DATABASE_SET", "Database already copied");
+            if (!searchedForUpdates)
+            {
+                //TODO start a check for updates here too
+
+            }
+
         }
-
-
-        //TODO intiate an asynchronous check for updates here
 
     }
 
@@ -528,7 +716,8 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
     @Override
-    public  void setNotificationsOn(boolean on){
+    public  void setNotificationsOn(boolean on)
+    {
         this.notificationsOn = on;
 
         writeToPreferences(NOTIFICATIONS_PREFERENCE_KEY, on);
@@ -659,6 +848,40 @@ public class MainActivity extends AppCompatActivity implements Communication
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
+
+
+    public void checkForUpdates()
+    {
+
+        searchedForUpdates = true;
+
+        getSupportLoaderManager().initLoader(CHEC_UPDATES_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<String[]>()
+        {
+            @NonNull
+            @Override
+            public Loader<String[]> onCreateLoader(int id, @Nullable Bundle args)
+            {
+                return new CheckUpdatesLoader(getApplicationContext());
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<String[]> loader, String[] data)
+            {
+                if(data[0] != null || data[1] != null || data[2] != null || data[3] != null) //needs an update
+                {
+                    //TODO start a service that updates the database using the JSONObjects returned inside data JSONObject[]
+
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<String[]> loader)
+            {
+
+            }
+        });
+    }
 
 
 }

@@ -137,7 +137,7 @@ public class APICommunicator
 
 
 
-    private String getTotalEntries(String jsonUri){
+    public String getTotalEntries(String jsonUri){
 
         String info = getInfo(jsonUri);
 
@@ -154,6 +154,7 @@ public class APICommunicator
 
         return total;
     }
+
 
 
     public String[] getFinalRequestString(String uri){

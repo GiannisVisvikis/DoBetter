@@ -29,8 +29,9 @@ public class DriversFragment extends SuperFragment{
         super.onCreate(savedInstanceState);
 
         setKey(getResources().getString(R.string.driver_tag));
-    }
 
+    }
+    
 
 
     @Nullable
@@ -126,7 +127,6 @@ public class DriversFragment extends SuperFragment{
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.drv_frag_menu, menu);
-
     }
 
 

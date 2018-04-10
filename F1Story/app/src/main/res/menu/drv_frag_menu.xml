@@ -8,39 +8,4 @@
         android:icon="@drawable/help_icon"
         android:id="@+id/drivers_help"/>
 
-
-    <item  android:title="@string/all_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_all"/>
-
-    <item  android:title="@string/fifties_drivers"
-           app:showAsAction="never"
-           android:id="@+id/drivers_50s"/>
-
-    <item  android:title="@string/sixties_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_60s"/>
-
-
-    <item  android:title="@string/seventies_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_70s"/>
-
-
-    <item  android:title="@string/eighties_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_80s"/>
-
-    <item  android:title="@string/nineties_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_90s"/>
-
-    <item  android:title="@string/thousands_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_00s"/>
-
-    <item  android:title="@string/tens_drivers"
-        app:showAsAction="never"
-        android:id="@+id/drivers_10s"/>
-
 </menu>

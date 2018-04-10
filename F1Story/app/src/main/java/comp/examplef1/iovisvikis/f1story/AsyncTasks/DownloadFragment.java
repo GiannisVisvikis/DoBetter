@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import comp.examplef1.iovisvikis.f1story.Communication;
 import comp.examplef1.iovisvikis.f1story.MyAdapters.SeasonEndDriver;
 
+import comp.examplef1.iovisvikis.f1story.NewsService;
 import comp.examplef1.iovisvikis.f1story.R;
 
 import java.io.FileNotFoundException;
@@ -36,7 +37,7 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
 
     //reference to the service that downloads the news to the database
-    //private NewsService boundNewsService;
+    private NewsService boundNewsService;
     private ServiceConnection serviceConnection;
 
 
@@ -64,7 +65,7 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
         act = (Communication) getActivity();
 
-/*        if(!wasServiceStarted & act.hasInternetConnection() & act.apiResponds()){
+        if(!wasServiceStarted & act.hasInternetConnection() & act.apiResponds()){
 
             serviceIntent = new Intent(getActivity().getApplicationContext(), NewsService.class);
             serviceIntent.putExtra("TOTAL_BRANCHES", getResources().getStringArray(R.array.news_sites).length);
@@ -104,7 +105,7 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
             getActivity().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 
-        }*/
+        }
 
     }
 
@@ -314,7 +315,6 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
         addTo.addView(driverAddition);
     }
 
-/*
 
     public boolean isServiceDone(){
 
@@ -327,7 +327,6 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
         //already be executed and over
         return true;
     }
-*/
 
 
     public boolean getWasServiceStarted() {

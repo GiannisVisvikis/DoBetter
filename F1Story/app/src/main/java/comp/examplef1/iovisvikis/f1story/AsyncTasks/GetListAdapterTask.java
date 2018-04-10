@@ -162,6 +162,8 @@ public class GetListAdapterTask extends AsyncTask<Object, Void, RecyclerView.Ada
     @Override
     protected void onPostExecute(RecyclerView.Adapter baseAdapter){
 
+        dialog.dismiss();
+
         if(baseAdapter != null && baseAdapter.getItemCount() != 0) {
 
             host.getAct().setResultFragment(baseAdapter);
@@ -170,8 +172,6 @@ public class GetListAdapterTask extends AsyncTask<Object, Void, RecyclerView.Ada
             Toast.makeText(host.getActivity(), host.getActivity().getResources().getString(R.string.no_results_for_this_selection), Toast.LENGTH_SHORT).show();
             host.getAct().allowOrientationChanges();
         }
-
-        dialog.dismiss();
 
     }
 

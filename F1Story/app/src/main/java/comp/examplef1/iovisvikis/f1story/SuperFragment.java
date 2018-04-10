@@ -159,6 +159,7 @@ public class SuperFragment extends android.support.v4.app.Fragment{
                showHelp(getCircuitHelpText());
                return true;
 
+/*         //restore the eras in the menus if using these again
            case R.id.drivers_all:
                adjustEraChoice("all_drivers");
                return true;
@@ -254,6 +255,7 @@ public class SuperFragment extends android.support.v4.app.Fragment{
            case R.id.circuits_10s:
                adjustEraChoice("2010s_circuits");
                return true;
+*/
 
            default:
                return true;
@@ -280,7 +282,19 @@ public class SuperFragment extends android.support.v4.app.Fragment{
 
     protected void initializeTextView(AppCompatAutoCompleteTextView view){
         String tag = getTags().get(view); //driver --> drivers
-        Cursor cursor = f1DataBase.rawQuery("select " + tag + "_name from all_" + tag + 's', null);
+
+        String query = "";
+
+        if(tag.equalsIgnoreCase("driver"))
+        {
+            query = "select " + tag + "_name, " + tag + "_surname" + " from all_" + tag + "s order by " + tag + "_surname";
+        }
+        else
+        {
+            query = "select " + tag + "_surname from all_" + tag + "s order by " + tag + "_surname";
+        }
+
+        Cursor cursor = f1DataBase.rawQuery(query, null);
         setInitialChoices(view, cursor);
     }
 
@@ -294,59 +308,65 @@ public class SuperFragment extends android.support.v4.app.Fragment{
 
 
 
-    protected void setInitialChoices(final AppCompatAutoCompleteTextView autoComplete, Cursor cursor){
+    protected void setInitialChoices(final AppCompatAutoCompleteTextView autoComplete, Cursor cursor)
+    {
 
-        if(getSelectedEraQuery() == null) { //this means that the user has not yet selected a specific era of drivers. constructors etc
+        String[] names = new String[cursor.getCount()];
 
-            String[] names = new String[cursor.getCount()];
+        if (cursor.moveToFirst()) {
 
-            if (cursor.moveToFirst()) {
+            int index = 0;
 
-                int index = 0;
-
+            if(cursor.getColumnCount() == 1)
+            {
                 do {
                     names[index] = cursor.getString(0);
                     index++;
 
                 } while (cursor.moveToNext());
+            }
+            else //a cursor about drivers
+            {
+                do {
+                    names[index] = cursor.getString(0) + " " + cursor.getString(1);
+                    index++;
 
-                autoComplete.setAdapter(new ArrayAdapter<>(getActivity() , android.R.layout.simple_spinner_dropdown_item, names));
-
+                } while (cursor.moveToNext());
             }
 
+            autoComplete.setAdapter(new ArrayAdapter<>(getActivity() , android.R.layout.simple_spinner_dropdown_item, names));
 
-            //set the listeners
-            autoComplete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        }
+
+
+        //set the listeners
+        autoComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                autoComplete.showDropDown();
+            }
+        });
+
+        autoComplete.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if(!autoComplete.isFocused())
+                    autoComplete.dismissDropDown();
+                else
                     autoComplete.showDropDown();
-                }
-            });
+            }
+        });
 
-            autoComplete.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
 
-                    if(!autoComplete.isFocused())
-                        autoComplete.dismissDropDown();
-                    else
-                        autoComplete.showDropDown();
-                }
-            });
-
-            autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                }
-            });
-
-        }
-        else{ //the user has selected a specific era, begin another async task to meet that need
-            //here we are, read the above line
-            setSelectedEra(getSelectedEraQuery());
-        }
+        //make the soft keyboard disappear after clicking the selection
+        autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
 
     }
 
