@@ -283,16 +283,7 @@ public class SuperFragment extends android.support.v4.app.Fragment{
     protected void initializeTextView(AppCompatAutoCompleteTextView view){
         String tag = getTags().get(view); //driver --> drivers
 
-        String query = "";
-
-        if(tag.equalsIgnoreCase("driver"))
-        {
-            query = "select " + tag + "_name, " + tag + "_surname" + " from all_" + tag + "s order by " + tag + "_surname";
-        }
-        else
-        {
-            query = "select " + tag + "_surname from all_" + tag + "s order by " + tag + "_surname";
-        }
+        String query = "select " + tag + "_name from all_" + tag + "s";
 
         Cursor cursor = f1DataBase.rawQuery(query, null);
         setInitialChoices(view, cursor);
@@ -321,14 +312,6 @@ public class SuperFragment extends android.support.v4.app.Fragment{
             {
                 do {
                     names[index] = cursor.getString(0);
-                    index++;
-
-                } while (cursor.moveToNext());
-            }
-            else //a cursor about drivers
-            {
-                do {
-                    names[index] = cursor.getString(0) + " " + cursor.getString(1);
                     index++;
 
                 } while (cursor.moveToNext());
@@ -688,6 +671,7 @@ public class SuperFragment extends android.support.v4.app.Fragment{
 
 
 
+
     protected void setCircuitsButton(AppCompatAutoCompleteTextView txtView){
         if (checkEntry(txtView)) {
             String name = txtView.getText().toString();
@@ -707,8 +691,13 @@ public class SuperFragment extends android.support.v4.app.Fragment{
         if(checkEntry(txtView)){
             String id = getId(txtView);
             String url = DatabaseUtils.stringForQuery(getF1DataBase(), "select url from all_" + getKey() + "s where " + getKey() + "_id = ?", new String[]{id});
-            Intent bioIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(bioIntent);
+
+            //some entries have an empty string, no wiki page, and would crash the app
+            if(!url.equalsIgnoreCase(""))
+            {
+                Intent bioIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(bioIntent);
+            }
         }
     }
 

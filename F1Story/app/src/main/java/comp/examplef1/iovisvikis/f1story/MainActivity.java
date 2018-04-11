@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     public static final String SHARED_PREFERENCES_TAG = "com_example_visvikis_f1storypreferences";
 
     private final String SEARCHED_FOR_UPDATES_TAG = "SEARCHED_FOR_UPDATES";
+    private final String PLAY_STARTUP_SOUND = "PLAY_STARTUP";
 
     public static final String NEWS_TABLES_DATABASE = "NEWS_SITES.db";
     public static final String DATABASE_NAME = "F1_STORY.db";
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
     private boolean soundsOn, notificationsOn;
     private boolean searchedForUpdates = false;
+    private boolean playStartupSound = true;
 
     private View root;
     private DrawerLayout mDrawerLayout;
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements Communication
             resultFragment = (ResultFragment) fragmentManager.findFragmentByTag(RESULT_FRAGMENT_TAG);
 
             searchedForUpdates = savedInstanceState.getBoolean(SEARCHED_FOR_UPDATES_TAG);
+            playStartupSound = savedInstanceState.getBoolean(PLAY_STARTUP_SOUND);
         }
 
 
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements Communication
         mDrawerLayout = findViewById(R.id.drawer_layout);
         setTheDrawer(toolbar);
 
-
+        //TODO add the admob line here and the app and the banner-interstitial ids. Check the app version code and you're good to go
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -201,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements Communication
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(SEARCHED_FOR_UPDATES_TAG, searchedForUpdates);
+        outState.putBoolean(PLAY_STARTUP_SOUND, playStartupSound);
     }
 
 
@@ -308,11 +312,16 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
     @Override
-    protected void onStart()
+    protected void onResume()
     {
-        super.onStart();
+        super.onResume();
 
-        getSoundFragment().playSound("sounds/app_start.mp3");
+        if(playStartupSound)
+        {
+            getSoundFragment().playSound("sounds/app_start.mp3");
+            this.playStartupSound = false;
+        }
+
     }
 
 
@@ -616,7 +625,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
                     if(!searchedForUpdates)
                     {
-                        //TODO start a check for updates here
+                        checkForUpdates();
                     }
 
                 }
@@ -633,7 +642,7 @@ public class MainActivity extends AppCompatActivity implements Communication
             Log.e("DATABASE_SET", "Database already copied");
             if (!searchedForUpdates)
             {
-                //TODO start a check for updates here too
+                checkForUpdates();
 
             }
 
@@ -869,8 +878,29 @@ public class MainActivity extends AppCompatActivity implements Communication
             {
                 if(data[0] != null || data[1] != null || data[2] != null || data[3] != null) //needs an update
                 {
-                    //TODO start a service that updates the database using the JSONObjects returned inside data JSONObject[]
+                    Intent updateDatabaseServiceIntent = new Intent(getApplicationContext(), UpdateDatabaseEntriesService.class);
 
+                    if(data[0] != null)
+                    {
+                        updateDatabaseServiceIntent.putExtra(UpdateDatabaseEntriesService.DRIVERS_UPDATE_TAG, data[0]);
+                    }
+
+                    if(data[1] != null)
+                    {
+                        updateDatabaseServiceIntent.putExtra(UpdateDatabaseEntriesService.CONSTRUCTORS_UPDATE_TAG, data[1]);
+                    }
+
+                    if(data[2] != null)
+                    {
+                        updateDatabaseServiceIntent.putExtra(UpdateDatabaseEntriesService.CIRCUITS_UPDATE_TAG, data[2]);
+                    }
+
+                    if(data[3] != null)
+                    {
+                        updateDatabaseServiceIntent.putExtra(UpdateDatabaseEntriesService.SEASONS_UPDATE_TAG, data[3]);
+                    }
+
+                    startService(updateDatabaseServiceIntent);
                 }
 
             }

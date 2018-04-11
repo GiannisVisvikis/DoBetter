@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.FileDescriptor;
@@ -33,12 +35,7 @@ public class SoundFragment extends android.support.v4.app.Fragment{
         return this.mp;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-        act = (Communication) getActivity();
-    }
 
 
     @Override
@@ -51,6 +48,16 @@ public class SoundFragment extends android.support.v4.app.Fragment{
 
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+
+        act = (Communication) getActivity();
+    }
+
+
+
+    @Override
     public void onDetach() {
         super.onDetach();
 
@@ -59,6 +66,8 @@ public class SoundFragment extends android.support.v4.app.Fragment{
 
 
     public void playSound(String filePath){
+
+        Log.e("act is Null : ", (act == null) + "");
 
         if(act.isSoundsOn()) {
 

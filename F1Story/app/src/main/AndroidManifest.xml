@@ -16,6 +16,7 @@
 
 
         <service android:name="comp.examplef1.iovisvikis.f1story.NewsService" android:exported="false"/>
+        <service android:name="comp.examplef1.iovisvikis.f1story.UpdateDatabaseEntriesService" android:exported="false"/>
 
         <!-- Will be called explicitly , no intent filter needed -->
         <receiver android:name="comp.examplef1.iovisvikis.f1story.NotificationBroadcast" android:exported="true"/>
