@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
     private final String SOUND_PREFERENCE_KEY = "SOUND_PREFERENCE";
     public final String NOTIFICATIONS_PREFERENCE_KEY = "NOTIFICATIONS_PREFERENCE";
+    private  final String DATABASE_SERVICE_DONE = "DATA_SEVICE_DONE";
     public static final String SHARED_PREFERENCES_TAG = "com_example_visvikis_f1storypreferences";
 
     private final String SEARCHED_FOR_UPDATES_TAG = "SEARCHED_FOR_UPDATES";
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     private final int COPY_MAIN_DATABASE_CODE = 1;
     private final int CALENDAR_LOADER_CODE = 2;
     private final int CURRENT_GRID_LOADER_CODE = 3;
-    private final int CHEC_UPDATES_LOADER_CODE = 4;
+    private final int CHECK_UPDATES_LOADER_CODE = 4;
 
     private ResultFragment resultFragment;
     private SoundFragment soundFragment;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
     private boolean soundsOn, notificationsOn;
     private boolean searchedForUpdates = false;
+    private boolean databaseServiceDone = false;
     private boolean playStartupSound = true;
 
     private View root;
@@ -102,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements Communication
     private FrameLayout resultFragmentDrawer;
 
     private SQLiteDatabase f1Database;
-
 
 
 
@@ -117,9 +118,6 @@ public class MainActivity extends AppCompatActivity implements Communication
             startActivity(noConnectionIntent);
             this.finish();
         }
-
-        //check if the database is copied or not and return it
-        setTheAppDatabase();
 
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
@@ -143,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements Communication
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction.add(R.id.result_fragment_place, resultFragment, RESULT_FRAGMENT_TAG);
+            fragmentTransaction.add(downloadFragment, DOWNLOAD_FRAGMENT_TAG);
+            fragmentTransaction.add(soundFragment, SOUND_FRAGMENT_TAG);
 
             fragmentTransaction.commit();
             fragmentManager.executePendingTransactions();
@@ -153,10 +153,14 @@ public class MainActivity extends AppCompatActivity implements Communication
             soundFragment = (SoundFragment) fragmentManager.findFragmentByTag(SOUND_FRAGMENT_TAG);
             resultFragment = (ResultFragment) fragmentManager.findFragmentByTag(RESULT_FRAGMENT_TAG);
 
+            databaseServiceDone = savedInstanceState.getBoolean(DATABASE_SERVICE_DONE);
             searchedForUpdates = savedInstanceState.getBoolean(SEARCHED_FOR_UPDATES_TAG);
             playStartupSound = savedInstanceState.getBoolean(PLAY_STARTUP_SOUND);
         }
 
+
+        //check if the database is copied or not and return it
+        setTheAppDatabase();
 
         resultFragmentDrawer = findViewById(R.id.result_fragment_place);
 
@@ -205,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
         outState.putBoolean(SEARCHED_FOR_UPDATES_TAG, searchedForUpdates);
         outState.putBoolean(PLAY_STARTUP_SOUND, playStartupSound);
+        outState.putBoolean(DATABASE_SERVICE_DONE, databaseServiceDone);
     }
 
 
@@ -312,16 +317,15 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
     @Override
-    protected void onResume()
+    protected void onStart()
     {
-        super.onResume();
+        super.onStart();
 
-        if(playStartupSound)
+        if(isSoundsOn() && playStartupSound)
         {
             getSoundFragment().playSound("sounds/app_start.mp3");
-            this.playStartupSound = false;
+            setPlayStartupSound(false);
         }
-
     }
 
 
@@ -373,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
                     case R.id.navigation_drivers:
                         DriversFragment driversFrag = new DriversFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frament_place, driversFrag, "DRIVERS_FRAGMENT").commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, driversFrag, "DRIVERS_FRAGMENT").commit();
                         getSupportFragmentManager().executePendingTransactions();
                         getSoundFragment().playRandomSound();
                         mDrawerLayout.closeDrawers();
@@ -381,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
                     case R.id.navigation_constructors:
                         ConstructorsFragment constructorsFrag = new ConstructorsFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frament_place, constructorsFrag, "CONSTRUCTORS_FRAGMENT").commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, constructorsFrag, "CONSTRUCTORS_FRAGMENT").commit();
                         getSupportFragmentManager().executePendingTransactions();
                         getSoundFragment().playRandomSound();
                         mDrawerLayout.closeDrawers();
@@ -389,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
                     case R.id.navigation_circuits:
                         CircuitFragment circuitFrag = new CircuitFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frament_place, circuitFrag, "CIRCUIT_FRAGMENT").commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, circuitFrag, "CIRCUIT_FRAGMENT").commit();
                         getSupportFragmentManager().executePendingTransactions();
                         getSoundFragment().playRandomSound();
                         mDrawerLayout.closeDrawers();
@@ -435,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
                             }
                         });
-                        mDrawerLayout.closeDrawers();
+                        mDrawerLayout.closeDrawer(mNavigationView);
                         return true;
 
                     case R.id.navigation_season_grid:
@@ -465,13 +469,14 @@ public class MainActivity extends AppCompatActivity implements Communication
 
                             }
                         });
-                        mDrawerLayout.closeDrawers();
+
+                        mDrawerLayout.closeDrawer(mNavigationView);
                         return true;
 
                     case R.id.navigation_latest_news:
                         NewsSitesAdapter newsSitesAdapter = new NewsSitesAdapter(getDownloadFragment());
                         setResultFragment(newsSitesAdapter);
-                        mDrawerLayout.closeDrawers();
+                        mDrawerLayout.closeDrawer(mNavigationView);
                         return true;
 
                     default:
@@ -524,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements Communication
 
         try
         {
-           Object[] got =checkConnectionTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, checkParams).get();
+           Object[] got = checkConnectionTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, checkParams).get();
            result = (boolean) got[1];
         }
         catch (InterruptedException ie)
@@ -587,65 +592,15 @@ public class MainActivity extends AppCompatActivity implements Communication
         mDrawerLayout.closeDrawer(mNavigationView);
         resultFragment.setTheAdapter(adapterToSet);
 
-        //let the drawer with the results coome out if present in the hierarchy
+        if(isSoundsOn())
+        {
+            getSoundFragment().playSound("sounds/results_in.mp3");
+        }
+
+        //let the drawer with the results come out if present in the hierarchy
         if(isResultDrawer())
         {
             mDrawerLayout.openDrawer(resultFragmentDrawer);
-        }
-
-    }
-
-
-    /**
-     * Checks whether the application database is copied from the assets folder or not. Either initiates a loader that copies it or finds it and
-     * assigns it to activity's reference
-     *
-     */
-    private void setTheAppDatabase()
-    {
-        String databaseFilePath = "/data/data/" + getPackageName() + "/databases/" + DATABASE_NAME;
-
-        final File databaseFile = new File(databaseFilePath);
-
-        if(!databaseFile.exists())
-        {
-            getSupportLoaderManager().initLoader(COPY_MAIN_DATABASE_CODE, null, new LoaderManager.LoaderCallbacks<SQLiteDatabase>()
-            {
-                @NonNull
-                @Override
-                public Loader<SQLiteDatabase> onCreateLoader(int id, @Nullable Bundle args)
-                {
-                    return new CopyMainDatabaseLoader(MainActivity.this, databaseFile);
-                }
-
-                @Override
-                public void onLoadFinished(@NonNull Loader<SQLiteDatabase> loader, SQLiteDatabase data)
-                {
-                    f1Database = data;
-
-                    if(!searchedForUpdates)
-                    {
-                        checkForUpdates();
-                    }
-
-                }
-
-                @Override
-                public void onLoaderReset(@NonNull Loader<SQLiteDatabase> loader)
-                {
-
-                }
-            });
-        }
-        else
-        {
-            Log.e("DATABASE_SET", "Database already copied");
-            if (!searchedForUpdates)
-            {
-                checkForUpdates();
-
-            }
-
         }
 
     }
@@ -859,12 +814,72 @@ public class MainActivity extends AppCompatActivity implements Communication
 
 
 
+
+    /**
+     * Checks whether the application database is copied from the assets folder or not. Either initiates a loader that copies it or finds it and
+     * assigns it to activity's reference
+     *
+     */
+    private void setTheAppDatabase()
+    {
+        final String databaseFilePath = "/data/data/" + getPackageName() + "/databases/" + DATABASE_NAME;
+
+        final File databaseFile = new File(databaseFilePath);
+
+        if(!databaseFile.exists())
+        {
+            getSupportLoaderManager().initLoader(COPY_MAIN_DATABASE_CODE, null, new LoaderManager.LoaderCallbacks<SQLiteDatabase>()
+            {
+                @NonNull
+                @Override
+                public Loader<SQLiteDatabase> onCreateLoader(int id, @Nullable Bundle args)
+                {
+                    return new CopyMainDatabaseLoader(MainActivity.this, databaseFilePath);
+                }
+
+                @Override
+                public void onLoadFinished(@NonNull Loader<SQLiteDatabase> loader, SQLiteDatabase data)
+                {
+                    f1Database = data;
+
+                    if(!searchedForUpdates)
+                    {
+                        checkForUpdates();
+                    }
+
+                }
+
+                @Override
+                public void onLoaderReset(@NonNull Loader<SQLiteDatabase> loader)
+                {
+
+                }
+            });
+        }
+        else
+        {
+            Log.e("DATABASE_SET", "Database already copied");
+
+            f1Database = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+
+            if (!searchedForUpdates)
+            {
+                checkForUpdates();
+
+            }
+
+        }
+
+    }
+
+
+
     public void checkForUpdates()
     {
 
         searchedForUpdates = true;
 
-        getSupportLoaderManager().initLoader(CHEC_UPDATES_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<String[]>()
+        getSupportLoaderManager().initLoader(CHECK_UPDATES_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<String[]>()
         {
             @NonNull
             @Override
@@ -900,7 +915,12 @@ public class MainActivity extends AppCompatActivity implements Communication
                         updateDatabaseServiceIntent.putExtra(UpdateDatabaseEntriesService.SEASONS_UPDATE_TAG, data[3]);
                     }
 
-                    startService(updateDatabaseServiceIntent);
+                    if(!databaseServiceDone)
+                    {
+                        startService(updateDatabaseServiceIntent);
+                        databaseServiceDone = true;
+                    }
+
                 }
 
             }
@@ -913,5 +933,11 @@ public class MainActivity extends AppCompatActivity implements Communication
         });
     }
 
+
+    @Override
+    public void setPlayStartupSound(boolean onOrOff)
+    {
+        this.playStartupSound = onOrOff;
+    }
 
 }

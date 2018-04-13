@@ -162,7 +162,10 @@ public class GetListAdapterTask extends AsyncTask<Object, Void, RecyclerView.Ada
     @Override
     protected void onPostExecute(RecyclerView.Adapter baseAdapter){
 
-        dialog.dismiss();
+        if(dialog != null)
+        {
+            dialog.dismissAllowingStateLoss();
+        }
 
         if(baseAdapter != null && baseAdapter.getItemCount() != 0) {
 

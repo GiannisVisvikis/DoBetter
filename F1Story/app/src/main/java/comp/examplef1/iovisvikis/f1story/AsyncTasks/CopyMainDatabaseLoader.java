@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import comp.examplef1.iovisvikis.f1story.MainActivity;
 
@@ -24,15 +25,15 @@ public class CopyMainDatabaseLoader extends AsyncTaskLoader<SQLiteDatabase>
     private SQLiteDatabase result;
 
     private Context context;
-    private File databaseFile;
+    private String databaseFilePath;
 
 
-    public CopyMainDatabaseLoader(@NonNull Context context, File databaseFile)
+    public CopyMainDatabaseLoader(@NonNull Context context, String databaseFilePath)
     {
         super(context);
 
         this.context = context;
-        this.databaseFile = databaseFile;
+        this.databaseFilePath = databaseFilePath;
     }
 
 
@@ -57,16 +58,16 @@ public class CopyMainDatabaseLoader extends AsyncTaskLoader<SQLiteDatabase>
     @Override
     public SQLiteDatabase loadInBackground()
     {
-
-        Log.e("MainAct/CheckDtbsLoader", "Copying database from assets");
-
         BufferedInputStream input = null;
         BufferedOutputStream output = null;
 
         try
         {
             input = new BufferedInputStream(context.getAssets().open("databases/" + MainActivity.DATABASE_NAME));
-            output = new BufferedOutputStream(new FileOutputStream(databaseFile));
+
+            new File(databaseFilePath).getParentFile().mkdirs();
+
+            output = new BufferedOutputStream(new FileOutputStream(databaseFilePath));
 
             int b;
 
@@ -78,11 +79,11 @@ public class CopyMainDatabaseLoader extends AsyncTaskLoader<SQLiteDatabase>
         }
         catch (FileNotFoundException fnf)
         {
-            Log.e("MainAct/CheckDtbs", fnf.getMessage());
+            Log.e("CpMnDtbsLdrFNF", fnf.getMessage());
         }
         catch (IOException io1)
         {
-            Log.e("MainAct/CheckDtbs", io1.getMessage());
+            Log.e("CpMnDtbsLdrIOE", io1.getMessage());
         }
         finally
         {
@@ -93,12 +94,9 @@ public class CopyMainDatabaseLoader extends AsyncTaskLoader<SQLiteDatabase>
             }
             catch (IOException io2)
             {
-                Log.e("MainAct/CheckDtbs", io2.getMessage());
+                Log.e("CpMnDtbsLdr", io2.getMessage());
             }
         }
-
-        Toast.makeText(context, "Copied main database from assets", Toast.LENGTH_SHORT).show();
-
         return context.openOrCreateDatabase(MainActivity.DATABASE_NAME, Context.MODE_PRIVATE, null);
     }
 

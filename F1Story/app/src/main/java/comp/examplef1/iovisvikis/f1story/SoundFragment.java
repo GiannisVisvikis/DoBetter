@@ -48,26 +48,27 @@ public class SoundFragment extends android.support.v4.app.Fragment{
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    public void onAttach(Context context)
     {
-        super.onActivityCreated(savedInstanceState);
+        super.onAttach(context);
 
         act = (Communication) getActivity();
+
     }
 
 
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
 
         act = null;
     }
 
 
-    public void playSound(String filePath){
-
-        Log.e("act is Null : ", (act == null) + "");
+    public void playSound(String filePath)
+    {
 
         if(act.isSoundsOn()) {
 

@@ -164,7 +164,9 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
 
     public int getUnknownFlagID(){
-        return (getAct().isResultDrawer()) ? R.drawable.unknown_flag_32 : R.drawable.unknown_flag_48;
+
+        //use
+        return (getAct().isResultDrawer() &&  getResources().getDisplayMetrics().density <= 1.5) ? R.drawable.unknown_flag_32 : R.drawable.unknown_flag_48;
     }
 
 

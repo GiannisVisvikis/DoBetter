@@ -27,4 +27,5 @@ public interface Communication
     void writeToPreferences(String key, boolean value);
     void blockOrientationChanges();
     void allowOrientationChanges();
+    void setPlayStartupSound(boolean onOrOff);
 }

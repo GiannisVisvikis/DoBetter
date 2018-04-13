@@ -30,19 +30,19 @@ public class UpdateDatabaseEntriesService extends Service
     public static final String SEASONS_UPDATE_TAG = "Seasons";
 
     private final APICommunicator apiCom = new APICommunicator();
-    private SQLiteDatabase f1Database = getApplicationContext().openOrCreateDatabase(MainActivity.DATABASE_NAME, MODE_PRIVATE, null);
+    private SQLiteDatabase f1Database;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
+
+        f1Database = getApplicationContext().openOrCreateDatabase(MainActivity.DATABASE_NAME, MODE_PRIVATE, null);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-
-        Log.e("UPDATE_DATABASE", "Starting update database service");
 
         /*
             The service is initiated by an async task loader that returns a String[] containing the info
@@ -76,7 +76,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         insertQueryBuilder.append("('" + newDriver.getId() + "', '" + newDriver.getName() + " " + newDriver.getSurname() + "', '" + newDriver.getUrl() + "'),");
 
-                        Log.e("Adding Driver", newDriver.getName() + " " + newDriver.getSurname());
+                        //Log.e("Adding Driver", newDriver.getName() + " " + newDriver.getSurname());
                     }
 
                     String insertQuery = insertQueryBuilder.substring(0, insertQueryBuilder.length() - 1);
@@ -96,7 +96,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         insertConsQueryBuilder.append("('" + newConstructor.getId() + "', '" + newConstructor.getName() + "', '" + newConstructor.getUrl() + "'),");
 
-                        Log.e("Adding Constructor", newConstructor.getName());
+                        //Log.e("Adding Constructor", newConstructor.getName());
                     }
 
                     String insertQuery = insertConsQueryBuilder.substring(0, insertConsQueryBuilder.length() - 1);
@@ -116,7 +116,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         insertCircsQueryBuilder.append("('" + newCircuit.getId() + "', '" + newCircuit.getName() + "', '" + newCircuit.getUrl() + "'),");
 
-                        Log.e("Adding Circuit", newCircuit.getName());
+                        //Log.e("Adding Circuit", newCircuit.getName());
                     }
 
                     String insertQuery = insertCircsQueryBuilder.substring(0, insertCircsQueryBuilder.length() - 1);
@@ -136,7 +136,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         StringBuilder insertSeasonsQueryBuilder = new StringBuilder("INSERT INTO ALL_SEASONS VALUES ");
 
-                        for(int index = seasonCount-1; index<seasonsArray.length(); index++)
+                        for(int index = seasonCount; index<seasonsArray.length(); index++)
                         {
                             JSONObject newSeasonEntryObject = seasonsArray.getJSONObject(index);
                             String newSeason = newSeasonEntryObject.getString("season");
@@ -161,7 +161,6 @@ public class UpdateDatabaseEntriesService extends Service
                     }
                 }
 
-                Log.e("UPDATE_DATABASE", "Finishing update database service");
                 stopSelf();
             }
         });
@@ -171,15 +170,6 @@ public class UpdateDatabaseEntriesService extends Service
         return START_REDELIVER_INTENT;
     }
 
-
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-
-        Log.e("UpdtDtbsEntriesService", "Destroyed, not bound");
-    }
 
 
     @Nullable
@@ -227,13 +217,13 @@ public class UpdateDatabaseEntriesService extends Service
 
                     }
 
-                    DatabaseUtils.stringForQuery(f1Database, "select " + tag.substring(0, tag.length() - 1) + "_SURNAME from all_" + tag +
+                    DatabaseUtils.stringForQuery(f1Database, "select " + tag.substring(0, tag.length() - 1) + "_NAME from all_" + tag +
                             " where " + tag.substring(0, tag.length() - 1) + "_ID = '" + id + "'", null);
 
                 }
                 catch (SQLiteDoneException sql)
                 {
-                    Log.e("NewEntrSrvcSQLiteDone", sql.getMessage());
+                    //Log.e("NewEntrSrvcSQLiteDone", sql.getMessage());
                     Log.e("NewEntrSrvcSQLiteDone", "Found new entry for " + tag + " : " + id);
                     newEntries.add(newEntryObject);
                 }

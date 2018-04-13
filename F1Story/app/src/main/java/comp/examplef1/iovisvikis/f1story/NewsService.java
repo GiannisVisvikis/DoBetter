@@ -82,8 +82,6 @@ public class NewsService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.e("IS_SERVICE_STARTED", isServiceDone + "");
-
         if(!isServiceDone){
 
             //just in case shit's not empty
@@ -96,7 +94,7 @@ public class NewsService extends Service{
                 @Override
                 public void run() {
 
-                    Log.e("SERVICE_STARTED", "Service is started");
+                    //Log.e("NEWS_SERVICE_STARTED", "Service is started");
 
                     //Create branch threads for each RSS site to be searched. Each branch thread creates it's own sub threads
                     //that download the article images (into directories per site), links and titles and store that information
@@ -161,7 +159,7 @@ public class NewsService extends Service{
 
                     newsDatabase.close();
 
-                    Log.e("FINISHING_SERVICE", "Finishing service");
+                    //Log.e("FINISHING_NEWS_SERVICE", "Finishing service");
 
                     //stop the service thread
                     isServiceDone = true;

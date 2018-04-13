@@ -5,4 +5,5 @@
     <color name="colorAccent">#FFFFFF</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="recycler_background">#EEEEEE</color>
 </resources>
