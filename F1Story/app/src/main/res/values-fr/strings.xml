@@ -8,7 +8,6 @@
 
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 
-
     <string name="select_driver">Sélectionnez le pilote</string>
     <string name="select_season">Saison sélectionnée</string>
     <string name="select_circuit">Sélection de circuit</string>
@@ -160,8 +159,6 @@
     <string name="driver_help">
             \t-Cliquez sur la sélection du pilote et faites défiler vers le bas pour trouver le pilote désiré ou tapez son nom pour réduire au minimum les points correspondants.\n\n
 
-            \t-Cliquez sur le menu pour limiter la sélection du pilote à une décennie spécifique de votre préférence.\n\n
-
             \t-Le bouton de Constructeurs montre les constructeurs que le pilote a couru pendant une saison sélectionnée, ou que tous les constructeurs ont déjà couru.\n\n
 
             \t-Le bouton de Circuits montrera tous les circuits auxquels le pilote a participé pendant une saison sélectionnée, ou tous les circuits auxquels il a couru.\n\n
@@ -180,8 +177,6 @@
     <string name="constructor_help">
             \t-Cliquez sur la sélection du constructeur et faites défiler vers le bas pour trouver le constructeur souhaité ou tapez son nom pour réduire au minimum le points de correspondance.\n\n
 
-            \t-Cliquez sur le menu pour limiter la sélection du constucteur à une décennie spécifique de votre préférence.\n\n
-
             \t-Le bouton Pilotes montre les pilotes qui ont couru pendant une saison sélectionnée pour le constructeur sélectionné, ou que chaque pilote a déjà couru.\n\n
 
             \t-Le bouton Circuits montrera tous les circuits que le constructeur a concurrencés pendant une saison sélectionnée, ou tous les circuits qu’ ils a couru.\n\n
@@ -199,8 +194,6 @@
 
     <string name="circuit_help">
         	\t-Cliquez sur la sélection du circuit et faites défiler vers le bas pour trouver le circuit souhaité ou tapez son nom pour réduire au minimum le points correspondants.\n\n
-
-            \t-Cliquez sur le menu pour limiter la sélection du circuit à une décennie spécifique de votre préférence.\n\n
 
             \t-Le bouton de Constructeurs montre les constructeurs qui ont couru dans ce circuit pendant une saison sélectionnée, ou que chaque constructeur a déjà couru.\n\n
 
@@ -233,5 +226,6 @@
     <string name="correct">correct</string>
     <string name="quiz">Quiz</string>
     <string name="share_quiz">Poster</string>
+    <string name="nav_race_results">Résultats course</string>
 
 </resources>

@@ -91,8 +91,11 @@ public class ConstructorResultAdapter extends RecyclerView.Adapter<ConstructorRe
             @Override
             public void onClick(View view) {
                 String url = constructor.getUrl();
-                Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikiIntent);
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikiIntent);
+                }
             }
         });
 
@@ -118,10 +121,15 @@ public class ConstructorResultAdapter extends RecyclerView.Adapter<ConstructorRe
         FrameLayout infoFrame = holder.getRaceInfoButton();
         infoFrame.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String url = conResult.getRaceUrl();
-                Intent raceIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(raceIntent);
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent raceIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(raceIntent);
+                }
             }
         });
 
@@ -143,10 +151,15 @@ public class ConstructorResultAdapter extends RecyclerView.Adapter<ConstructorRe
 
                 driverPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View view)
+                    {
                         String driverUrl = driver.getUrl();
-                        Intent driverIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driverUrl));
-                        host.startActivity(driverIntent);
+
+                        if (!driverUrl.equalsIgnoreCase(""))
+                        {
+                            Intent driverIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driverUrl));
+                            host.startActivity(driverIntent);
+                        }
                     }
                 });
 

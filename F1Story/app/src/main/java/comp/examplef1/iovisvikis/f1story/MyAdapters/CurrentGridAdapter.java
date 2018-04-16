@@ -108,8 +108,12 @@ public class CurrentGridAdapter extends RecyclerView.Adapter<CurrentGridAdapter.
             @Override
             public void onClick(View view) {
                 String url =gridRow.getDriverURL();
-                Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikIntent);
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikIntent);
+                }
             }
         });
 
@@ -130,8 +134,12 @@ public class CurrentGridAdapter extends RecyclerView.Adapter<CurrentGridAdapter.
             @Override
             public void onClick(View view) {
                 String url = gridRow.getConstructorURL();
-                Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikIntent);
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikIntent);
+                }
             }
         });
 

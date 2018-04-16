@@ -79,8 +79,12 @@ public class SomeResultsAdapter extends RecyclerView.Adapter<SomeResultsAdapter.
             @Override
             public void onClick(View view) {
                 String url = driver.getUrl();
-                Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikiIntent);
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikiIntent);
+                }
             }
         });
 
@@ -100,8 +104,12 @@ public class SomeResultsAdapter extends RecyclerView.Adapter<SomeResultsAdapter.
             @Override
             public void onClick(View view) {
                 String url = constructor.getUrl();
-                Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikiIntent);
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikiIntent);
+                }
             }
         });
 
@@ -129,8 +137,12 @@ public class SomeResultsAdapter extends RecyclerView.Adapter<SomeResultsAdapter.
                     @Override
                     public void onClick(View view) {
                         String url = raceInfo.getRaceUrl();
-                        Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        host.startActivity(wikiIntent);
+
+                        if(!url.equalsIgnoreCase(""))
+                        {
+                            Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            host.startActivity(wikiIntent);
+                        }
                     }
                 });
 

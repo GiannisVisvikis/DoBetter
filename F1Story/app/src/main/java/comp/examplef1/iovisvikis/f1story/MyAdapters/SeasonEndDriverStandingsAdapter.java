@@ -81,8 +81,12 @@ public class SeasonEndDriverStandingsAdapter extends RecyclerView.Adapter<Season
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driverRow.getUrl()));
-                host.startActivity(infoIntent);
+
+                if(!driverRow.getUrl().equalsIgnoreCase(""))
+                {
+                    Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driverRow.getUrl()));
+                    host.startActivity(infoIntent);
+                }
             }
         });
 
@@ -123,8 +127,12 @@ public class SeasonEndDriverStandingsAdapter extends RecyclerView.Adapter<Season
                 driverPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent driverinfoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driverInfoString));
-                        host.startActivity(driverinfoIntent);
+
+                        if(!driverInfoString.equalsIgnoreCase(""))
+                        {
+                            Intent driverinfoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driverInfoString));
+                            host.startActivity(driverinfoIntent);
+                        }
                     }
                 });
 
@@ -148,8 +156,12 @@ public class SeasonEndDriverStandingsAdapter extends RecyclerView.Adapter<Season
                 constructorPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructorUrl));
-                        host.startActivity(wikiIntent);
+
+                        if(!constructorUrl.equalsIgnoreCase(""))
+                        {
+                            Intent wikiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructorUrl));
+                            host.startActivity(wikiIntent);
+                        }
                     }
                 });
 

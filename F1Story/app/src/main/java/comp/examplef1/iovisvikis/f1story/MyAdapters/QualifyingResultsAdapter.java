@@ -73,7 +73,7 @@ public class QualifyingResultsAdapter extends RecyclerView.Adapter<QualifyingRes
                 gridTxt.setText(host.getResources().getString(R.string.grid) + "\n" + qualifyingRow.getPosition());
 
                 AppCompatTextView qsTxt = rowView.findViewById(R.id.qsTxt);
-                qsTxt.setText("Q1: " + qualifyingRow.getQ1() + "\tQ2: " + qualifyingRow.getQ2() + "\tQ3: " + qualifyingRow.getQ3());
+                qsTxt.setText("Q1: " + qualifyingRow.getQ1() + " - Q2: " + qualifyingRow.getQ2() + " - Q3: " + qualifyingRow.getQ3());
 
                 final Driver driver = qualifyingRow.getDriver();
 
@@ -88,8 +88,12 @@ public class QualifyingResultsAdapter extends RecyclerView.Adapter<QualifyingRes
 
                     @Override
                     public void onClick(View view) {
-                        Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        host.startActivity(infoIntent);
+
+                        if(!url.equalsIgnoreCase(""))
+                        {
+                            Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            host.startActivity(infoIntent);
+                        }
                     }
                 });
 
@@ -108,10 +112,15 @@ public class QualifyingResultsAdapter extends RecyclerView.Adapter<QualifyingRes
 
                 constructorPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View view)
+                    {
                         String url = constructor.getUrl();
-                        Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        host.startActivity(wikIntent);
+
+                        if (!url.equalsIgnoreCase(""))
+                        {
+                            Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            host.startActivity(wikIntent);
+                        }
                     }
                 });
 

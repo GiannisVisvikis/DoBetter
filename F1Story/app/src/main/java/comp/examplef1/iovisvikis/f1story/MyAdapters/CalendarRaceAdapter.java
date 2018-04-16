@@ -86,8 +86,12 @@ public class CalendarRaceAdapter extends RecyclerView.Adapter<CalendarRaceAdapte
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                host.startActivity(infoIntent);
+
+                if(!uri.equalsIgnoreCase(""))
+                {
+                    Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    host.startActivity(infoIntent);
+                }
             }
         });
 

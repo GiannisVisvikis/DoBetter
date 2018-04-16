@@ -19,9 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import comp.examplef1.iovisvikis.f1story.Communication;
+import comp.examplef1.iovisvikis.f1story.MainActivity;
 import comp.examplef1.iovisvikis.f1story.MyAdapters.SeasonEndDriver;
 
 import comp.examplef1.iovisvikis.f1story.NewsService;
+import comp.examplef1.iovisvikis.f1story.NoResponseActivity;
 import comp.examplef1.iovisvikis.f1story.R;
 
 import java.io.FileNotFoundException;
@@ -149,6 +151,13 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
             GetListAdapterTask adapterTask = new GetListAdapterTask();
             adapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         }
+        else if(!getAct().apiResponds())
+        {
+            Intent noResponseIntent = new Intent(getContext(), NoResponseActivity.class);
+            startActivity(noResponseIntent);
+            getActivity().finish();
+        }
+
     }
 
 
@@ -158,7 +167,7 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
      */
     public String getFlagFilename(String nationOrCountryName){
 
-        return (act.isResultDrawer()) ? nationOrCountryName + "_32.png" : nationOrCountryName + "_48.png";
+        return (getAct().isResultDrawer() &&  getResources().getDisplayMetrics().density <= 1.5) ? nationOrCountryName + "_32.png" : nationOrCountryName + "_48.png";
 
     }
 
@@ -193,7 +202,7 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
                     driverId + ".png")));
         }
         catch (FileNotFoundException fnf){
-            container.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.unknownn_driver));
+            container.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.unknown_const));
         }
         catch (IOException io){
             Log.e("MyCustmBasAdptr/DrvrPht", io.getMessage());

@@ -63,8 +63,12 @@ public class UIResultAdapter extends RecyclerView.Adapter<UIResultAdapter.UIResu
         raceInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent raceInfoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(raceUri));
-                host.startActivity(raceInfoIntent);
+
+                if(!raceUri.equalsIgnoreCase(""))
+                {
+                    Intent raceInfoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(raceUri));
+                    host.startActivity(raceInfoIntent);
+                }
             }
         });
 
@@ -118,8 +122,12 @@ public class UIResultAdapter extends RecyclerView.Adapter<UIResultAdapter.UIResu
                 driverPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent driverIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driver.getUrl()));
-                        host.startActivity(driverIntent);
+
+                        if(!driver.getUrl().equalsIgnoreCase(""))
+                        {
+                            Intent driverIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(driver.getUrl()));
+                            host.startActivity(driverIntent);
+                        }
                     }
                 });
 
@@ -137,8 +145,12 @@ public class UIResultAdapter extends RecyclerView.Adapter<UIResultAdapter.UIResu
                 constructorPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent conIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructor.getUrl()));
-                        host.startActivity(conIntent);
+
+                        if(!constructor.getUrl().equalsIgnoreCase(""))
+                        {
+                            Intent conIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructor.getUrl()));
+                            host.startActivity(conIntent);
+                        }
                     }
                 });
 

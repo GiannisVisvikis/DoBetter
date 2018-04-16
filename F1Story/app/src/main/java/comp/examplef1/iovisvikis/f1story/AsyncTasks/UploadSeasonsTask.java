@@ -94,7 +94,10 @@ public class UploadSeasonsTask extends AsyncTask<Object, String, Object[]>{
             container.showDropDown();
         }
 
-        dataDialog.dismiss();
+        if(dataDialog != null)
+        {
+            dataDialog.dismissAllowingStateLoss();
+        }
 
         dataDialog = null;
         host = null;

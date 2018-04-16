@@ -358,7 +358,7 @@ public class NotificationsDialog extends DialogFragment {
 
         notifyIntent.putExtra("ID", requestCode);
 
-        //update the notifications table in the database. Stored for future cancelations
+        //update the notifications table in the database. Stored for future cancellations
 
         try{
 

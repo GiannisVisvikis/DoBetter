@@ -25,7 +25,7 @@
 
         <item
             android:id="@+id/navigation_race_results"
-            android:title="@string/race_results"
+            android:title="@string/nav_race_results"
             android:icon="@drawable/race_results"/>
 
         <item

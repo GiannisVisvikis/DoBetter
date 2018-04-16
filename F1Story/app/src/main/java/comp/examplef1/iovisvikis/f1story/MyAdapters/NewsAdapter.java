@@ -60,8 +60,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             @Override
             public void onClick(View view) {
                 String articleUrl = newsObject.getLink();
-                Intent articleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl));
-                host.getActivity().startActivity(articleIntent);
+
+                if(!articleUrl.equalsIgnoreCase(""))
+                {
+                    Intent articleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl));
+                    host.getActivity().startActivity(articleIntent);
+                }
             }
         });
 

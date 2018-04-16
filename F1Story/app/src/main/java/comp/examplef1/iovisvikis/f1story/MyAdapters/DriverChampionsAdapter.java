@@ -109,10 +109,15 @@ public class DriverChampionsAdapter extends RecyclerView.Adapter<DriverChampions
 
         driverPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String url = driverInfo.getUrl();
-                Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikIntent);
+
+                if (!url.equalsIgnoreCase(""))
+                {
+                    Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikIntent);
+                }
             }
         });
 
@@ -148,8 +153,12 @@ public class DriverChampionsAdapter extends RecyclerView.Adapter<DriverChampions
                     @Override
                     public void onClick(View view) {
                         String url = constructor.getUrl();
-                        Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        host.startActivity(wikIntent);
+
+                        if(!url.equalsIgnoreCase(""))
+                        {
+                            Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            host.startActivity(wikIntent);
+                        }
                     }
                 });
 

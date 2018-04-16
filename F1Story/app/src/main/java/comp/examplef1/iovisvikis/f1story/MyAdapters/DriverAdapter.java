@@ -90,8 +90,12 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
             @Override
             public void onClick(View view) {
                 String url = driver.getUrl();
-                Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                host.startActivity(wikIntent);
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                    Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    host.startActivity(wikIntent);
+                }
             }
         });
 

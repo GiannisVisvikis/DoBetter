@@ -62,8 +62,12 @@ public class SeasonEndConstructorsStandingsAdapter extends RecyclerView.Adapter<
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructorResult.getUrl()));
-                host.startActivity(infoIntent);
+
+                if(!constructorResult.getUrl().equalsIgnoreCase(""))
+                {
+                    Intent infoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructorResult.getUrl()));
+                    host.startActivity(infoIntent);
+                }
             }
         });
 
@@ -99,8 +103,12 @@ public class SeasonEndConstructorsStandingsAdapter extends RecyclerView.Adapter<
                 constructorLogo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent constructorInfoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(infoString));
-                        host.startActivity(constructorInfoIntent);
+
+                        if(!infoString.equalsIgnoreCase(""))
+                        {
+                            Intent constructorInfoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(infoString));
+                            host.startActivity(constructorInfoIntent);
+                        }
                     }
                 });
 

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -38,8 +39,10 @@ public class QuizImageLoader extends AsyncTaskLoader<Drawable> {
         if(cachedData == null)
             forceLoad();
         else
+        {
+            Log.e("DELIVERING CACHED : ", pathToImage);
             super.deliverResult(cachedData);
-
+        }
     }
 
 

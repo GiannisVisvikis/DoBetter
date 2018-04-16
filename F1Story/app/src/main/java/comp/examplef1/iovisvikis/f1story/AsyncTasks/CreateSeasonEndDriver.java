@@ -86,7 +86,7 @@ public class CreateSeasonEndDriver extends AsyncTask<Object, Object, DataDialog>
         //only the last of these tasks returns not null dataDialog
 
         if (dataDialog != null)
-            dataDialog.dismiss();
+            dataDialog.dismissAllowingStateLoss();
 
     }
 

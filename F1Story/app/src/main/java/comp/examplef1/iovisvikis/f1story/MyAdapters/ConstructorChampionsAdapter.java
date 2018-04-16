@@ -65,8 +65,12 @@ public class ConstructorChampionsAdapter extends RecyclerView.Adapter<Constructo
         constructorPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructor.getUrl()));
-                host.startActivity(wikIntent);
+
+                if(!constructor.getUrl().equalsIgnoreCase(""))
+                {
+                    Intent wikIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructor.getUrl()));
+                    host.startActivity(wikIntent);
+                }
             }
         });
 
@@ -95,9 +99,13 @@ public class ConstructorChampionsAdapter extends RecyclerView.Adapter<Constructo
                 FrameLayout info = seasonAddition.findViewById(R.id.infoButton);
                 info.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        Intent seasonIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructorYear.getUrl()));
-                        host.startActivity(seasonIntent);
+                    public void onClick(View view)
+                    {
+                        if(!constructorYear.getUrl().equalsIgnoreCase(""))
+                        {
+                            Intent seasonIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructorYear.getUrl()));
+                            host.startActivity(seasonIntent);
+                        }
                     }
                 });
 

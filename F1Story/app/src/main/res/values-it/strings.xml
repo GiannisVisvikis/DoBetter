@@ -8,7 +8,6 @@
 
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 
-
     <string name="select_driver">Selezionare pilota</string>
     <string name="select_season">Selezionare stagione</string>
     <string name="select_circuit">Selezionare circuito</string>
@@ -160,8 +159,6 @@
     <string name="driver_help">
             \t-Fare clic sulla selezione del pilota e scorrere verso il basso per trovare quel e desiderato o digitare nel suo nome per limitare le opzioni di corrispondenza.\n\n
 
-            \t-Fare clic sul menu per limitare la selezione del pilota ad una decade specifica e preferita.\n\n
-
             \t-Il pulsante “Costruttori” presentera le costruttori  per i quali il conducente ha corso durante una stagione selezionata, o cio che ogni costruttore ha mai girato.\n\n
 
             \t-Il pulsante “Circuiti”  presentera tutti i circuiti che il pilota ha competuto durante una stagione selezionata, o tutti i circuiti in cui ha mai girato.\n\n
@@ -180,8 +177,6 @@
     <string name="constructor_help">
             \t-Fare clic sulla selezione del costruttore e scorrere verso il basso per trovare il costruttore desiderato o digitare il suo nome per limitare le opzioni di corrispondenza.\n\n
 
-            \t-Fai clic sul menu per limitare la selezione del costruttore a una decade specifica della tua preferenza.\n\n
-
             \t-Il pulsante “Piloti” mostra i piloti che hanno corso durante una stagione selezionata per il costruttore selezionato, o ogni pilota che ha mai corso per quella.\n\n
 
             \t-Il pulsante “Circuiti” mostrerà tutti i circuiti che il costruttore ha competuto durante una stagione selezionata o tutti i circuiti in cui si è mai competuto.\n\n
@@ -199,8 +194,6 @@
 
     <string name="circuit_help">
         	\t-Fare clic sulla selezione del circuito e scorri verso il basso per trovare il circuito desiderato o digitare nel suo nome per limitare le opzioni di corrispondenza.\n\n
-
-            \t-Fare clic sul menu per limitare la selezione del circuito ad una decade specifica preferita.\n\n
 
             \t-Il pulsante “Costruttori” mostra i costruttori che hanno corso in questo circuito durante una stagione selezionata, o tutti i costruttori che hanno mai participato a quelo.\n\n
 
@@ -234,5 +227,6 @@
     <string name="correct">corretta</string>
     <string name="quiz">Quiz</string>
     <string name="share_quiz">Inviare</string>
+    <string name="nav_race_results">Risultati corsa</string>
 
 </resources>

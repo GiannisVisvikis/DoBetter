@@ -1,244 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
-<string name="app_name">F1Story</string>
-
-<string name="action_settings">Settings</string>
-
-<!-- -
-    This is an ad unit ID for a banner test ad. Replace with your own banner ad unit id.
-    For more information, see https://support.google.com/admob/answer/3052638
-<!- -->
-
-<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-
-<string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
-
-
-<string name="select_driver">Select Driver</string>
-<string name="select_season">Select Season</string>
-<string name="select_circuit">Select Circuit</string>
-<string name="select_constructor">Select Constructor</string>
-<string name="select_race">Select Race</string>
-
-<string name="help">Help</string>
-<string name="season">Season</string>
-<string name="seasons">Seasons</string>
-<string name="rounds">Rounds</string>
-<string name="wins">Wins</string>
-
-<string name="next_event_notification">NEXT EVENT</string>
-<string name="no_interner_connection">Check  Internet connection and press restart</string>
-<string name="no_internet_connection_active">No internet connection active</string>
-
-<string name="all_drivers">All Drivers</string>
-<string name="fifties_drivers">1950s Drivers</string>
-<string name="sixties_drivers">1960s Drivers</string>
-<string name="seventies_drivers">1970s Drivers</string>
-<string name="eighties_drivers">1980s Drivers</string>
-<string name="nineties_drivers">1990s Drivers</string>
-<string name="thousands_drivers">2000s Drivers</string>
-<string name="tens_drivers">2010s Drivers</string>
-
-<string name="all_constructors">All Constructors</string>
-<string name="fifties_constructors">1950s Constructors</string>
-<string name="sixties_constructors">1960s Constructors</string>
-<string name="seventies_constructors">1970s Constructors</string>
-<string name="eighties_constructors">1980s Constructors</string>
-<string name="nineties_constructors">1990s Constructors</string>
-<string name="thousands_constructors">2000s Constructors</string>
-<string name="tens_constructors">2010s Constructors</string>
-
-<string name="all_circuits">All Circuits</string>
-<string name="fifties_circuits">1950s Circuits</string>
-<string name="sixties_circuits">1960s Circuits</string>
-<string name="seventies_circuits">1970s Circuits</string>
-<string name="eighties_circuits">1980s Circuits</string>
-<string name="nineties_circuits">1990s Circuits</string>
-<string name="thousands_circuits">2000s Circuits</string>
-<string name="tens_circuits">2010s Circuits</string>
-
-<string name="sounds">Sounds</string>
-<string name="sounds_on">On</string>
-<string name="sounds_off">Off</string>
-
-<string name="videoclips">Videoclips</string>
-
-<string name="notifications">Notifications</string>
-<string name="notifications_on">On</string>
-<string name="notifications_off">Off</string>
-
-<string name="not_valid">is not a valid choice</string>
-<string name="choose_a">Choose a</string>
-
-
-<string name="constructor_name">Constructor Name</string>
-<string name="driver_name">Driver Name</string>
-<string name="circuit_name">Circuit Name</string>
-<string name="race_name">Race Name</string>
-<string name="locality">Locality</string>
-
-<string name="drivers">Drivers</string>
-<string name="constructors">Constructors</string>
-<string name="circuits">Circuits</string>
-<string name="champions">Champions</string>
-<string name="info">Info</string>
-<string name="podiums">Podiums</string>
+    <string name="app_name">F1Story</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="select_driver">Select Driver</string>
+    <string name="select_season">Select Season</string>
+    <string name="select_circuit">Select Circuit</string>
+    <string name="select_constructor">Select Constructor</string>
+    <string name="select_race">Select Race</string>
+
+    <string name="help">Help</string>
+    <string name="season">Season</string>
+    <string name="seasons">Seasons</string>
+    <string name="rounds">Rounds</string>
+    <string name="wins">Wins</string>
+
+    <string name="next_event_notification">NEXT EVENT</string>
+    <string name="no_interner_connection">Check  Internet connection and press restart</string>
+    <string name="no_internet_connection_active">No internet connection active</string>
+
+    <string name="all_drivers">All Drivers</string>
+    <string name="fifties_drivers">1950s Drivers</string>
+    <string name="sixties_drivers">1960s Drivers</string>
+    <string name="seventies_drivers">1970s Drivers</string>
+    <string name="eighties_drivers">1980s Drivers</string>
+    <string name="nineties_drivers">1990s Drivers</string>
+    <string name="thousands_drivers">2000s Drivers</string>
+    <string name="tens_drivers">2010s Drivers</string>
+
+    <string name="all_constructors">All Constructors</string>
+    <string name="fifties_constructors">1950s Constructors</string>
+    <string name="sixties_constructors">1960s Constructors</string>
+    <string name="seventies_constructors">1970s Constructors</string>
+    <string name="eighties_constructors">1980s Constructors</string>
+    <string name="nineties_constructors">1990s Constructors</string>
+    <string name="thousands_constructors">2000s Constructors</string>
+    <string name="tens_constructors">2010s Constructors</string>
+
+    <string name="all_circuits">All Circuits</string>
+    <string name="fifties_circuits">1950s Circuits</string>
+    <string name="sixties_circuits">1960s Circuits</string>
+    <string name="seventies_circuits">1970s Circuits</string>
+    <string name="eighties_circuits">1980s Circuits</string>
+    <string name="nineties_circuits">1990s Circuits</string>
+    <string name="thousands_circuits">2000s Circuits</string>
+    <string name="tens_circuits">2010s Circuits</string>
+
+    <string name="sounds">Sounds</string>
+    <string name="sounds_on">On</string>
+    <string name="sounds_off">Off</string>
+
+    <string name="videoclips">Videoclips</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="notifications_on">On</string>
+    <string name="notifications_off">Off</string>
+
+    <string name="not_valid">is not a valid choice</string>
+    <string name="choose_a">Choose a</string>
+
+
+    <string name="constructor_name">Constructor Name</string>
+    <string name="driver_name">Driver Name</string>
+    <string name="circuit_name">Circuit Name</string>
+    <string name="race_name">Race Name</string>
+    <string name="locality">Locality</string>
+
+    <string name="drivers">Drivers</string>
+    <string name="constructors">Constructors</string>
+    <string name="circuits">Circuits</string>
+    <string name="champions">Champions</string>
+    <string name="info">Info</string>
+    <string name="podiums">Podiums</string>
+
+    <string name="season_grid">Season Grid</string>
+    <string name="getting_season_grid">Getting season grid</string>
+    <string name="calendar">Calendar</string>
 
-<string name="season_grid">Season Grid</string>
-<string name="getting_season_grid">Getting season grid</string>
-<string name="calendar">Calendar</string>
+    <string name="latest_news">Latest News</string>
 
-<string name="latest_news">Latest News</string>
+    <string name="grid">Grid</string>
+    <string name="points">Points</string>
+    <string name="position">Position</string>
+    <string name="status">Status</string>
 
-<string name="grid">Grid</string>
-<string name="points">Points</string>
-<string name="position">Position</string>
-<string name="status">Status</string>
+    <string name="laps">Laps</string>
+    <string name="fastest">Fastest Lap</string>
+    <string name="time">Time</string>
+    <string name="speed">Avg Speed</string>
 
-<string name="laps">Laps</string>
-<string name="fastest">Fastest Lap</string>
-<string name="time">Time</string>
-<string name="speed">Avg Speed</string>
+    <string name="date">date</string>
+    <string name="race_time">time</string>
 
-<string name="date">date</string>
-<string name="race_time">time</string>
+    <string name="season_results">Season\nResults</string>
+    <string name="race_results">Race\nResults</string>
 
-<string name="season_results">Season\nResults</string>
-<string name="race_results">Race\nResults</string>
+    <string name="pixabay">www.pixabay.com</string>
 
-<string name="pixabay">www.pixabay.com</string>
+    <string name="qualifying">Qualifying</string>
+    <string name="race">Race</string>
 
-<string name="qualifying">Qualifying</string>
-<string name="race">Race</string>
+    <string name="five_minutes">5 minutes</string>
+    <string name="ten_minutes">10 minutes</string>
+    <string name="fifteen_minutes">15 minutes</string>
+    <string name="thirty_minutes">30 minutes</string>
+    <string name="one_hour">1 hour</string>
+    <string name="two_hours">2 hours</string>
 
-<string name="five_minutes">5 minutes</string>
-<string name="ten_minutes">10 minutes</string>
-<string name="fifteen_minutes">15 minutes</string>
-<string name="thirty_minutes">30 minutes</string>
-<string name="one_hour">1 hour</string>
-<string name="two_hours">2 hours</string>
+    <string name="championships"> championships</string>
 
-<string name="championships"> championships</string>
+    <string name="getting_podiums">Getting podiums</string>
+    <string name="getting_races">Getting races</string>
+    <string name="podium_place">Choose at least one podium place</string>
 
-<string name="getting_podiums">Getting podiums</string>
-<string name="getting_races">Getting races</string>
-<string name="podium_place">Choose at least one podium place</string>
+    <string name="getting_data">Getting data</string>
+    <string name="updating_database">Updating Database</string>
+    <string name="downloading">Downloading</string>
 
-<string name="getting_data">Getting data</string>
-<string name="updating_database">Updating Database</string>
-<string name="downloading">Downloading</string>
+    <string name="creating_database">Creating Database</string>
+    <string name="database_ready">Database ready</string>
 
-<string name="creating_database">Creating Database</string>
-<string name="database_ready">Database ready</string>
+    <string name="season_over">Season over, no more races</string>
+    <string name="race_about_start">Race is about to start</string>
+    <string name="qual_about_start">Qualifying is about to start</string>
 
-<string name="season_over">Season over, no more races</string>
-<string name="race_about_start">Race is about to start</string>
-<string name="qual_about_start">Qualifying is about to start</string>
+    <string name="williams">Robbie Williams - Supreme</string>
+    <string name="harrison">George Harrison - Faster</string>
 
-<string name="williams">Robbie Williams - Supreme</string>
-<string name="harrison">George Harrison - Faster</string>
+    <string name="replay_intro">Replay Intro</string>
+    <string name="engine_sounds">Engine Sounds</string>
+    <string name="blown_exhausts">Blown Exhausts</string>
+    <string name="downshifting">Downshifting</string>
+    <string name="multiple_pass">Multiple pass</string>
+    <string name="form_grid_race_start">Form Grid - Race Start</string>
+    <string name="v8_sound">V8 sound</string>
+    <string name="v10_sound">V10 sound</string>
+    <string name="v12_sound">V12 sound</string>
+    <string name="ford_matra_1969">1969 Matra Ford</string>
 
-<string name="replay_intro">Replay Intro</string>
-<string name="engine_sounds">Engine Sounds</string>
-<string name="blown_exhausts">Blown Exhausts</string>
-<string name="downshifting">Downshifting</string>
-<string name="multiple_pass">Multiple pass</string>
-<string name="form_grid_race_start">Form Grid - Race Start</string>
-<string name="v8_sound">V8 sound</string>
-<string name="v10_sound">V10 sound</string>
-<string name="v12_sound">V12 sound</string>
-<string name="ford_matra_1969">1969 Matra Ford</string>
+    <string name="read_at">Click on large image and read at \t</string>
+    <string name="getting_news">Getting latest news</string>
+    <string name="getting_qualifying_results">Getting qualifying results</string>
+    <string name="qualifying_results_nont_ready_yet">Qualifying results not ready yet</string>
+    <string name="race_is_on_right_now">Race is on right now!</string>
+    <string name="getting_race_results">Getting race results</string>
+    <string name="race_results_under_construction">Race results under construction</string>
+    <string name="no_results_for_this_selection">No results for this selection</string>
+    <string name="all">ALL</string>
+    <string name="qualifying_in_progress">Qualifying is in progress</string>
 
-<string name="read_at">Click on large image and read at \t</string>
-<string name="getting_news">Getting latest news</string>
-<string name="getting_qualifying_results">Getting qualifying results</string>
-<string name="qualifying_results_nont_ready_yet">Qualifying results not ready yet</string>
-<string name="race_is_on_right_now">Race is on right now!</string>
-<string name="getting_race_results">Getting race results</string>
-<string name="race_results_under_construction">Race results under construction</string>
-<string name="no_results_for_this_selection">No results for this selection</string>
-<string name="all">ALL</string>
-<string name="qualifying_in_progress">Qualifying is in progress</string>
+    <string name="motorsport_rss_address">https://www.motorsport.com/rss/f1/news/</string>
 
-<string name="motorsport_rss_address">https://www.motorsport.com/rss/f1/news/</string>
+    <string name="driver_help">
+                \t-Click on driver selection and scroll down to find the desired driver or type in his name to narrow down matching options.\n\n
 
-<string name="driver_help">
-            \t-Click on driver selection and scroll down to find the desired driver or type in his name to narrow down matching options.\n\n
+                \t-Constructors button shows constructors that the driver raced during a selected season, or every constructor ever raced for.\n\n
 
-            \t-Click on menu to restrict driver selection to a specific decade - era of your preference.\n\n
+                \t-Circuits button will show every circuit that driver competed during a selected season, or all circuits he ever raced in.\n\n
 
-            \t-Constructors button shows constructors that the driver raced during a selected season, or every constructor ever raced for.\n\n
+                \t-Info button will take you to the wikipedia page for more information regarding your selection.\n\n
 
-            \t-Circuits button will show every circuit that driver competed during a selected season, or all circuits he ever raced in.\n\n
+                \t-Champions button will show every drivers championship he won, if any. Leave selection empty to get all drivers championship winners since 1950.\n\n
 
-            \t-Info button will take you to the wikipedia page for more information regarding your selection.\n\n
+                \t-Race results button will take you to the results of that driver for a selected season he competed.\n\n
 
-            \t-Champions button will show every drivers championship he won, if any. Leave selection empty to get all drivers championship winners since 1950.\n\n
+                \t-Season results will display the final driver standings at the end of a selected season\'s championship since 1950 or the current season driver standings if the selected season is not over yet.\n\n
 
-            \t-Race results button will take you to the results of that driver for a selected season he competed.\n\n
+                \t-Podiums button will show all races that driver took first, second or third place depending on your selection. Mark podium place of your choice to display.
+        </string>
 
-            \t-Season results will display the final driver standings at the end of a selected season\'s championship since 1950 or the current season driver standings if the selected season is not over yet.\n\n
+    <string name="constructor_help">
+                \t-Click on constructor selection and scroll down to find the desired constructor or type in its name to narrow down matching options.\n\n
 
-            \t-Podiums button will show all races that driver took first, second or third place depending on your selection. Mark podium place of your choice to display.
-    </string>
+                \t-Drivers button shows drivers that raced during a selected season for the selected constructor, or every driver ever raced for it.\n\n
 
-<string name="constructor_help">
-            \t-Click on constructor selection and scroll down to find the desired constructor or type in its name to narrow down matching options.\n\n
+                \t-Circuits button will show every circuit that constructor competed during a selected season, or all circuits it ever raced in.\n\n
 
-            \t-Click on menu to restrict constructor selection to a specific decade - era of your preference.\n\n
+                \t-Info button will take you to the wikipedia page for more information regarding your selection.\n\n
 
-            \t-Drivers button shows drivers that raced during a selected season for the selected constructor, or every driver ever raced for it.\n\n
+                \t-Champions button will show every constructor championship it won, if any. Leave selection empty to get all constructors championship winners since 1958.\n\n
 
-            \t-Circuits button will show every circuit that constructor competed during a selected season, or all circuits it ever raced in.\n\n
+                \t-Race results button will take you to the results of that constructor for a selected season it competed.\n\n
 
-            \t-Info button will take you to the wikipedia page for more information regarding your selection.\n\n
+                \t-Season results will display the final constructor standings at the end of a selected season\'s championship since 1958 or the current season constructor standings if the selected season is not over yet.\n\n
 
-            \t-Champions button will show every constructor championship it won, if any. Leave selection empty to get all constructors championship winners since 1958.\n\n
+                \t-Podiums button will show all races that constructor\'s drivers took first, second or third place depending on your selection. Mark podium place of your choice to display.\n\n
+        </string>
 
-            \t-Race results button will take you to the results of that constructor for a selected season it competed.\n\n
+    <string name="circuit_help">
+                \t-Click on circuit selection and scroll down to find the desired circuit or type in its name to narrow down matching options.\n\n
 
-            \t-Season results will display the final constructor standings at the end of a selected season\'s championship since 1958 or the current season constructor standings if the selected season is not over yet.\n\n
+                \t-Constructors button shows constructors that raced in this circuit during a selected season, or every constructor ever raced in it.\n\n
 
-            \t-Podiums button will show all races that constructor\'s drivers took first, second or third place depending on your selection. Mark podium place of your choice to display.\n\n
-    </string>
+                \t-Drivers button will show every driver that competed in this circuit during a selected season, or all drivers ever raced in it.\n\n
 
-<string name="circuit_help">
-        	\t-Click on circuit selection and scroll down to find the desired circuit or type in its name to narrow down matching options.\n\n
+                \t-Info button will get you to the wikipedia page for more information regarding your selection.\n\n
 
-            \t-Click on menu to restrict circuit selection to a specific decade - era of your preference.\n\n
+                \t-Race results button will take you to the race results of that circuit for the selected season it was included in the calendar.
+        </string>
 
-            \t-Constructors button shows constructors that raced in this circuit during a selected season, or every constructor ever raced in it.\n\n
 
-            \t-Drivers button will show every driver that competed in this circuit during a selected season, or all drivers ever raced in it.\n\n
+    <string name="motorsport_logo">logos/motorsport.png</string>
+    <string name="espn_logo">logos/espn.png</string>
+    <string name="autosport_logo">logos/autosport.png</string>
 
-            \t-Info button will get you to the wikipedia page for more information regarding your selection.\n\n
+    <string name="driver_tag">driver</string>
+    <string name="circuit_tag">circuit</string>
+    <string name="constructor_tag">constructor</string>
 
-            \t-Race results button will take you to the race results of that circuit for the selected season it was included in the calendar.
-    </string>
-
-
-<string name="motorsport_logo">logos/motorsport.png</string>
-<string name="espn_logo">logos/espn.png</string>
-<string name="autosport_logo">logos/autosport.png</string>
-
-<string name="driver_tag">driver</string>
-<string name="circuit_tag">circuit</string>
-<string name="constructor_tag">constructor</string>
-
-<string name="ferrari312B">Ferrari312B-3.0 V12</string>
-<string name="drawer_open">DRAWER_OPEN</string>
-<string name="drawer_closed">DRAWER_CLOSED</string>
-<string name="api_not_responding">Api not responding</string>
-<string name="later">Try again later</string>
-<string name="checking_updates">Checking for updates</string>
-<string name="wait_for_season">Loading seasons</string>
-<string name="more_info">More info</string>
-<string name="next_question">Next question</string>
-<string name="restart_quiz">New</string>
-<string name="quit_quiz">Quit</string>
-<string name="correct">correct</string>
-<string name="quiz">Quiz</string>
-<string name="share_quiz">Share</string>
+    <string name="ferrari312B">Ferrari312B-3.0 V12</string>
+    <string name="drawer_open">DRAWER_OPEN</string>
+    <string name="drawer_closed">DRAWER_CLOSED</string>
+    <string name="api_not_responding">Api not responding</string>
+    <string name="later">Try again later</string>
+    <string name="checking_updates">Checking for updates</string>
+    <string name="wait_for_season">Loading seasons</string>
+    <string name="more_info">More info</string>
+    <string name="next_question">Next question</string>
+    <string name="restart_quiz">New</string>
+    <string name="quit_quiz">Quit</string>
+    <string name="correct">correct</string>
+    <string name="quiz">Quiz</string>
+    <string name="share_quiz">Share</string>
+    <string name="nav_race_results">Race Results</string>
 
 
 </resources>

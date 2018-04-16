@@ -78,9 +78,15 @@ public class ConstructorAdapter extends RecyclerView.Adapter<ConstructorAdapter.
 
         constructorPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent conIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(constructor.getUrl()));
+            public void onClick(View view)
+            {
+                String url = constructor.getUrl();
+
+                if(!url.equalsIgnoreCase(""))
+                {
+                Intent conIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 host.startActivity(conIntent);
+                }
             }
         });
 

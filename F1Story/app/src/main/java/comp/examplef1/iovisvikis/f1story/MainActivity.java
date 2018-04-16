@@ -1,7 +1,7 @@
 package comp.examplef1.iovisvikis.f1story;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -36,7 +36,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast; 
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements Communication
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
-    private FrameLayout resultFragmentDrawer;
+    private LinearLayout resultFragmentDrawer;
 
     private SQLiteDatabase f1Database;
 
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements Communication
         //check if the database is copied or not and return it
         setTheAppDatabase();
 
-        resultFragmentDrawer = findViewById(R.id.result_fragment_place);
+        resultFragmentDrawer = findViewById(R.id.result_drawer);
 
         //get reference to the toolbar
         Toolbar toolbar = findViewById(R.id.the_toolbar);
@@ -180,7 +181,8 @@ public class MainActivity extends AppCompatActivity implements Communication
         mDrawerLayout = findViewById(R.id.drawer_layout);
         setTheDrawer(toolbar);
 
-        //TODO add the admob line here and the app and the banner-interstitial ids. Check the app version code and you're good to go
+        //TODO uncomment the MobileAds line here and add the app and the banner-interstitial ids. Check the app version code and you're good to go
+        //MobileAds.initialize(this,getResources().getString(R.string.addMob_app_id));
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -410,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements Communication
                         return true;
 
                     case R.id.navigation_calendar:
-                        getSupportLoaderManager().initLoader(CALENDAR_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<ArrayList<CalendarRace>>()
+                        getSupportLoaderManager().restartLoader(CALENDAR_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<ArrayList<CalendarRace>>()
                         {
                             @NonNull
                             @Override
@@ -443,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements Communication
                         return true;
 
                     case R.id.navigation_season_grid:
-                        getSupportLoaderManager().initLoader(CURRENT_GRID_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<ArrayList<CurrentGridRows>>()
+                        getSupportLoaderManager().restartLoader(CURRENT_GRID_LOADER_CODE, null, new LoaderManager.LoaderCallbacks<ArrayList<CurrentGridRows>>()
                         {
                             @NonNull
                             @Override

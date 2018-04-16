@@ -8,7 +8,6 @@
 
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 
-
     <string name="select_driver">wählen pilot</string>
     <string name="select_season">wählen spielzeit</string>
     <string name="select_circuit">wählen piste</string>
@@ -161,8 +160,6 @@
     <string name="driver_help">
             \t-Click on driver selection and scroll down to find the desired driver or type in his name to narrow down matching options.\n\n
 
-            \t-Click on menu to restrict driver selection to a specific decade - era of your preference.\n\n
-
             \t-Constructors button shows constructors that the driver raced during a selected season, or every constructor ever raced for.\n\n
 
             \t-Circuits button will show every circuit that driver competed during a selected season, or all circuits he ever raced in.\n\n
@@ -181,8 +178,6 @@
     <string name="constructor_help">
             \t-Click on constructor selection and scroll down to find the desired constructor or type in its name to narrow down matching options.\n\n
 
-            \t-Click on menu to restrict constructor selection to a specific decade - era of your preference.\n\n
-
             \t-Drivers button shows drivers that raced during a selected season for the selected constructor, or every driver ever raced for it.\n\n
 
             \t-Circuits button will show every circuit that constructor competed during a selected season, or all circuits it ever raced in.\n\n
@@ -200,8 +195,6 @@
 
     <string name="circuit_help">
         	\t-Click on circuit selection and scroll down to find the desired circuit or type in its name to narrow down matching options.\n\n
-
-            \t-Click on menu to restrict circuit selection to a specific decade - era of your preference.\n\n
 
             \t-Constructors button shows constructors that raced in this circuit during a selected season, or every constructor ever raced in it.\n\n
 
@@ -235,5 +228,6 @@
     <string name="correct">richtig</string>
     <string name="quiz">Quiz</string>
     <string name="share_quiz">Post</string>
+    <string name="nav_race_results">Rennen Werte</string>
 
 </resources>

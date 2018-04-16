@@ -84,8 +84,12 @@ public class CircuitAdapter extends RecyclerView.Adapter<CircuitAdapter.CircuitV
             @Override
             public void onClick(View view) {
                 String uri = entry.getUrl();
-                Intent wikInfo = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                host.startActivity(wikInfo);
+
+                if(!uri.equalsIgnoreCase(""))
+                {
+                    Intent wikInfo = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    host.startActivity(wikInfo);
+                }
             }
         });
 

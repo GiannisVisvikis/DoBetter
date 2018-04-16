@@ -101,9 +101,12 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity);
+
+        Log.e("RECREATING ACTIVITY", "recreating activity");
 
         correctAnswerPlace = new HashMap<>();
 
@@ -270,7 +273,7 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
         }
 
 
-        getSupportLoaderManager().initLoader( CURRENT_QUIZ_LOADER_TASK_ID , null,
+        getSupportLoaderManager().initLoader(CURRENT_QUIZ_LOADER_TASK_ID , null,
                 new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<QuizQuestion>>() {
 
 
@@ -327,8 +330,8 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
      * or setup the next question after an answer.
      * Depends on the value of questionIndex
      */
-    private void setupTheQuiz() {
-
+    private void setupTheQuiz()
+    {
 
         if(questionIndex < totalQuestions){
 
@@ -346,11 +349,16 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
             }
 
             //setUp the Loader for the question Image
-            getSupportLoaderManager().initLoader(questionIndex, null, new LoaderManager.LoaderCallbacks<Drawable>() {
+            //initLoader caches data. No need to store anything
+            getSupportLoaderManager().restartLoader(questionIndex, null, new LoaderManager.LoaderCallbacks<Drawable>() {
                 @Override
                 public Loader<Drawable> onCreateLoader(int id, Bundle args) {
 
+                    Log.e("QuizImageLoader CALLED","index is " + questionIndex);
+
                     String pathToImage = filePathsList.get(questionIndex);
+
+                    Log.e("PATH_TOIMAGE : ", pathToImage);
 
                     return new QuizImageLoader(getApplicationContext(), pathToImage);
                 }
@@ -363,7 +371,7 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
                 }
 
                 @Override
-                public void onLoaderReset(Loader<Drawable> loader) {
+                public void onLoaderReset(Loader<Drawable> loader){
 
                 }
             });

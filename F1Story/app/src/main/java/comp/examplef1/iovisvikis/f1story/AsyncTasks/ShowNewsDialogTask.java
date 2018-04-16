@@ -80,8 +80,11 @@ public class ShowNewsDialogTask extends AsyncTask<Object, DownloadFragment, Obje
 
         sitesDatabase.close();
 
-        newsDialog.dismiss();
-        newsDialog = null;
+        if(newsDialog!= null)
+        {
+            newsDialog.dismissAllowingStateLoss();
+            newsDialog = null;
+        }
 
     }
 
