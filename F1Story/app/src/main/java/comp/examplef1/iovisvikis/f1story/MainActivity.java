@@ -887,7 +887,7 @@ public class MainActivity extends AppCompatActivity implements Communication
             @Override
             public Loader<String[]> onCreateLoader(int id, @Nullable Bundle args)
             {
-                return new CheckUpdatesLoader(getApplicationContext());
+                return new CheckUpdatesLoader(getApplicationContext(), MainActivity.this);
             }
 
             @Override
