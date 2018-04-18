@@ -76,7 +76,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         insertQueryBuilder.append("('" + newDriver.getId() + "', '" + newDriver.getName() + " " + newDriver.getSurname() + "', '" + newDriver.getUrl() + "'),");
 
-                        //Log.e("Adding Driver", newDriver.getName() + " " + newDriver.getSurname());
+                        Log.e("Adding Driver", newDriver.getName() + " " + newDriver.getSurname());
                     }
 
                     String insertQuery = insertQueryBuilder.substring(0, insertQueryBuilder.length() - 1);
@@ -96,7 +96,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         insertConsQueryBuilder.append("('" + newConstructor.getId() + "', '" + newConstructor.getName() + "', '" + newConstructor.getUrl() + "'),");
 
-                        //Log.e("Adding Constructor", newConstructor.getName());
+                        Log.e("Adding Constructor", newConstructor.getName());
                     }
 
                     String insertQuery = insertConsQueryBuilder.substring(0, insertConsQueryBuilder.length() - 1);
@@ -116,7 +116,7 @@ public class UpdateDatabaseEntriesService extends Service
 
                         insertCircsQueryBuilder.append("('" + newCircuit.getId() + "', '" + newCircuit.getName() + "', '" + newCircuit.getUrl() + "'),");
 
-                        //Log.e("Adding Circuit", newCircuit.getName());
+                        Log.e("Adding Circuit", newCircuit.getName());
                     }
 
                     String insertQuery = insertCircsQueryBuilder.substring(0, insertCircsQueryBuilder.length() - 1);
