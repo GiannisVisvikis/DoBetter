@@ -66,7 +66,6 @@ public class AdjustTask extends AsyncTask<Object, Void, Object[]> {
 
         if((apiQuery != null) && hostingActivity.hasInternetConnection() && hostingActivity.apiResponds()) {
 
-
             String finalApiQuery = api.getFinalRequestString(apiQuery)[1];
             String jsonInfo = api.getInfo(finalApiQuery);
 

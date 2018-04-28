@@ -8,10 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import comp.examplef1.iovisvikis.f1story.APICommunicator;
 import comp.examplef1.iovisvikis.f1story.Communication;
 import comp.examplef1.iovisvikis.f1story.MainActivity;
@@ -66,55 +62,53 @@ public class CheckUpdatesLoader extends AsyncTaskLoader<String[]>
     @Override
     public String[] loadInBackground()
     {
-
         String[] result = new String[]{null, null, null, null};
 
         APICommunicator apiCom = new APICommunicator();
 
-       if(act.apiResponds())
-       {
+        String driversResponse = apiCom.getTotalEntries(driversCheckAddress);
+        long apiDrivers = -10;
+        if(driversResponse != null)
+           apiDrivers = Integer.parseInt(driversResponse);
 
-           String driversResponse = apiCom.getTotalEntries(driversCheckAddress);
-           long apiDrivers = -10;
-           if(driversResponse != null)
-               apiDrivers = Integer.parseInt(driversResponse);
 
-           long apiConstructors = -10;
-           String constructorsResponse = apiCom.getTotalEntries(constructorsCheckAddress);
-           if(constructorsResponse != null)
-               apiConstructors = Integer.parseInt(constructorsResponse);
+        long apiConstructors = -10;
+        String constructorsResponse = apiCom.getTotalEntries(constructorsCheckAddress);
+        if(constructorsResponse != null)
+           apiConstructors = Integer.parseInt(constructorsResponse);
 
-           String circuitsResponse = apiCom.getTotalEntries(circuitsCheckAddress);
-           long apiCircuits = -10;
-           if(circuitsResponse != null)
-               apiCircuits = Integer.parseInt(apiCom.getTotalEntries(circuitsCheckAddress));
 
-           String seasonsResponse = apiCom.getTotalEntries(seasonsCheckAddress);
-           long apiSeasons = -10;
-           if(seasonsResponse != null)
-               apiSeasons = Integer.parseInt(seasonsResponse);
+        String circuitsResponse = apiCom.getTotalEntries(circuitsCheckAddress);
+        long apiCircuits = -10;
+        if(circuitsResponse != null)
+           apiCircuits = Integer.parseInt(apiCom.getTotalEntries(circuitsCheckAddress));
 
-           SQLiteDatabase f1Database = getContext().openOrCreateDatabase(MainActivity.DATABASE_NAME, Context.MODE_PRIVATE, null);
 
-           long databaseDrivers = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_drivers", null);
-           long databaseConstructors = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_constructors", null);
-           long databaseCircuits = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_circuits", null);
-           long databaseSeasons = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_seasons", null);
+        String seasonsResponse = apiCom.getTotalEntries(seasonsCheckAddress);
+        long apiSeasons = -10;
+        if(seasonsResponse != null)
+           apiSeasons = Integer.parseInt(seasonsResponse);
 
-           if (apiDrivers > 0 && apiDrivers > databaseDrivers)
-               result[0] = apiCom.getInfo(MainActivity.BASIC_URI + "drivers.json?limit=" + apiDrivers + "&" + "offset=0");
+        SQLiteDatabase f1Database = getContext().openOrCreateDatabase(MainActivity.DATABASE_NAME, Context.MODE_PRIVATE, null);
 
-           if( apiConstructors > 0 && apiConstructors > databaseConstructors)
-               result[1] = apiCom.getInfo(MainActivity.BASIC_URI + "constructors.json?limit=" + apiConstructors + "&" + "offset=0");
+        long databaseDrivers = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_drivers", null);
+        long databaseConstructors = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_constructors", null);
+        long databaseCircuits = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_circuits", null);
+        long databaseSeasons = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_seasons", null);
 
-           if(apiCircuits > 0 && apiCircuits > databaseCircuits)
-               result[2] = apiCom.getInfo(MainActivity.BASIC_URI + "circuits.json?limit=" + apiCircuits + "&" + "offset=0");
+        if(apiDrivers > databaseDrivers)
+           result[0] = apiCom.getInfo(MainActivity.BASIC_URI + "drivers.json?limit=" + apiDrivers + "&" + "offset=0");
 
-           if( apiSeasons > 0 && apiSeasons > databaseSeasons)
-               result[3] = apiCom.getInfo(MainActivity.BASIC_URI + "seasons.json?limit=" + apiSeasons + "&" + "offset=0");
+        if(apiConstructors > databaseConstructors)
+           result[1] = apiCom.getInfo(MainActivity.BASIC_URI + "constructors.json?limit=" + apiConstructors + "&" + "offset=0");
 
-           Log.e("CheckUpdatesLoader", "Checking updates Loaded in background");
-       }
+        if(apiCircuits > databaseCircuits)
+           result[2] = apiCom.getInfo(MainActivity.BASIC_URI + "circuits.json?limit=" + apiCircuits + "&" + "offset=0");
+
+        if(apiSeasons > databaseSeasons)
+           result[3] = apiCom.getInfo(MainActivity.BASIC_URI + "seasons.json?limit=" + apiSeasons + "&" + "offset=0");
+
+        Log.e("CheckUpdatesLoader", "Checking updates Loaded in background");
 
         return result;
     }

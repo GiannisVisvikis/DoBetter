@@ -67,7 +67,8 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
         act = (Communication) getActivity();
 
-        if(!wasServiceStarted & act.hasInternetConnection() & act.apiResponds()){
+        //already checked api response before the download fragment is created
+        if(!wasServiceStarted & act.hasInternetConnection()){
 
             serviceIntent = new Intent(getActivity().getApplicationContext(), NewsService.class);
             serviceIntent.putExtra("TOTAL_BRANCHES", getResources().getStringArray(R.array.news_sites).length);

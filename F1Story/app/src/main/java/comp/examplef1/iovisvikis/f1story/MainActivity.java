@@ -120,6 +120,13 @@ public class MainActivity extends AppCompatActivity implements Communication
             this.finish();
         }
 
+        if(!apiResponds())
+        {
+            Intent noResponseIntent = new Intent(this, NoResponseActivity.class);
+            startActivity(noResponseIntent);
+            this.finish();
+        }
+
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
 
