@@ -68,26 +68,52 @@ public class CheckUpdatesLoader extends AsyncTaskLoader<String[]>
 
         String driversResponse = apiCom.getTotalEntries(driversCheckAddress);
         long apiDrivers = -10;
-        if(driversResponse != null)
-           apiDrivers = Integer.parseInt(driversResponse);
+        if(driversResponse != null) {
 
+            try {
+                apiDrivers = Integer.parseInt(driversResponse);
+            }catch (NumberFormatException nf){
+                Log.e("ChckUpdtsLdr/LoadInBack", "Api Passed Shit as Drivers");
+            }
+        }
 
         long apiConstructors = -10;
         String constructorsResponse = apiCom.getTotalEntries(constructorsCheckAddress);
-        if(constructorsResponse != null)
-           apiConstructors = Integer.parseInt(constructorsResponse);
+        if(constructorsResponse != null){
 
+            try {
+                apiConstructors = Integer.parseInt(constructorsResponse);
+            }catch (NumberFormatException nf){
+                Log.e("ChckUpdtsLdr/LoadInBack", "Api Passed Shit as Constructors");
+            }
+        }
 
         String circuitsResponse = apiCom.getTotalEntries(circuitsCheckAddress);
         long apiCircuits = -10;
-        if(circuitsResponse != null)
-           apiCircuits = Integer.parseInt(apiCom.getTotalEntries(circuitsCheckAddress));
+        if(circuitsResponse != null){
 
+            try {
+                apiCircuits = Integer.parseInt(circuitsResponse);
+            }catch (NumberFormatException nf){
+                Log.e("ChckUpdtsLdr/LoadInBack", "Api Passed Shit as Circuits");
+            }
+        }
 
         String seasonsResponse = apiCom.getTotalEntries(seasonsCheckAddress);
         long apiSeasons = -10;
-        if(seasonsResponse != null)
-           apiSeasons = Integer.parseInt(seasonsResponse);
+        if(seasonsResponse != null){
+
+            try {
+                apiSeasons = Integer.parseInt(seasonsResponse);
+            }catch (NumberFormatException nf){
+                Log.e("ChckUpdtsLdr/LoadInBack", "Api Passed Shit as Seasons");
+            }
+        }
+
+//        Log.e("ApiDrivers", apiDrivers + "");
+//        Log.e("ApiConstructors", apiConstructors + "");
+//        Log.e("ApiCircuits", apiCircuits + "");
+//        Log.e("ApiSeasons", apiSeasons + "");
 
         SQLiteDatabase f1Database = getContext().openOrCreateDatabase(MainActivity.DATABASE_NAME, Context.MODE_PRIVATE, null);
 
@@ -95,6 +121,11 @@ public class CheckUpdatesLoader extends AsyncTaskLoader<String[]>
         long databaseConstructors = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_constructors", null);
         long databaseCircuits = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_circuits", null);
         long databaseSeasons = DatabaseUtils.longForQuery(f1Database, "select count(*) from all_seasons", null);
+
+//        Log.e("DatabaseDrivers", databaseDrivers + "");
+//        Log.e("DatabaseConstructors", databaseConstructors + "");
+//        Log.e("DatabaseCircuits", databaseCircuits + "");
+//        Log.e("DatabaseSeasons", databaseSeasons + "");
 
         if(apiDrivers > databaseDrivers)
            result[0] = apiCom.getInfo(MainActivity.BASIC_URI + "drivers.json?limit=" + apiDrivers + "&" + "offset=0");

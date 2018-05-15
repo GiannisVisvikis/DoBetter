@@ -51,6 +51,8 @@ public class UpdateDatabaseEntriesService extends Service
             Start updating the database
          */
 
+        Log.e("SERVICE_DATABASE", "Started");
+
         final String driversTag = intent.getStringExtra(DRIVERS_UPDATE_TAG);
         final String constructorsTag = intent.getStringExtra(CONSTRUCTORS_UPDATE_TAG);
         final String circuitsTag = intent.getStringExtra(CIRCUITS_UPDATE_TAG);

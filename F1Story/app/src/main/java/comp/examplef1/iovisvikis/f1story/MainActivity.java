@@ -2,11 +2,14 @@ package comp.examplef1.iovisvikis.f1story;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.security.ProviderInstaller;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -15,6 +18,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -61,7 +65,7 @@ import comp.examplef1.iovisvikis.f1story.MyDialogs.SingleSelectionDialog;
 import comp.examplef1.iovisvikis.f1story.quiz.QuizActivity;
 
 
-public class MainActivity extends AppCompatActivity implements Communication
+public class MainActivity extends AppCompatActivity implements Communication, ProviderInstaller.ProviderInstallListener
 {
 
     public static final String BASIC_URI = "https://ergast.com/api/f1/";
@@ -75,11 +79,17 @@ public class MainActivity extends AppCompatActivity implements Communication
     private  final String DATABASE_SERVICE_DONE = "DATA_SEVICE_DONE";
     public static final String SHARED_PREFERENCES_TAG = "com_example_visvikis_f1storypreferences";
 
+    private final String PATCH_APPLIED_TAG = "PATCH_APPLIED";
     private final String SEARCHED_FOR_UPDATES_TAG = "SEARCHED_FOR_UPDATES";
     private final String PLAY_STARTUP_SOUND = "PLAY_STARTUP";
 
     public static final String NEWS_TABLES_DATABASE = "NEWS_SITES.db";
     public static final String DATABASE_NAME = "F1_STORY.db";
+
+    //Code and boolean for the patch if needed
+    private static final int ERROR_DIALOG_REQUEST_CODE = 0;
+    private boolean patchApplied = false;
+    private boolean mRetryProviderInstall;
 
     //Codes for the async task loaders to use
     private final int COPY_MAIN_DATABASE_CODE = 1;
@@ -112,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements Communication
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) //need this now (before checking other saved variables)
+        {
+            patchApplied = savedInstanceState.getBoolean(PATCH_APPLIED_TAG);
+        }
 
         if(!hasInternetConnection())
         {
@@ -157,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements Communication
         }
         else
         {
+            patchApplied = savedInstanceState.getBoolean(PATCH_APPLIED_TAG); //already done that, but hey!
+
             downloadFragment = (DownloadFragment) fragmentManager.findFragmentByTag(DOWNLOAD_FRAGMENT_TAG);
             soundFragment = (SoundFragment) fragmentManager.findFragmentByTag(SOUND_FRAGMENT_TAG);
             resultFragment = (ResultFragment) fragmentManager.findFragmentByTag(RESULT_FRAGMENT_TAG);
@@ -219,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements Communication
         outState.putBoolean(SEARCHED_FOR_UPDATES_TAG, searchedForUpdates);
         outState.putBoolean(PLAY_STARTUP_SOUND, playStartupSound);
         outState.putBoolean(DATABASE_SERVICE_DONE, databaseServiceDone);
+        outState.putBoolean(PATCH_APPLIED_TAG, patchApplied);
     }
 
 
@@ -548,6 +566,12 @@ public class MainActivity extends AppCompatActivity implements Communication
         catch (ExecutionException ee)
         {
             Log.e("hasInternetConn", ee.getMessage());
+        }
+
+        //APPLY SECURITY PATCH FOR PRE LOLLIPOP DEVICES
+        if(result && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && !patchApplied){
+            Log.e("PATCH", "Applying");
+            ProviderInstaller.installIfNeededAsync(this, this);
         }
 
         return result;
@@ -943,10 +967,86 @@ public class MainActivity extends AppCompatActivity implements Communication
     }
 
 
+
     @Override
     public void setPlayStartupSound(boolean onOrOff)
     {
         this.playStartupSound = onOrOff;
     }
+
+
+
+    //PATCH ASYNC CallBacks
+    @Override
+    public void onProviderInstalled()
+    {
+        Log.e("PATCH", "SUCCESS");
+        patchApplied = true;
+    }
+
+
+    @Override
+    public void onProviderInstallFailed(int i, Intent intent)
+    {
+        GoogleApiAvailability availability = GoogleApiAvailability.getInstance();
+        if (availability.isUserResolvableError(i)) {
+            // Recoverable error. Show a dialog prompting the user to
+            // install/update/enable Google Play services.
+            availability.showErrorDialogFragment(
+                    this, i,
+                    ERROR_DIALOG_REQUEST_CODE,
+                    new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            // The user chose not to take the recovery action
+                            onProviderInstallerNotAvailable();
+                        }
+                    });
+        } else {
+            // Google Play services is not available.
+            onProviderInstallerNotAvailable();
+        }
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ERROR_DIALOG_REQUEST_CODE) {
+            // Adding a fragment via GoogleApiAvailability.showErrorDialogFragment
+            // before the instance state is restored throws an error. So instead,
+            // set a flag here, which will cause the fragment to delay until
+            // onPostResume.
+            mRetryProviderInstall = true;
+        }
+    }
+
+
+    /**
+     * On resume, check to see if we flagged that we need to reinstall the
+     * provider.
+     */
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (mRetryProviderInstall) {
+            // We can now safely retry installation.
+            ProviderInstaller.installIfNeededAsync(this, this);
+        }
+        mRetryProviderInstall = false;
+    }
+
+
+    private void onProviderInstallerNotAvailable() {
+        // This is reached if the provider cannot be updated for some reason.
+        // App should consider all HTTP communication to be vulnerable, and take
+        // appropriate action.
+
+        Log.e("PATCH", "FAILED MISERABLY");
+
+    }
+
 
 }

@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.security.ProviderInstaller;
+
 import comp.examplef1.iovisvikis.f1story.Communication;
 import comp.examplef1.iovisvikis.f1story.MainActivity;
 import comp.examplef1.iovisvikis.f1story.MyAdapters.SeasonEndDriver;
@@ -67,8 +69,8 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
         act = (Communication) getActivity();
 
-        //already checked api response before the download fragment is created
-        if(!wasServiceStarted & act.hasInternetConnection()){
+        //already checked api response and internet connection before the download fragment is created
+        if(!wasServiceStarted){
 
             serviceIntent = new Intent(getActivity().getApplicationContext(), NewsService.class);
             serviceIntent.putExtra("TOTAL_BRANCHES", getResources().getStringArray(R.array.news_sites).length);
@@ -344,6 +346,9 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
     public boolean getWasServiceStarted() {
         return wasServiceStarted;
     }
+
+
+
 
 }//DownloadFragment
 
