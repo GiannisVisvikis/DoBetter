@@ -84,6 +84,8 @@ public class NewsService extends Service{
 
         if(!isServiceDone){
 
+            Log.e("NEWS_SERVICE", "STARTED");
+
             //just in case shit's not empty
             finishedBranchThreads.clear();
 
@@ -163,6 +165,9 @@ public class NewsService extends Service{
 
                     //stop the service thread
                     isServiceDone = true;
+
+                    Log.e("NEWS_SERVICE", "ALL_DONE");
+
                     stopSelf();
 
                 }

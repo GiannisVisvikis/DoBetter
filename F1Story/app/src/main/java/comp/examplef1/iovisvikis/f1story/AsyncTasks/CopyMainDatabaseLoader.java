@@ -41,6 +41,8 @@ public class CopyMainDatabaseLoader extends AsyncTaskLoader<SQLiteDatabase>
     protected void onStartLoading()
     {
 
+        //Log.e("DATABASE", "STARTING COPYING LOADER");
+
         if(result != null)
         {
             deliverResult(result);

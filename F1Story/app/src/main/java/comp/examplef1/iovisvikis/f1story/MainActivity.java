@@ -156,15 +156,21 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
         if(savedInstanceState == null)
         {
 
-            downloadFragment = new DownloadFragment();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) //previous versions will add this after the patch because it initiates a service that needs it
+            {
+                downloadFragment = new DownloadFragment();
+                fragmentTransaction.add(downloadFragment, DOWNLOAD_FRAGMENT_TAG);
+            }
+
             soundFragment = new SoundFragment();
             resultFragment = new ResultFragment();
             //add the rest of the fragments. Add the no internet and not responding activities
 
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction.add(R.id.result_fragment_place, resultFragment, RESULT_FRAGMENT_TAG);
-            fragmentTransaction.add(downloadFragment, DOWNLOAD_FRAGMENT_TAG);
+
             fragmentTransaction.add(soundFragment, SOUND_FRAGMENT_TAG);
 
             fragmentTransaction.commit();
@@ -184,8 +190,10 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
         }
 
 
-        //check if the database is copied or not and return it
-        setTheAppDatabase();
+        //check if the database is copied or not and return it. If pre lollipop, then do it after the security patch is installed
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP || patchApplied)
+            setTheAppDatabase();
+
 
         resultFragmentDrawer = findViewById(R.id.result_drawer);
 
@@ -982,7 +990,19 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
     {
         Log.e("PATCH", "SUCCESS");
         patchApplied = true;
+        setTheAppDatabase();
+
+
+        //If you reached this, you 're on a pre lollipop device. Download fragment that initiates
+        // news service upon creation has not been added yet. Add it now
+        downloadFragment = new DownloadFragment();
+
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().add(downloadFragment, DOWNLOAD_FRAGMENT_TAG).commit();
+        fm.executePendingTransactions();
+
     }
+
 
 
     @Override

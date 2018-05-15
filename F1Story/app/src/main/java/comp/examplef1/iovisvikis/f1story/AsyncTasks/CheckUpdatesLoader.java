@@ -43,15 +43,15 @@ public class CheckUpdatesLoader extends AsyncTaskLoader<String[]>
     @Override
     protected void onStartLoading()
     {
-        Log.e("CheckUpdatesLoader", "Checking updates Loader activated");
+        //Log.e("CheckUpdatesLoader", "Checking updates Loader activated");
         if(cached != null)
         {
-            Log.e("CheckUpdatesLoader", "Checking updates Loader returning cached results");
+            //Log.e("CheckUpdatesLoader", "Checking updates Loader returning cached results");
             deliverResult(cached);
         }
         else
         {
-            Log.e("CheckUpdatesLoader", "Checking updates Loader loading");
+            //Log.e("CheckUpdatesLoader", "Checking updates Loader loading");
             forceLoad();
         }
     }
