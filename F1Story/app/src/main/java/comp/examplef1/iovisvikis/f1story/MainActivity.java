@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
     private final String PATCH_APPLIED_TAG = "PATCH_APPLIED";
     private final String SEARCHED_FOR_UPDATES_TAG = "SEARCHED_FOR_UPDATES";
     private final String PLAY_STARTUP_SOUND = "PLAY_STARTUP";
+    private final String WAS_DRAWER_OPEN = "WAS DRAWER OPEN";
 
     public static final String NEWS_TABLES_DATABASE = "NEWS_SITES.db";
     public static final String DATABASE_NAME = "F1_STORY.db";
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
     private boolean searchedForUpdates = false;
     private boolean databaseServiceDone = false;
     private boolean playStartupSound = true;
+    private boolean wasDrawerOpen = true;
+
 
     private View root;
     private DrawerLayout mDrawerLayout;
@@ -187,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
             databaseServiceDone = savedInstanceState.getBoolean(DATABASE_SERVICE_DONE);
             searchedForUpdates = savedInstanceState.getBoolean(SEARCHED_FOR_UPDATES_TAG);
             playStartupSound = savedInstanceState.getBoolean(PLAY_STARTUP_SOUND);
+            wasDrawerOpen = savedInstanceState.getBoolean(WAS_DRAWER_OPEN);
         }
 
 
@@ -212,6 +216,10 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
         //get reference to the drawer layout and set listener
         mDrawerLayout = findViewById(R.id.drawer_layout);
         setTheDrawer(toolbar);
+
+
+        if(wasDrawerOpen)
+            mDrawerLayout.openDrawer(mNavigationView);
 
         //TODO uncomment the MobileAds line here and add the app and the banner-interstitial ids. Check the app version code and you're good to go
         //MobileAds.initialize(this,getResources().getString(R.string.addMob_app_id));
@@ -245,6 +253,9 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
         outState.putBoolean(PLAY_STARTUP_SOUND, playStartupSound);
         outState.putBoolean(DATABASE_SERVICE_DONE, databaseServiceDone);
         outState.putBoolean(PATCH_APPLIED_TAG, patchApplied);
+
+        wasDrawerOpen = mDrawerLayout.isDrawerOpen(mNavigationView);
+        outState.putBoolean(WAS_DRAWER_OPEN, wasDrawerOpen);
     }
 
 
@@ -373,7 +384,6 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
             mDrawerLayout.openDrawer(mNavigationView);
         else
         {
-
             if(isSoundsOn()){
 
                 getSoundFragment().playSound("sounds/app_closed.mp3");

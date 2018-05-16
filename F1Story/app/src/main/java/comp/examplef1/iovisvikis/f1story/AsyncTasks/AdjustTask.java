@@ -168,7 +168,10 @@ public class AdjustTask extends AsyncTask<Object, Void, Object[]> {
             }
         }
 
-        arrayAdapter = new ArrayAdapter<>(hostingActivity, android.R.layout.simple_spinner_dropdown_item, entries);
+
+        if(hostingActivity != null && entries != null) {
+            arrayAdapter = new ArrayAdapter<>(hostingActivity, android.R.layout.simple_spinner_dropdown_item, entries);
+        }
 
         return new Object[]{theView, hostingActivity, arrayAdapter};
     }
