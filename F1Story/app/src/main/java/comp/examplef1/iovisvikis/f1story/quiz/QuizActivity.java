@@ -402,18 +402,19 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
                 @Override
                 public void onClick(View view) {
                     chosenButton.setBackgroundColor(Color.GREEN);
-                    correctAnswers++;
-                    userAnsweredWrong = false;
-                    questionIndex++;
+                    disableButtons();
 
-                    try{
-                        Thread.sleep(200);
-                    }
-                    catch (InterruptedException ie){
-                        Log.e("INTERRUPTED_EXC", ie.getMessage());
-                    }
-
-                    setupTheQuiz();
+                    chosenButton.postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            correctAnswers++;
+                            userAnsweredWrong = false;
+                            questionIndex++;
+                            setupTheQuiz();
+                        }
+                    }, 1000);
 
                 }
             });
