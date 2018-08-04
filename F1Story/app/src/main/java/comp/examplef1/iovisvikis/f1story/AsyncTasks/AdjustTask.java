@@ -47,7 +47,8 @@ public class AdjustTask extends AsyncTask<Object, Void, Object[]> {
         String apiQuery = null;
         Cursor cursor = null;
 
-        APICommunicator api = new APICommunicator();
+        APICommunicator api = APICommunicator.getInstance();
+
         try {
             apiQuery = (String) objects[1]; //it is a string to make a call to the Api
         }

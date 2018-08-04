@@ -63,7 +63,7 @@ public class NewsService extends Service{
     public void onCreate() {
         super.onCreate();
 
-        this.apiCommunicator = new APICommunicator();
+        this.apiCommunicator = APICommunicator.getInstance();
         this.isServiceDone = false;
         this.finishedBranchThreads = new ArrayList<>();
         this.sitesThreads = new HashMap<>();

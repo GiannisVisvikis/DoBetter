@@ -177,7 +177,7 @@ public class CurrentGridAdapter extends RecyclerView.Adapter<CurrentGridAdapter.
 
     private class DownloadConstructor extends AsyncTask<String, Void, ArrayList<Driver>>{
 
-        APICommunicator api = new APICommunicator();
+        APICommunicator api = APICommunicator.getInstance();
 
         ArrayList<Driver> result;
 

@@ -29,7 +29,7 @@ public class UpdateDatabaseEntriesService extends Service
     public static final String CIRCUITS_UPDATE_TAG = "Circuits";
     public static final String SEASONS_UPDATE_TAG = "Seasons";
 
-    private final APICommunicator apiCom = new APICommunicator();
+    private final APICommunicator apiCom = APICommunicator.getInstance();
     private SQLiteDatabase f1Database;
 
     @Override

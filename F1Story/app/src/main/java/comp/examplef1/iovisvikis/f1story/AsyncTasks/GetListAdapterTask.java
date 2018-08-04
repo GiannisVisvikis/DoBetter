@@ -58,7 +58,7 @@ public class GetListAdapterTask extends AsyncTask<Object, Void, RecyclerView.Ada
 
         publishProgress();
 
-        APICommunicator api = new APICommunicator();
+        APICommunicator api = APICommunicator.getInstance();
         //Log.e("GETLISTADQUERY", query);
         String[] results = api.getFinalRequestString(query);
 

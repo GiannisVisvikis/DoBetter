@@ -17,7 +17,7 @@ public class AreResultsUploaded extends AsyncTask<String, Void, Boolean> {
 
         String query = strings[0];
 
-        APICommunicator api = new APICommunicator();
+        APICommunicator api = APICommunicator.getInstance();
 
         String[] finalInfo = api.getFinalRequestString(query);
 

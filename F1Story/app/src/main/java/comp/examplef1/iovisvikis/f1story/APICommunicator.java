@@ -21,6 +21,15 @@ import java.net.URL;
 public class APICommunicator
 {
 
+    private static APICommunicator instance;
+
+    public static APICommunicator getInstance(){
+
+        if(instance == null)
+            instance = new APICommunicator();
+
+        return instance;
+    }
 
 
     public String getInfo(String uri){
@@ -167,7 +176,7 @@ public class APICommunicator
     }
 
 
-
+    private APICommunicator(){}
 
 
 

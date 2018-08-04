@@ -29,7 +29,7 @@ public class DriversTask extends AsyncTask<Object, Object, Void> {
     @Override
     protected Void doInBackground(Object... strings) {
 
-        APICommunicator api = new APICommunicator();
+        APICommunicator api = APICommunicator.getInstance();
         String query = (String) strings[0];
         String season = (String) strings[1];
         String message = (String) strings[2];

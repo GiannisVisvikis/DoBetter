@@ -64,10 +64,12 @@ public class CheckUpdatesLoader extends AsyncTaskLoader<String[]>
     {
         String[] result = new String[]{null, null, null, null};
 
-        APICommunicator apiCom = new APICommunicator();
+        APICommunicator apiCom = APICommunicator.getInstance();
 
         String driversResponse = apiCom.getTotalEntries(driversCheckAddress);
+
         long apiDrivers = -10;
+
         if(driversResponse != null) {
 
             try {

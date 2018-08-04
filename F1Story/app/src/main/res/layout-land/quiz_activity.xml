@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:background="#EEEEEE"
+    android:background="#D5D5D5"
     android:layout_margin="3dp"
     android:weightSum="10">
 
@@ -13,11 +13,12 @@
         android:layout_height="match_parent"
         android:layout_weight="6"
         app:cardBackgroundColor="#FFFFFF"
-        android:elevation="5dp"
-        android:layout_marginBottom="0.5dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp">
+        android:elevation="20dp"
+        app:cardCornerRadius="5dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,12 +83,13 @@
         android:layout_width="0dp"
         android:layout_weight="4"
         android:layout_height="match_parent"
-        android:elevation="5dp"
+        android:elevation="20dp"
+        app:cardCornerRadius="5dp"
         app:cardBackgroundColor="#FFFFFF"
-        android:layout_marginTop="0.5dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp">
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"

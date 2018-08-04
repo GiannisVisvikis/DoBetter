@@ -37,7 +37,7 @@ public class UploadSeasonsTask extends AsyncTask<Object, String, Object[]>{
 
         publishProgress(dialogMessage);
 
-        APICommunicator api = new APICommunicator();
+        APICommunicator api = APICommunicator.getInstance();
 
         try{
 
