@@ -33,6 +33,10 @@ import org.json.JSONObject;
  * Created by iovisvikis on 16/3/2017.
  */
 
+
+/**
+ *  Used as a factory to create and return the proper adapter each time depending on the parameters
+ */
 public class GetListAdapterTask extends AsyncTask<Object, Void, RecyclerView.Adapter>{
 
 

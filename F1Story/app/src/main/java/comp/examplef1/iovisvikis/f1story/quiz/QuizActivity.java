@@ -354,11 +354,11 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
                 @Override
                 public Loader<Drawable> onCreateLoader(int id, Bundle args) {
 
-                    Log.e("QuizImageLoader CALLED","index is " + questionIndex);
+                    //Log.e("QuizImageLoader CALLED","index is " + questionIndex);
 
                     String pathToImage = filePathsList.get(questionIndex);
 
-                    Log.e("PATH_TOIMAGE : ", pathToImage);
+                    //Log.e("PATH_TOIMAGE : ", pathToImage);
 
                     return new QuizImageLoader(getApplicationContext(), pathToImage);
                 }
@@ -377,10 +377,15 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
             });
 
             //reset the button color to default (might be green or red from previous answer
-            answerButton1.setBackgroundResource(android.R.drawable.btn_default);
-            answerButton2.setBackgroundResource(android.R.drawable.btn_default);
-            answerButton3.setBackgroundResource(android.R.drawable.btn_default);
-            answerButton4.setBackgroundResource(android.R.drawable.btn_default);
+
+            //answerButton1.setBackgroundResource(android.R.drawable.btn_default);
+            answerButton1.setTextColor(Color.BLACK);
+            //answerButton2.setBackgroundResource(android.R.drawable.btn_default);
+            answerButton2.setTextColor(Color.BLACK);
+            //answerButton3.setBackgroundResource(android.R.drawable.btn_default);
+            answerButton3.setTextColor(Color.BLACK);
+            //answerButton4.setBackgroundResource(android.R.drawable.btn_default);
+            answerButton4.setTextColor(Color.BLACK);
 
             if(userAnsweredWrong){
                 disableButtons();
@@ -401,7 +406,9 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
             chosenButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    chosenButton.setBackgroundColor(Color.GREEN);
+
+                    chosenButton.setTextColor(Color.GREEN);
+                    //chosenButton.setBackgroundColor(Color.GREEN);
                     disableButtons();
 
                     chosenButton.postDelayed(new Runnable()
@@ -414,7 +421,7 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
                             questionIndex++;
                             setupTheQuiz();
                         }
-                    }, 1000);
+                    }, 2000);
 
                 }
             });
@@ -443,10 +450,12 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
                     @Override
                     public void onClick(View view) {
 
-                        notChosenButton.setBackgroundColor(Color.RED);
+                        notChosenButton.setTextColor(Color.RED);
+                        //notChosenButton.setBackgroundColor(Color.RED);
 
                         //show correct answer
-                        chosenButton.setBackgroundColor(Color.GREEN);
+                        chosenButton.setTextColor(Color.GREEN);
+                        //chosenButton.setBackgroundColor(Color.GREEN);
 
                         userAnsweredWrong = true;
 

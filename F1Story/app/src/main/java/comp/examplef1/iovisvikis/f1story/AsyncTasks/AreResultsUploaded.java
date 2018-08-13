@@ -21,11 +21,15 @@ public class AreResultsUploaded extends AsyncTask<String, Void, Boolean> {
 
         String[] finalInfo = api.getFinalRequestString(query);
 
+        /*
         if(Integer.parseInt(finalInfo[0]) > 0) { //there are results for this query
             return true;
         }
 
         return false;
+        */
+
+        return (Integer.parseInt(finalInfo[0]) > 0) ? true : false;
     }
 
 

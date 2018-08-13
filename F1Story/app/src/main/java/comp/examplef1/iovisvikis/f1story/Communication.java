@@ -3,6 +3,7 @@ package comp.examplef1.iovisvikis.f1story;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.widget.RecyclerView;
 
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.DownloadFragment;
@@ -10,8 +11,7 @@ import comp.examplef1.iovisvikis.f1story.AsyncTasks.DownloadFragment;
 public interface Communication
 {
     boolean isResultDrawer();
-    boolean hasInternetConnection();
-    boolean apiResponds();
+    LoaderManager getAppLoaderManager();
     boolean isSoundsOn();
     boolean getFromPreferences(String key, boolean defaultValue);
 

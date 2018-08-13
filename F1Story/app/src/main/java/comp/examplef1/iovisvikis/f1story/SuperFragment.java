@@ -12,7 +12,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 
 import android.view.MenuItem;
@@ -27,8 +30,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.AdjustTask;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.ApiAnswers;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckConnection;
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.DownloadFragment;
 
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.GetListAdapterTask;
 import comp.examplef1.iovisvikis.f1story.MyDialogs.HelpDialog;
 import comp.examplef1.iovisvikis.f1story.MyDialogs.StandingsDialog;
 
@@ -499,7 +505,76 @@ public class SuperFragment extends android.support.v4.app.Fragment{
 
 
 
-    public void setSelectedEra(String eraQuery){
+    public void setSelectedEra(final String eraQuery){
+
+        act.getAppLoaderManager().restartLoader(MainActivity.CHECK_CONNECTION_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+            @NonNull
+            @Override
+            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                return new CheckConnection(getContext());
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
+
+                //if there is still an internet connection check and that the api responds
+                if(data){
+
+                    act.getAppLoaderManager().restartLoader(MainActivity.CHECK_API_RESPONSE_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+                        @NonNull
+                        @Override
+                        public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                            return new ApiAnswers(getContext());
+                        }
+
+                        @Override
+                        public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data2) {
+
+                            if(data2){
+
+                                AdjustTask adjustTask = new AdjustTask();
+                                Object[] params = new Object[5];
+
+                                params[0] = getTags().keySet().iterator().next();//get the first and only element
+                                params[1] = getAct().getAppDatabase().rawQuery(eraQuery, null);
+                                params[2] = getDownloadFragment();
+                                params[3] = getKey();
+                                params[4] = false;
+
+                                adjustTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+                            }
+                            else{
+
+                                Intent noResponseIntent = new Intent(getContext(), NoResponseActivity.class);
+                                startActivity(noResponseIntent);
+                                getActivity().finish();
+                            }
+                        }
+
+                        @Override
+                        public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+                        }
+                    });
+
+
+                }
+                else {
+
+                    Intent noConnectionIntent = new Intent(getActivity().getApplicationContext(), NoConnectionActivity.class);
+                    startActivity(noConnectionIntent);
+                    getActivity().finish();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+            }
+        });
+
+        /*
         AdjustTask adjustTask = new AdjustTask();
         Object[] params = new Object[5];
 
@@ -510,6 +585,7 @@ public class SuperFragment extends android.support.v4.app.Fragment{
         params[4] = false;
 
         adjustTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        */
     }
 
 

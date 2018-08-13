@@ -3,10 +3,14 @@ package comp.examplef1.iovisvikis.f1story.MyDialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
@@ -19,7 +23,12 @@ import android.widget.Toast;
 
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.AdjustTask;
 
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.ApiAnswers;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckConnection;
 import comp.examplef1.iovisvikis.f1story.Communication;
+import comp.examplef1.iovisvikis.f1story.MainActivity;
+import comp.examplef1.iovisvikis.f1story.NoConnectionActivity;
+import comp.examplef1.iovisvikis.f1story.NoResponseActivity;
 import comp.examplef1.iovisvikis.f1story.R;
 
 /**
@@ -99,10 +108,76 @@ public class StandingsDialog extends android.support.v4.app.DialogFragment{
         final AppCompatSpinner seasonSpinner = root.findViewById(R.id.standingsSpinner);
 
 
+
+        //check there is an internet connection and the api responds
+        act.getAppLoaderManager().restartLoader(MainActivity.CHECK_CONNECTION_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+            @NonNull
+            @Override
+            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                return new CheckConnection(getContext());
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
+
+                //if there is still an internet connection check and that the api responds
+                if(data){
+
+                    act.getAppLoaderManager().restartLoader(MainActivity.CHECK_API_RESPONSE_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+                        @NonNull
+                        @Override
+                        public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                            return new ApiAnswers(getContext());
+                        }
+
+                        @Override
+                        public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data2) {
+
+                            if(data2){
+
+                                String adjustQuery = query.split("results")[0] + "seasons.json";
+                                AdjustTask task = new AdjustTask();
+                                Object[] params = {seasonSpinner, adjustQuery, act.getDownloadFragment(), "Seasons", false};
+                                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+                            }
+                            else{
+
+                                Intent noResponseIntent = new Intent(getContext(), NoResponseActivity.class);
+                                startActivity(noResponseIntent);
+                                getActivity().finish();
+                            }
+                        }
+
+                        @Override
+                        public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+                        }
+                    });
+
+
+                }
+                else {
+
+                    Intent noConnectionIntent = new Intent(getActivity().getApplicationContext(), NoConnectionActivity.class);
+                    startActivity(noConnectionIntent);
+                    getActivity().finish();
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+            }
+        });
+
+        /*
         String adjustQuery = query.split("results")[0] + "seasons.json";
         AdjustTask task = new AdjustTask();
         Object[] params = {seasonSpinner, adjustQuery, act.getDownloadFragment(), "Seasons", false};
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        */
+
 
 
         AppCompatButton nextButton = root.findViewById(R.id.nextButton);

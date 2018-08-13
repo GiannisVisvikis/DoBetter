@@ -3,12 +3,17 @@ package comp.examplef1.iovisvikis.f1story.MyDialogs;
 import android.app.Dialog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatSpinner;
 
@@ -20,8 +25,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import comp.examplef1.iovisvikis.f1story.AsyncTasks.AdjustTask;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.ApiAnswers;
+import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckConnection;
 import comp.examplef1.iovisvikis.f1story.Communication;
 import comp.examplef1.iovisvikis.f1story.MainActivity;
+import comp.examplef1.iovisvikis.f1story.NoConnectionActivity;
 import comp.examplef1.iovisvikis.f1story.R;
 
 
@@ -154,67 +162,154 @@ public class SelectionDialog extends android.support.v4.app.DialogFragment{
         purpose = args.getString("PURPOSE"); //example results, circuits, lapTimes
         allOptions = args.getBoolean("ALL_OPTIONS");
 
-        if(act.hasInternetConnection()){
 
-            //start a dialogue for season picking
-            if(getSeasonAdapter() == null) {
-                Object query;
-                if (!choiceName.equalsIgnoreCase("")) { //name selected --> id needed
-                    choiceId = DatabaseUtils.stringForQuery(getAct().getAppDatabase(), "Select " + choiceKind + "_id from all_" + choiceKind + "s where " + choiceKind + "_name = ?", new String[]{choiceName});
-                    query = MainActivity.BASIC_URI + choiceKind + "s/" + choiceId + "/seasons.json";
-                }
-                else{
-                    query = getAct().getAppDatabase().rawQuery("select season_name from all_seasons", null);
-
-                    //move to first result
-                    ((Cursor) query).moveToFirst();
-
-                    //constructors championship began in 1958. Move from 1950 to 1958 if constructors fragment called the
-                    //dialog
-                    if (choiceKind.equalsIgnoreCase("constructor"))
-                        ((Cursor) query).move(8);
-
-                }
-
-                AdjustTask task = new AdjustTask();
-                Object[] params = {theSpinner, query, getAct().getDownloadFragment(), "Seasons", allOptions};
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-            }
-            else{
-                seasonSpinner.setAdapter(getSeasonAdapter());
+        //check there is internet connection
+        getAct().getAppLoaderManager().restartLoader(MainActivity.CHECK_CONNECTION_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+            @NonNull
+            @Override
+            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                return new CheckConnection(getContext());
             }
 
+            @Override
+            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
 
-            //set a listener to season picking to adjust round choices if any present
-            if(roundSpinner != null){ //either no adapter yet, or i want rounds to adjust to a change made in seasons
-                theSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(data){
 
-                        //adjust the races/rounds to season selection if round selection is present in the UI
-                        String seasonChoice;
+                    //start a dialogue for season picking
+                    if(getSeasonAdapter() == null) {
+                        Object query;
+                        if (!choiceName.equalsIgnoreCase("")) { //name selected --> id needed
+                            choiceId = DatabaseUtils.stringForQuery(getAct().getAppDatabase(), "Select " + choiceKind + "_id from all_" + choiceKind + "s where " + choiceKind + "_name = ?", new String[]{choiceName});
+                            query = MainActivity.BASIC_URI + choiceKind + "s/" + choiceId + "/seasons.json";
+                        }
+                        else{
+                            query = getAct().getAppDatabase().rawQuery("select season_name from all_seasons", null);
 
-                        if(!seasonSpinner.getSelectedItem().toString().equalsIgnoreCase(act.getDownloadFragment().getResources().getString(R.string.all)))
-                            seasonChoice = seasonSpinner.getSelectedItem().toString();
-                        else seasonChoice = "";
+                            //move to first result
+                            ((Cursor) query).moveToFirst();
 
-                        String selectionQuery = MainActivity.BASIC_URI + seasonChoice + "/races.json";
+                            //constructors championship began in 1958. Move from 1950 to 1958 if constructors fragment called the
+                            //dialog
+                            if (choiceKind.equalsIgnoreCase("constructor"))
+                                ((Cursor) query).move(8);
 
-                        AdjustTask roundTask = new AdjustTask();
+                        }
 
-                        Object[] roundParams = {roundSpinner, selectionQuery, getAct().getDownloadFragment(), "Races", false};  //false for not showing all available races. Can lead to out of memory exception
+                        final Object finalQuery = query;
 
-                        roundTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, roundParams);
+                        act.getAppLoaderManager().restartLoader(MainActivity.CHECK_API_RESPONSE_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+                            @NonNull
+                            @Override
+                            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                                return new ApiAnswers(getContext());
+                            }
+
+                            @Override
+                            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data2) {
+
+                                if(data2){
+
+                                    AdjustTask task = new AdjustTask();
+                                    Object[] params = {theSpinner, finalQuery, getAct().getDownloadFragment(), "Seasons", allOptions};
+                                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+                                }
+
+                            }
+
+                            @Override
+                            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+                            }
+                        });
+
+                        /*
+                        AdjustTask task = new AdjustTask();
+                        Object[] params = {theSpinner, query, getAct().getDownloadFragment(), "Seasons", allOptions};
+                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+                        */
+                    }
+                    else{
+                        seasonSpinner.setAdapter(getSeasonAdapter());
                     }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+
+                    //set a listener to season picking to adjust round choices if any present
+                    if(roundSpinner != null){ //either no adapter yet, or i want rounds to adjust to a change made in seasons
+                        theSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                //adjust the races/rounds to season selection if round selection is present in the UI
+                                String seasonChoice;
+
+                                if(!seasonSpinner.getSelectedItem().toString().equalsIgnoreCase(act.getDownloadFragment().getResources().getString(R.string.all)))
+                                    seasonChoice = seasonSpinner.getSelectedItem().toString();
+                                else seasonChoice = "";
+
+                                final String selectionQuery = MainActivity.BASIC_URI + seasonChoice + "/races.json";
+
+                                act.getAppLoaderManager().restartLoader(MainActivity.CHECK_API_RESPONSE_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+                                    @NonNull
+                                    @Override
+                                    public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                                        return new ApiAnswers(getContext());
+                                    }
+
+                                    @Override
+                                    public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data2) {
+
+                                        if(data2){
+
+                                            AdjustTask roundTask = new AdjustTask();
+
+                                            Object[] roundParams = {roundSpinner, selectionQuery, getAct().getDownloadFragment(), "Races", false};  //false for not showing all available races. Can lead to out of memory exception
+                                            roundTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, roundParams);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+                                    }
+                                });
+
+                                /*
+                                AdjustTask roundTask = new AdjustTask();
+
+                                Object[] roundParams = {roundSpinner, selectionQuery, getAct().getDownloadFragment(), "Races", false};  //false for not showing all available races. Can lead to out of memory exception
+
+                                roundTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, roundParams);
+                                */
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
 
                     }
-                });
+                }
+                else {
+
+                    Intent noConnectionIntent = new Intent(getContext(), NoConnectionActivity.class);
+                    startActivity(noConnectionIntent);
+                    getActivity().finish();
+                }
 
             }
-        }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+            }
+        });
+
+
+
     }
 
 

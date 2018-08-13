@@ -1,10 +1,10 @@
 package comp.examplef1.iovisvikis.f1story.AsyncTasks;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
+import android.content.Context;
 
-import comp.examplef1.iovisvikis.f1story.MainActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.AsyncTaskLoader;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -12,15 +12,30 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
+
 /**
  * Created by iovisvikis on 28/3/2017.
  */
 
-public class ApiAnswers extends AsyncTask<Void, Void, Boolean>{
+public class ApiAnswers extends AsyncTaskLoader<Boolean> {
+
+
+    public ApiAnswers(@NonNull Context context) {
+        super(context);
+    }
 
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
+    protected void onStartLoading() {
+        super.onStartLoading();
+
+        forceLoad();
+    }
+
+
+    @Nullable
+    @Override
+    public Boolean loadInBackground() {
 
         boolean result = false;
         HttpURLConnection con = null;
@@ -29,8 +44,8 @@ public class ApiAnswers extends AsyncTask<Void, Void, Boolean>{
             URL url = new URL("https://ergast.com/api/f1/drivers");
 
             con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(8000);
-            con.setReadTimeout(8000);
+            con.setConnectTimeout(6000);
+            con.setReadTimeout(6000);
 
             con.connect();
 
@@ -54,7 +69,6 @@ public class ApiAnswers extends AsyncTask<Void, Void, Boolean>{
 
         return result;
     }
-
 
 
 }//ApiAnswers

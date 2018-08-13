@@ -10,15 +10,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import com.google.android.gms.security.ProviderInstaller;
 
 import comp.examplef1.iovisvikis.f1story.Communication;
 import comp.examplef1.iovisvikis.f1story.MainActivity;
@@ -88,6 +89,33 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
                     //start activity if it was never triggered before (the boolean wasServiceStarted makes
                     // sure we won't restart service every time we get an orientation change)
 
+
+                    act.getAppLoaderManager().restartLoader(MainActivity.CHECK_CONNECTION_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+                        @NonNull
+                        @Override
+                        public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                            return new CheckConnection(getContext());
+                        }
+
+                        @Override
+                        public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
+                            if(data && !wasServiceStarted){
+
+                                getActivity().startService(serviceIntent);
+                                wasServiceStarted = true;
+                            }
+                            else if(wasServiceStarted && boundNewsService != null)
+                                boundNewsService.setServiceDone(true);
+                        }
+
+                        @Override
+                        public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+                        }
+                    });
+
+
+                    /*
                     if(act.hasInternetConnection() && !wasServiceStarted){
                         //Log.e("SERVICE_CONNECTED", "Connecting service");
                         getActivity().startService(serviceIntent);
@@ -95,6 +123,8 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
                     }
                     else if(wasServiceStarted && boundNewsService != null)
                         boundNewsService.setServiceDone(true);
+
+                    */
 
                 }
 
@@ -147,8 +177,63 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
 
 
 
-    public void startListAdapterTask(Object[] params){
+    public void startListAdapterTask(final Object[] params){
 
+        act.getAppLoaderManager().restartLoader(MainActivity.CHECK_CONNECTION_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+            @NonNull
+            @Override
+            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                return new CheckConnection(getContext());
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
+
+                //if there is still an internet connection check and that the api responds
+                if(data){
+
+                    act.getAppLoaderManager().restartLoader(MainActivity.CHECK_API_RESPONSE_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+                        @NonNull
+                        @Override
+                        public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                            return new ApiAnswers(getContext());
+                        }
+
+                        @Override
+                        public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data2) {
+
+                            if(data2){
+
+                                GetListAdapterTask adapterTask = new GetListAdapterTask();
+                                adapterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+                            }
+                            else{
+
+                                Intent noResponseIntent = new Intent(getContext(), NoResponseActivity.class);
+                                startActivity(noResponseIntent);
+                                getActivity().finish();
+                            }
+                        }
+
+                        @Override
+                        public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+                        }
+                    });
+
+
+                }
+
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+            }
+        });
+
+
+        /*
         if(getAct().hasInternetConnection() && getAct().apiResponds()) {
 
             GetListAdapterTask adapterTask = new GetListAdapterTask();
@@ -160,6 +245,7 @@ public class DownloadFragment extends android.support.v4.app.Fragment{
             startActivity(noResponseIntent);
             getActivity().finish();
         }
+        */
 
     }
 

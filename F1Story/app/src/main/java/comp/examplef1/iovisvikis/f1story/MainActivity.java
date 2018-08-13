@@ -93,10 +93,12 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
     private boolean mRetryProviderInstall;
 
     //Codes for the async task loaders to use
+    public static final int CHECK_CONNECTION_CODE = 0;
     private final int COPY_MAIN_DATABASE_CODE = 1;
     private final int CALENDAR_LOADER_CODE = 2;
     private final int CURRENT_GRID_LOADER_CODE = 3;
     private final int CHECK_UPDATES_LOADER_CODE = 4;
+    public static final int CHECK_API_RESPONSE_CODE = 5;
 
     private ResultFragment resultFragment;
     private SoundFragment soundFragment;
@@ -131,19 +133,54 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
             patchApplied = savedInstanceState.getBoolean(PATCH_APPLIED_TAG);
         }
 
-        if(!hasInternetConnection())
-        {
-            Intent noConnectionIntent = new Intent(this, NoConnectionActivity.class);
-            startActivity(noConnectionIntent);
-            this.finish();
-        }
 
-        if(!apiResponds())
-        {
-            Intent noResponseIntent = new Intent(this, NoResponseActivity.class);
-            startActivity(noResponseIntent);
-            this.finish();
-        }
+        //Check there is an internet connection
+        getSupportLoaderManager().restartLoader(CHECK_CONNECTION_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+            @NonNull
+            @Override
+            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                return new CheckConnection(getApplicationContext());
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
+                if(!data){
+                    Intent noInternetIntent = new Intent(getApplicationContext(), NoConnectionActivity.class);
+                    startActivity(noInternetIntent);
+                }
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+            }
+        });
+
+
+        //Check Api is responsive
+        getSupportLoaderManager().restartLoader(CHECK_API_RESPONSE_CODE, null, new LoaderManager.LoaderCallbacks<Boolean>() {
+            @NonNull
+            @Override
+            public Loader<Boolean> onCreateLoader(int id, @Nullable Bundle args) {
+                return new ApiAnswers(getApplicationContext());
+            }
+
+            @Override
+            public void onLoadFinished(@NonNull Loader<Boolean> loader, Boolean data) {
+                if(!data){
+
+                    Intent noApiResponseIntent = new Intent(getApplicationContext(), NoResponseActivity.class);
+                    startActivity(noApiResponseIntent);
+                }
+            }
+
+            @Override
+            public void onLoaderReset(@NonNull Loader<Boolean> loader) {
+
+            }
+        });
+
+
 
         root = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(root);
@@ -564,63 +601,10 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
         return root.getTag() != null;
     }
 
-
     @Override
-    public boolean hasInternetConnection()
-    {
-        CheckConnection checkConnectionTask = new CheckConnection();
-        Activity[] checkParams = new Activity[]{this};
-        boolean result = false;
-
-        try
-        {
-           Object[] got = checkConnectionTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, checkParams).get();
-           result = (boolean) got[1];
-        }
-        catch (InterruptedException ie)
-        {
-            Log.e("hasInternetConn", ie.getMessage());
-        }
-        catch (ExecutionException ee)
-        {
-            Log.e("hasInternetConn", ee.getMessage());
-        }
-
-        //APPLY SECURITY PATCH FOR PRE LOLLIPOP DEVICES
-        if(result && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && !patchApplied){
-            Log.e("PATCH", "Applying");
-            ProviderInstaller.installIfNeededAsync(this, this);
-        }
-
-        return result;
-
+    public LoaderManager getAppLoaderManager() {
+        return getSupportLoaderManager();
     }
-
-
-    @Override
-    public boolean apiResponds()
-    {
-        boolean result = false;
-
-        try
-        {
-            ApiAnswers apiAnswers = new ApiAnswers();
-            apiAnswers.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-            result = apiAnswers.get();
-        }
-        catch (InterruptedException ie)
-        {
-            Log.e("hasInternetConn", ie.getMessage());
-        }
-        catch (ExecutionException ee)
-        {
-            Log.e("hasInternetConn", ee.getMessage());
-        }
-
-        return result;
-    }
-
 
 
     @Override
