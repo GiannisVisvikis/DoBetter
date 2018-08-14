@@ -461,7 +461,6 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
                         DriversFragment driversFrag = new DriversFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, driversFrag, "DRIVERS_FRAGMENT").commit();
                         getSupportFragmentManager().executePendingTransactions();
-                        getSoundFragment().playRandomSound();
                         mDrawerLayout.closeDrawers();
                         return true;
 
@@ -469,7 +468,6 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
                         ConstructorsFragment constructorsFrag = new ConstructorsFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, constructorsFrag, "CONSTRUCTORS_FRAGMENT").commit();
                         getSupportFragmentManager().executePendingTransactions();
-                        getSoundFragment().playRandomSound();
                         mDrawerLayout.closeDrawers();
                         return true;
 
@@ -477,7 +475,6 @@ public class MainActivity extends AppCompatActivity implements Communication, Pr
                         CircuitFragment circuitFrag = new CircuitFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, circuitFrag, "CIRCUIT_FRAGMENT").commit();
                         getSupportFragmentManager().executePendingTransactions();
-                        getSoundFragment().playRandomSound();
                         mDrawerLayout.closeDrawers();
                         return true;
 

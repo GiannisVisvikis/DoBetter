@@ -23,8 +23,6 @@ public class SoundFragment extends android.support.v4.app.Fragment{
     private Communication act;
     private MediaPlayer mp;
 
-    private String[] shortSoundsPaths = new String[]{"sounds/blown_exhausts_short.mp3", "sounds/gears_up.mp3"};
-
     private boolean isReleased;
 
     private Random random = new Random();
@@ -106,12 +104,6 @@ public class SoundFragment extends android.support.v4.app.Fragment{
 
     }
 
-
-    public void playRandomSound(){
-
-        int randomIndex = random.nextInt(shortSoundsPaths.length);
-        playSound(shortSoundsPaths[randomIndex]);
-    }
 
     
     public void stopSound(){

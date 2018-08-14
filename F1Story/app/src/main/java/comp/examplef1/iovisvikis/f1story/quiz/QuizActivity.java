@@ -421,7 +421,7 @@ public class QuizActivity extends AppCompatActivity implements QuizCommunication
                             questionIndex++;
                             setupTheQuiz();
                         }
-                    }, 2000);
+                    }, 1500);
 
                 }
             });

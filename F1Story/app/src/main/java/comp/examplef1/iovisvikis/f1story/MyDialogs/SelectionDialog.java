@@ -30,6 +30,7 @@ import comp.examplef1.iovisvikis.f1story.AsyncTasks.CheckConnection;
 import comp.examplef1.iovisvikis.f1story.Communication;
 import comp.examplef1.iovisvikis.f1story.MainActivity;
 import comp.examplef1.iovisvikis.f1story.NoConnectionActivity;
+import comp.examplef1.iovisvikis.f1story.NoResponseActivity;
 import comp.examplef1.iovisvikis.f1story.R;
 
 
@@ -214,6 +215,12 @@ public class SelectionDialog extends android.support.v4.app.DialogFragment{
                                     Object[] params = {theSpinner, finalQuery, getAct().getDownloadFragment(), "Seasons", allOptions};
                                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
                                 }
+                                else {
+
+                                    Intent noApiResponseIntent = new Intent(getContext(), NoResponseActivity.class);
+                                    startActivity(noApiResponseIntent);
+                                    getActivity().finish();
+                                }
 
                             }
 
@@ -223,7 +230,7 @@ public class SelectionDialog extends android.support.v4.app.DialogFragment{
                             }
                         });
 
-                        /*
+                        /* OLD
                         AdjustTask task = new AdjustTask();
                         Object[] params = {theSpinner, query, getAct().getDownloadFragment(), "Seasons", allOptions};
                         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
@@ -276,7 +283,7 @@ public class SelectionDialog extends android.support.v4.app.DialogFragment{
                                     }
                                 });
 
-                                /*
+                                /* OLD
                                 AdjustTask roundTask = new AdjustTask();
 
                                 Object[] roundParams = {roundSpinner, selectionQuery, getAct().getDownloadFragment(), "Races", false};  //false for not showing all available races. Can lead to out of memory exception
